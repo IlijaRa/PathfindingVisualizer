@@ -2,7 +2,7 @@
 WIDTH = 75;
 HEIGHT = 50;
 
-/**/
+/*START AND END NODE STATES*/
 var startNodeExists = false;
 var endNodeExists = false;
 
@@ -39,7 +39,7 @@ function setup(){
             node.className = 'node node' + ((i * WIDTH) + (j + 1));
             node.id = 'node' + ((i * WIDTH) + (j + 1));
             node.style.backgroundColor = ORIGINAL_COLOR;
-            
+
             node.addEventListener('mouseover', function(e){
                 if(mouseDown == 1){
                     if(startNodeExists == false){
@@ -55,6 +55,7 @@ function setup(){
                     } 
                 }
             })
+
             node.addEventListener('click', function(e){
                 if(startNodeExists == false){
                     e.target.style.backgroundColor = START_NODE_COLOR;
