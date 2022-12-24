@@ -1,16 +1,23 @@
 <html>
     <head>
         <link rel = "stylesheet" href = "styles/style.css"/>
-        <script src="scripts/mazeSettings.js"></script>
+        
+        
     </head>
-    <body onload="setup()">
+    <body onload="main()">
         <div id="container">
             <div id="settings_container" class="settings_container">
                 <h1>Maze solver</h1>
-                <button class="button">Solve!</button>
-                <button class="button" onclick='reset()'>Reset!</button>
+                <button id="buttonSolve" class="button">Solve!</button>
+                <button id="buttonReset" class="button">Reset!</button>
+                <button id="buttonBFS" class="button">BFS</button>
             </div>
             <div id="maze_container" class="maze_container"></div>
         </div>
+        <!-- JS -->
+        <script src="./scripts/mazeSettings.js"></script>
+        <script src="./scripts/node.js"></script>
+        <!-- <script src="scripts/DFS.js"></script> -->
+        <!-- <script src="scripts/BFS.js"></script> -->
     </body>
 </html>
