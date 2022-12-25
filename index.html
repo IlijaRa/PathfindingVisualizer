@@ -4,13 +4,20 @@
         
         
     </head>
-    <body onload="main()">
+    <body onload="constructGrid()">
         <div id="container">
             <div id="settings_container" class="settings_container">
                 <h1>Maze solver</h1>
-                <button id="buttonSolve" class="button">Solve!</button>
+                <button id="buttonErase" class="button">Erase!</button>
                 <button id="buttonReset" class="button">Reset!</button>
-                <button id="buttonBFS" class="button">BFS</button>
+                <div class="algorithms">
+                    <button id="buttonBFS" class="button">BFS</button>
+                    <button id="buttonDFS" class="button">DFS</button>
+                    <button id="buttonUC" class="button">Uniform-cost</button>
+                    <button id="buttonBD" class="button">Bidirectional</button>
+                    <button id="buttonA*" class="button">A*</button>
+                </div>
+                
             </div>
             <div id="maze_container" class="maze_container"></div>
         </div>

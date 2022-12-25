@@ -24,9 +24,14 @@ body{
     text-align: center;
 }
 
+.algorithms{
+    width: 100%;
+    height: 100%;
+}
+
 .button{
     width: 30%;
-    padding: 20px;
+    height: 30%;
 }
 
 .maze_container{
@@ -35,9 +40,6 @@ body{
     display: flex;
     flex-direction: column;
     float: center;
-    /* margin-top: 3%; 
-    margin-right: 10%; 
-    margin-left: 10%; */
 }
 
 .row{
