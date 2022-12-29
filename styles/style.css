@@ -48,13 +48,18 @@ body{
     display: flex;
 }
 
+.col-sm-4{
+    width: 33%;
+}
+
 .node{
     /*background-color: rgb(243, 190, 190);*/
     width: 5%;
     height: 100%;
     border: 0.025px;
     border-style: solid;
-    border-color: rgb(64, 206, 227);
+    /* border-color: rgb(64, 206, 227); blue color*/
+    border-color: rgb(119, 120, 122);
     transition: transform .2s;
 }
 

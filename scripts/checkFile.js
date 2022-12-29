@@ -1,60 +1,55 @@
-async function solveBfs(startNodeNumber, goalNodeNumber){
-    var maze = construct2dArray();
-    var adjacentsDict = findAjacentsBfs(maze);
-    let visited = [];
+var maze = construct2dArray();
+    var adjacentsDict = findAdjacents(maze);
+    // let visited = [];
     let prev = new Array(HEIGHT * WIDTH).fill(0);
     let queue = [];
     let solved = false;
-
-    for(i = 0; i < HEIGHT; i++){
-        visited[i] = new Array(WIDTH).fill(false);
-    }
+    let goalNodeNumber = undefined;
+    
+    // for(i = 0; i < HEIGHT; i++){
+    //     visited[i] = new Array(WIDTH).fill(false);
+    // }
     queue.push(startNodeNumber);
 
     while(queue.length > 0){
         //Defining maze and adjacentsDict again and again enables wall changement in real time
         var maze = construct2dArray();
-        var adjacentsDict = findAjacentsBfs(maze);
-        // await sleep(1);
+        var adjacentsDict = findAdjacents(maze);
         var currentNode = queue.shift();
+        var coordinate = getNodeCoordinates(currentNode);
+        window.visited[coordinate[0]][coordinate[1]] = true;
 
-        let i_save = 0;
-        let j_save = 0;
-
-        //nadji elegantnije resenje za pronalazenje currentNode u 2d nizu maze!!!
-        for(i = 0; i < HEIGHT; i++){
-            for(j = 0; j < WIDTH; j++){
-                if(maze[i][j] == currentNode){
-                    i_save = i;
-                    j_save = j;
-                    break;
-                }
-            }
-        }
-
-        visited[i_save][j_save] = true;
-        if(currentNode == goalNodeNumber){
+        if((document.getElementById('node' + currentNode).style.backgroundColor == GOAL_SEARCH_NODE_COLOR) ||
+           (document.getElementById('node' + currentNode).style.backgroundColor == GOAL_EDGE_NODE_COLOR)   ||
+           window.intersectNodeBfs != null){
+            window.intersectNodeBfs = currentNode;
+            goalNodeNumber = currentNode;
+            console.log('goalNodeNumber', goalNodeNumber);
             solved = true;
             break;
         }
 
         var adj = adjacentsDict[currentNode];
         for(count = 0; count < adj.length; count++){
-            document.getElementById('node' + goalNodeNumber).style.backgroundColor = GOAL_NODE_COLOR; // prevents goal node disappear glitch
+            // document.getElementById('node' + goalNodeNumber).style.backgroundColor = GOAL_NODE_COLOR; // prevents goal node disappear glitch
             var n = adj[count];
-            if(!visited[n[0]][n[1]]){
-                visited[n[0]][n[1]] = true;
-                
-                document.getElementById('node' + maze[n[0]][n[1]]).style.backgroundColor = EDGE_NODE_COLOR;
-                await sleep(1);
-                document.getElementById('node' + maze[n[0]][n[1]]).style.backgroundColor = SEARCH_NODE_COLOR;
-
+            if(!window.visited[n[0]][n[1]]){
+                window.visited[n[0]][n[1]] = true;
                 queue.push(maze[n[0]][n[1]]);
                 prev[maze[n[0]][n[1]] - 1] = currentNode - 1;
-                if(maze[n[0]][n[1]] == goalNodeNumber){
-                    solved = true;
-                    break;
-                }
+                if( (document.getElementById('node' + maze[n[0]][n[1]]).style.backgroundColor == GOAL_SEARCH_NODE_COLOR) ||
+                    (document.getElementById('node' + maze[n[0]][n[1]]).style.backgroundColor == GOAL_EDGE_NODE_COLOR)   ||
+                    window.intersectNodeBfs != null){
+                        window.intersectNodeBfs = currentNode;
+                        goalNodeNumber = maze[n[0]][n[1]];
+                        console.log('goalNodeNumber', goalNodeNumber);
+                        solved = true;
+                        break;
+                    }
+                
+                document.getElementById('node' + maze[n[0]][n[1]]).style.backgroundColor = EDGE_NODE_COLOR;
+                await sleep(5);
+                document.getElementById('node' + maze[n[0]][n[1]]).style.backgroundColor = SEARCH_NODE_COLOR;
             }
         }
 
@@ -70,9 +65,14 @@ async function solveBfs(startNodeNumber, goalNodeNumber){
 
     let loopControl = false;
     goalToStart = []; // gathers nodes from goal to start node by grabbing the previous nodes
-    previous = goalNodeNumber - 1;
-    goalToStart.push(previous);
-    
+    if(window.intersectNodeBfs != null){
+        previous = window.intersectNodeBfs - 1;
+        goalToStart.push(previous);
+    }else{
+        previous = goalNodeNumber - 1;
+        goalToStart.push(previous);
+    }
+
     while(true){
         let node = prev[previous];
         goalToStart.push(node);
@@ -100,7 +100,7 @@ async function solveBfs(startNodeNumber, goalNodeNumber){
             loopControl = true;
         }
         document.getElementById('node' + startNodeNumber).style.backgroundColor = START_NODE_COLOR;
-        document.getElementById('node' + goalNodeNumber).style.backgroundColor = GOAL_NODE_COLOR;
+        if(window.intersectNodeBfs != null){
+            document.getElementById('node' + window.intersectNodeBfs).style.backgroundColor = INTERSECT_NODE_COLOR;
+        }
     }
-    // return prev;
-}

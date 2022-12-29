@@ -1,32 +1,34 @@
 <html>
     <head>
         <link rel = "stylesheet" href = "styles/style.css"/>
-        
-        
+        <link rel = "stylesheet" href = "styles/navBar.css"/>
+
+        <!-- Load an icon library to show a hamburger menu (bars) on small screens -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     </head>
     <body onload="constructGrid()">
         <div id="container">
             <div id="settings_container" class="settings_container">
-                <h1>Maze solver</h1>
+                <h2>Pathfinding Visualizer</h2>
                 <button id="buttonErase" class="button">Erase!</button>
                 <button id="buttonReset" class="button">Reset!</button>
                 <div class="algorithms">
                     <button id="buttonBFS" class="button">BFS</button>
-                    <button id="buttonDFS" class="button">DFS</button>
+                    <button id="buttonDFS" class="button">DFS</button> 
                     <button id="buttonDijkstra" class="button">Dijkstra</button>
-                    <button id="buttonBD" class="button">Bidirectional</button>
-                    <button id="buttonAstar" class="button">A*</button>
+                    <button id="buttonBD_BFS" class="button">Bidirectional BFS</button>
+                    <button id="buttonBD_DFS" class="button">Bidirectional DFS</button>
+                    <button id="buttonA_star" class="button">A*</button>
                     <button id="buttonHM" class="button">Horizontal baes maze</button>
                     <button id="buttonVM" class="button">Vertical baes maze</button>
-                    <!-- <button id="buttonA*" class="button">A*</button> -->
+                    <button id="buttonKruskal" class="button">Kruskal</button>
                 </div>
-                
             </div>
             <div id="maze_container" class="maze_container"></div>
         </div>
         <!-- JS -->
         <script src="./scripts/mazeSettings.js"></script>
-        <!-- <script src="scripts/DFS.js"></script> -->
+        <script src="./scripts/navBar.js"></script>
         <!-- <script src="scripts/BFS.js"></script> -->
     </body>
 </html>
