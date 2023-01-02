@@ -1,52 +1,48 @@
-async function solveDijkstra(startNode) {
-    var maze = construct2dArray();
-    var adjacentsDict = findAdjacents(maze);
-    let distances = {};
-    // Stores the reference to previous nodes
-    let prev = {};
-    let pq = new PriorityQueue(HEIGHT * WIDTH);
-    let visited = [];
-    for(i = 0; i < HEIGHT; i++){
-        visited[i] = new Array(WIDTH).fill(false);
+function aStar(graph, start, goal) {
+    // Set of unvisited nodes
+    const unvisitedNodes = new Set(Object.keys(graph));
+  
+    // Set initial distance to infinity for all nodes except the starting node
+    const distances = {};
+    for (const node of unvisitedNodes) {
+      distances[node] = Number.POSITIVE_INFINITY;
     }
-    // Set distances to all nodes to be infinite except startNode
-
-    for(let i = 0; i < HEIGHT * WIDTH; i++){
-        distances[i] = Infinity;
-        prev[i] = null;
+    distances[start] = 0;
+  
+    // Set of visited nodes
+    const visitedNodes = new Set();
+  
+    // Set the heuristic distance to the goal for all nodes
+    const heuristicDistances = {};
+    for (const node of unvisitedNodes) {
+      heuristicDistances[node] = Number.POSITIVE_INFINITY;
     }
-
-    distances[startNode] = 0;
-    pq.enqueue(startNode, 0);
-
-    var coordinates = getNodeCoordinates(startNode);
-    visited[coordinates[0]][coordinates[1]] = true;
-
-    while (!pq.isEmpty()) {
-       let minNode = pq.dequeue();
-       let currNode = minNode.nodeNumber; //startNodeNumber
-       let weight = minNode.priority; // 0
-
-       var adj = adjacentsDict[currNode];
-       for(count = 0; count < adj.length; count++){
-        //    document.getElementById('node' + goalNodeNumber).style.backgroundColor = GOAL_NODE_COLOR; // prevents goal node disappear glitch
-           var n = adj[count];
-            if(!visited[maze[n[0]][n[1]]]){
-               visited[maze[n[0]][n[1]]] = true;
-
-               document.getElementById('node' + maze[n[0]][n[1]]).style.backgroundColor = EDGE_NODE_COLOR;
-               await sleep(1);
-               document.getElementById('node' + maze[n[0]][n[1]]).style.backgroundColor = SEARCH_NODE_COLOR;
-
-               let alt = distances[currNode] + (Math.floor(Math.random() * 5) + 1); //(Math.floor(Math.random() * 5) + 1); //Math.floor(Math.random() * 5) + 1 generates random weight for the node between 1 and 5
-               
-               if(alt < distances[maze[n[0]][n[1]]]){
-                distances[maze[n[0]][n[1]]] = alt; //Math.abs(maze[n[0]][n[1]] - maze[coordinates[0]][coordinates[1]]);
-                prev[maze[n[0]][n[1]] - 1] = currNode - 1;
-                pq.enqueue(maze[n[0]][n[1]], distances[maze[n[0]][n[1]]]);
-               }
-           }
-       }
+    heuristicDistances[goal] = 0;
+  
+    // While there are unvisited nodes
+    while (unvisitedNodes.size > 0) {
+      // Select the unvisited node with the smallest distance + heuristic distance
+      const currentNode = [...unvisitedNodes].sort((a, b) => distances[a] + heuristicDistances[a] - distances[b] - heuristicDistances[b])[0];
+  
+      // Check if we have reached the goal
+      if (currentNode === goal) {
+        return distances[goal];
+      }
+  
+      // Mark the current node as visited
+      visitedNodes.add(currentNode);
+      unvisitedNodes.delete(currentNode);
+  
+      // Update the distance to all neighbors
+      for (const { neighbor, weight } of graph[currentNode]) {
+        if (visitedNodes.has(neighbor)) continue;
+        const newDistance = distances[currentNode] + weight;
+        if (newDistance < distances[neighbor]) {
+          distances[neighbor] = newDistance;
+          heuristicDistances[neighbor] = Math.abs(neighbor.charCodeAt(0) - goal.charCodeAt(0)) + Math.abs(neighbor.charCodeAt(1) - goal.charCodeAt(1));
+        }
+      }
     }
-    return distances;
- }
+  
+    return Number.POSITIVE_INFINITY;
+  }

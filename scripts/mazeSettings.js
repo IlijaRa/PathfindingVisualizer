@@ -26,7 +26,7 @@ WALL_COLOR = 'rgb(119, 120, 122)';
 PATH_COLOR = 'rgb(245, 193, 0)';
 START_NODE_COLOR = 'rgb(74, 145, 212)';
 GOAL_NODE_COLOR = 'rgb(209, 42, 59)';
-INTERSECT_NODE_COLOR = 'rgb(153, 93, 179)';
+INTERSECT_NODE_COLOR = 'rgb(240, 102, 40)';
 BORDER_COLOR = 'rgb(64, 206, 227);';
 // #endregion
 // #region GENERAL_PURPOSE_METHODS
@@ -508,8 +508,6 @@ async function solveBidirectionalBfs(startNodeNumber, goalNodeNumber){
     let solved = false;
     let prevA = new Array(HEIGHT * WIDTH).fill(0);
     let prevB = new Array(HEIGHT * WIDTH).fill(0);
-    let visitedA = new Set([startNodeNumber]);
-    let visitedB = new Set([goalNodeNumber]);
     // Initialize a map to store the previous element for each element in the path
     // let previous = new Map();
 
@@ -550,8 +548,12 @@ async function solveBidirectionalBfs(startNodeNumber, goalNodeNumber){
             if(!visited[n[0]][n[1]]){
                 visited[n[0]][n[1]] = true;
                 queueStart.push(maze[n[0]][n[1]]);
-                // previous.set(maze[n[0]][n[1]], currentA);
                 prevA[maze[n[0]][n[1]] - 1] = currentA - 1;
+                // previous.set(maze[n[0]][n[1]], currentA);
+
+                
+
+                
                 document.getElementById('node' + maze[n[0]][n[1]]).style.backgroundColor = EDGE_NODE_COLOR;
                 await sleep(1);
                 document.getElementById('node' + maze[n[0]][n[1]]).style.backgroundColor = SEARCH_NODE_COLOR;
@@ -576,17 +578,20 @@ async function solveBidirectionalBfs(startNodeNumber, goalNodeNumber){
             document.getElementById('node' + goalNodeNumber).style.backgroundColor = GOAL_NODE_COLOR;
             var n = adjB[count];
             if( document.getElementById('node' + maze[n[0]][n[1]]).style.backgroundColor == SEARCH_NODE_COLOR ||
-                    document.getElementById('node' + maze[n[0]][n[1]]).style.backgroundColor == EDGE_NODE_COLOR){
-                        intersectNodeNumber = maze[n[0]][n[1]];
-                        document.getElementById('node' + maze[n[0]][n[1]]).style.backgroundColor = INTERSECT_NODE_COLOR;
-                        solved = true;
-                        break;
-                    }
+                document.getElementById('node' + maze[n[0]][n[1]]).style.backgroundColor == EDGE_NODE_COLOR){
+                    intersectNodeNumber = maze[n[0]][n[1]];
+                    document.getElementById('node' + maze[n[0]][n[1]]).style.backgroundColor = INTERSECT_NODE_COLOR;
+                    solved = true;
+                    break;
+                }
             if(!visited[n[0]][n[1]]){
                 visited[n[0]][n[1]] = true;
                 queueGoal.push(maze[n[0]][n[1]]);
                 // previous.set(maze[n[0]][n[1]], currentB);
                 prevB[maze[n[0]][n[1]] - 1] = currentB - 1;
+
+                
+
                 document.getElementById('node' + maze[n[0]][n[1]]).style.backgroundColor = GOAL_EDGE_NODE_COLOR;
                 await sleep(1);
                 document.getElementById('node' + maze[n[0]][n[1]]).style.backgroundColor = GOAL_SEARCH_NODE_COLOR;
@@ -1284,7 +1289,7 @@ document.querySelector('#buttonA_star').addEventListener('click', function(e){
     let startNodeNumber = Node.GetNodeNumber(nodes[0].id);
     let goalNodeNumber = Node.GetNodeNumber(nodes[1].id);
 
-    solveAstar(startNodeNumber, goalNodeNumber);
+    aStar(startNodeNumber, goalNodeNumber);
 });
 async function solveAstar(startNodeNumber, goalNodeNumber){
     var maze = construct2dArray();
@@ -1413,6 +1418,120 @@ async function solveAstar(startNodeNumber, goalNodeNumber){
     }
 
 }
+async function aStar(start, goal) {
+    var maze = construct2dArray();
+    var adjacentsDict = findAdjacents(maze);
+    var solved = false;
+    // var prev = new Map();
+    var prev = new Array(HEIGHT * WIDTH).fill(0);
+    // Set of unvisited nodes
+    const unvisitedNodes = new Set();
+  
+    // Set initial distance to infinity for all nodes except the starting node
+    const distances = {};
+
+    for(let i = 0; i < HEIGHT * WIDTH; i++){
+        distances[i] = Number.POSITIVE_INFINITY;
+        unvisitedNodes.add(i + 1);
+    }
+    distances[start] = 0;
+  
+    // Set of visited nodes
+    const visitedNodes = new Set();
+  
+    // Set the heuristic distance to the goal for all nodes
+    const heuristicDistances = {};
+    for (const node of unvisitedNodes) {
+      heuristicDistances[node] = Number.POSITIVE_INFINITY;
+    }
+    heuristicDistances[goal] = 0;
+    heuristicDistances[start] = heuristicFunction(getNodeCoordinates(start), getNodeCoordinates(goal));
+    // While there are unvisited nodes
+    while (unvisitedNodes.size > 0) {
+        var maze = construct2dArray();
+        var adjacentsDict = findAdjacents(maze);
+        // Select the unvisited node with the smallest distance + heuristic distance
+        const currentNode = [...unvisitedNodes].sort((a, b) => distances[a] + heuristicDistances[a] - distances[b] - heuristicDistances[b])[0];
+    
+        // Check if we have reached the goal
+        if(currentNode == goal){
+            solved = true;
+            break;
+        }
+    
+        // Mark the current node as visited
+        visitedNodes.add(currentNode);
+        unvisitedNodes.delete(currentNode);
+
+        var adj = adjacentsDict[currentNode];
+        for(count = 0; count < adj.length; count++){
+            //   document.getElementById('node' + goalNodeNumber).style.backgroundColor = GOAL_NODE_COLOR; // prevents goal node disappear glitch
+            var n = adj[count];
+              
+            // prev.set(maze[n[0]][n[1]], currentNode);
+            if(visitedNodes.has(maze[n[0]][n[1]])){
+                continue;
+            }
+            // (Math.floor(Math.random() * 5) + 1) generates value between 1 and 5, but more realistic is that the weight is always 1
+            const newDistance = distances[currentNode] + 1;//(Math.floor(Math.random() * 5) + 1); 
+            if (newDistance < distances[maze[n[0]][n[1]]]) {
+                distances[maze[n[0]][n[1]]] = newDistance;
+                heuristicDistances[maze[n[0]][n[1]]] = heuristicFunction(getNodeCoordinates(maze[n[0]][n[1]]), getNodeCoordinates(goal));
+                prev[maze[n[0]][n[1]] - 1] = currentNode - 1;
+                if(maze[n[0]][n[1]] == goal){
+                    solved = true;
+                    break;
+                }
+                document.getElementById('node' + maze[n[0]][n[1]]).style.backgroundColor = EDGE_NODE_COLOR;
+                await sleep(1);
+                document.getElementById('node' + maze[n[0]][n[1]]).style.backgroundColor = SEARCH_NODE_COLOR;
+            } 
+        }
+        if(solved){
+            break;
+        }
+    }
+
+    if(!solved){
+        alert('Impossible to solve! I will reset it.');
+        return;
+    }
+
+    let loopControl = false;
+    goalToStart = []; // gathers nodes from goal to start node by grabbing the previous nodes
+    previous = goal - 1;
+    goalToStart.push(previous);
+    
+    while(true){
+        let node = prev[previous];
+        goalToStart.push(node);
+
+        if(node == 0) loopControl = true;
+        else previous = node;
+
+        if(loopControl){
+            break;
+        }
+    }
+
+    for(node of goalToStart.reverse()){ //goalToStart.reverse() gives nodes sorted from start to node
+        await sleep(25);
+        try{
+            if(node != 0){
+                let n = document.getElementById('node' + (node + 1));
+                n.style.backgroundColor = RED_COLOR
+                await sleep(1);
+                n.style.backgroundColor = ORANGE_COLOR;
+                await sleep(1);
+                n.style.backgroundColor = PATH_COLOR;
+            }
+        }catch(err){
+            loopControl = true;
+        }
+        document.getElementById('node' + start).style.backgroundColor = START_NODE_COLOR;
+        document.getElementById('node' + goal).style.backgroundColor = GOAL_NODE_COLOR;
+    }
+}
 function heuristicFunction(a, b) {
     // return Math.abs(a[0] - a[1]) + Math.abs(b[0] - b[1]);
     return a
@@ -1420,6 +1539,7 @@ function heuristicFunction(a, b) {
         .reduce((sum, now) => sum + now) // sum
         ** (1/2)
 }
+
 /* ------------------------------------------------------------*/
 // #endregion
 // #region DIJKSTRA
@@ -1431,62 +1551,10 @@ document.querySelector('#buttonDijkstra').addEventListener('click', function(e){
     }
     let startNodeNumber = Node.GetNodeNumber(nodes[0].id);
     let goalNodeNumber = Node.GetNodeNumber(nodes[1].id);
-    // solveDijkstra(startNodeNumber);
-    dijkstra(startNodeNumber, goalNodeNumber);
+    
+    solveDijkstra(startNodeNumber, goalNodeNumber);
 });
-async function solveDijkstra(startNode) {
-    var maze = construct2dArray();
-    var adjacentsDict = findAdjacents(maze);
-    let distances = {};
-    // Stores the reference to previous nodes
-    let prev = {};
-    let pq = new PriorityQueue(HEIGHT * WIDTH);
-    let visited = [];
-    for(i = 0; i < HEIGHT; i++){
-        visited[i] = new Array(WIDTH).fill(false);
-    }
-    // Set distances to all nodes to be infinite except startNode
-
-    for(let i = 0; i < HEIGHT * WIDTH; i++){
-        distances[i] = Infinity;
-        prev[i] = null;
-    }
-
-    distances[startNode] = 0;
-    pq.enqueue(startNode, 0);
-
-    var coordinates = getNodeCoordinates(startNode);
-    visited[coordinates[0]][coordinates[1]] = true;
-
-    while (!pq.isEmpty()) {
-       let minNode = pq.dequeue();
-       let currNode = minNode.nodeNumber; //startNodeNumber
-       let weight = minNode.priority; // 0
-
-       var adj = adjacentsDict[currNode];
-       for(count = 0; count < adj.length; count++){
-        //    document.getElementById('node' + goalNodeNumber).style.backgroundColor = GOAL_NODE_COLOR; // prevents goal node disappear glitch
-           var n = adj[count];
-            if(!visited[maze[n[0]][n[1]]]){
-               visited[maze[n[0]][n[1]]] = true;
-
-               document.getElementById('node' + maze[n[0]][n[1]]).style.backgroundColor = EDGE_NODE_COLOR;
-               await sleep(1);
-               document.getElementById('node' + maze[n[0]][n[1]]).style.backgroundColor = SEARCH_NODE_COLOR;
-
-               let alt = distances[currNode] + (Math.floor(Math.random() * 5) + 1); //(Math.floor(Math.random() * 5) + 1); //Math.floor(Math.random() * 5) + 1 generates random weight for the node between 1 and 5
-               
-               if(alt < distances[maze[n[0]][n[1]]]){
-                distances[maze[n[0]][n[1]]] = alt; //Math.abs(maze[n[0]][n[1]] - maze[coordinates[0]][coordinates[1]]);
-                prev[maze[n[0]][n[1]] - 1] = currNode - 1;
-                pq.enqueue(maze[n[0]][n[1]], distances[maze[n[0]][n[1]]]);
-               }
-           }
-       }
-    }
-    return distances;
- }
-async function dijkstra(startNodeNumber, goalNodeNumber) {
+async function solveDijkstra(startNodeNumber, goalNodeNumber) {
     var maze = construct2dArray();
     var adjacentsDict = findAdjacents(maze);
     var solved = false;
@@ -1590,7 +1658,6 @@ async function dijkstra(startNodeNumber, goalNodeNumber) {
         document.getElementById('node' + startNodeNumber).style.backgroundColor = START_NODE_COLOR;
         document.getElementById('node' + goalNodeNumber).style.backgroundColor = GOAL_NODE_COLOR;
     }
-    console.log('goalToStart:', goalToStart);
 }
 // #endregion
 // #endregion
