@@ -1,3 +1,11 @@
+const graph = {
+    A: [{ neighbor: 'B', weight: 10 }, { neighbor: 'C', weight: 3 }],
+    B: [{ neighbor: 'C', weight: 1 }, { neighbor: 'D', weight: 2 }],
+    C: [{ neighbor: 'B', weight: 4 }, { neighbor: 'D', weight: 8 }, { neighbor: 'E', weight: 2 }],
+    D: [{ neighbor: 'E', weight: 7 }],
+    E: [{ neighbor: 'D', weight: 9 }]
+  };
+  
 function aStar(graph, start, goal) {
     // Set of unvisited nodes
     const unvisitedNodes = new Set(Object.keys(graph));
@@ -19,14 +27,18 @@ function aStar(graph, start, goal) {
     }
     heuristicDistances[goal] = 0;
   
-    // While there are unvisited nodes
-    while (unvisitedNodes.size > 0) {
+    // Flag to indicate if the goal node has been reached
+    let goalReached = false;
+  
+    // While there are unvisited nodes and the goal has not been reached
+    while (unvisitedNodes.size > 0 && !goalReached) {
       // Select the unvisited node with the smallest distance + heuristic distance
       const currentNode = [...unvisitedNodes].sort((a, b) => distances[a] + heuristicDistances[a] - distances[b] - heuristicDistances[b])[0];
   
       // Check if we have reached the goal
       if (currentNode === goal) {
-        return distances[goal];
+        goalReached = true;
+        continue;
       }
   
       // Mark the current node as visited
@@ -44,5 +56,9 @@ function aStar(graph, start, goal) {
       }
     }
   
-    return Number.POSITIVE_INFINITY;
-  }
+    if (goalReached) {
+      return distances[goal];
+    } else {
+      return Number.POSITIVE_INFINITY;
+    }
+}

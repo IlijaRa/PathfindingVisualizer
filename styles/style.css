@@ -3,7 +3,7 @@ body{
     font-family: 'Roboto';
 }
 
-.container{
+.content_container{
     height: 100%;
     width: 100%;
     display: flex;
@@ -14,7 +14,7 @@ body{
     width: 100%;
     height: 10%;
     display: flex;
-    background-color: rgb(182, 153, 207);
+    /* background-color: rgb(182, 153, 207); */
 }
 
 .settings_container > h1{
@@ -35,22 +35,41 @@ body{
 }
 
 .maze_container{
-    height: 100%;
-    width: 100%;
+    height: 98%;
+    width: 98%;
     display: flex;
     flex-direction: column;
     float: center;
+    margin: 1%;
 }
 
 .row{
     width: 100%;
-    height: 10%;
+    height: 5%;
     display: flex;
 }
 
-.col-sm-4{
-    width: 33%;
+.description_container{
+    height: 5%;
+    width: 100%;
+    margin: 1%;
+    text-align: center;
 }
+
+/* .description_container > h3{
+    font-family: 'Roboto Thin';
+    font-size: 50px;
+    color: rgb(218, 124, 9);
+    text-align: center;
+} */
+
+.description-node{
+    width: 14.2%;
+    float: left;
+}
+/* .col-sm-4{
+    width: 33%;
+} */
 
 .node{
     /*background-color: rgb(243, 190, 190);*/

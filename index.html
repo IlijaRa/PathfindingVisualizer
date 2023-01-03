@@ -2,17 +2,58 @@
     <head>
         <link rel = "stylesheet" href = "styles/style.css"/>
         <link rel = "stylesheet" href = "styles/navBar.css"/>
-
         <!-- Load an icon library to show a hamburger menu (bars) on small screens -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     </head>
+
     <body onload="constructGrid()">
-        <div id="container">
+        <div id="content_container">
             <div id="settings_container" class="settings_container">
-                <h2>Pathfinding Visualizer</h2>
-                <button id="buttonErase" class="button">Erase!</button>
+                <nav class="navbar">
+                    <a href="#" class="navbar-logo"><b>P</b>ath<b>F</b>inding<b>V</b>isualizer</a>
+                    <ul class="navbar-links">
+                      <li class="navbar-dropdown">
+                        <h3>Algorithms</h3>
+                        <div class="dropdown">
+                          <a id="buttonDFS" href="#">Depth-First Search (DFS)</a>
+                          <a id="buttonBFS" href="#">Breadth-First Search (BFS)</a>
+                          <a id="buttonDijkstra" href="#">Dijkstra (UCS)</a>
+                          <a id="buttonBD_DFS" href="#">Bidirectional DFS</a>
+                          <a id="buttonBD_BFS" href="#">Bidirectional BFS</a>
+                          <a id="buttonGreedy_BFS" href="#">Greedy Best-First Search</a>
+                          <a id="buttonA_star" href="#">A-Star (A*)</a>
+                        </div>
+                      </li>
+                      <li class="navbar-dropdown">
+                        <h3>Maze generators</h3>
+                        <div class="dropdown">
+                            <a id="buttonDFS_Maze" href="#">Dept-First Search (DFS)</a>
+                            <!--<a href="#">Randomized Prim's Algorithm</a>
+                            <a href="#">Randomized Kruskal's Algorithm</a>
+                            <a href="#">Eller's Algorithm</a>
+                            <a href="#">Hunt-and-Kill Algorithm</a>
+                            <a href="#">Binary Tree Algorithm</a>
+                            <a href="#">Sidewinder Algorithm</a>
+                            <a href="#">Aldous-Broder Algorithm</a>
+                            <a href="#">Willson's Algorithm</a> -->
+                            <a id="buttonRandomMaze" href="#">Random seed</a>
+                        </div>
+                      </li>
+                      <li class="navbar-dropdown">
+                        <h3>Choose wall shape</h3>
+                        <div class="dropdown">
+                          <a id="buttonVerticalBaesMaze" href="#"><img src="./images/shapes/vertical_baes_maze.png" alt="vertical_baes_maze"></a>
+                          <a id="buttonNormalBaesMaze" href="#"><img src="./images/shapes/normal_baes_maze.png" alt="normal_baes_maze"></a>
+                          <a id="buttonCentricBaesMaze" href="#"><img src="./images/shapes/centric_baes_maze.png" alt="centric_baes_maze"></a>
+                        </div>
+                      </li>
+                    </ul>
+                </nav>
+                <!-- <h2>Pathfinding Visualizer</h2> -->
+                <!-- <button id="buttonErase" class="button">Erase!</button>
                 <button id="buttonReset" class="button">Reset!</button>
-                <div class="algorithms">
+                <button id="buttonKruskal" class="button">Kruskal!</button> -->
+                <!-- <div class="algorithms">
                     <button id="buttonBFS" class="button">BFS</button>
                     <button id="buttonDFS" class="button">DFS</button> 
                     <button id="buttonDijkstra" class="button">Dijkstra</button>
@@ -22,6 +63,36 @@
                     <button id="buttonHorizontalBaesMaze" class="button">Horizontal baes maze</button>
                     <button id="buttonVerticalBaesMaze" class="button">Vertical baes maze</button>
                     <button id="buttonRandomMaze" class="button">Random maze</button>
+                </div> -->
+            </div>
+            <div class="description_container">
+                <div class="description-node start-node">
+                    <img src="./images/nodes/start_node.png" alt="start_node"> <br>
+                    Start node
+                </div>
+                <div class="description-node end-node">
+                    <img src="./images/nodes/end_node.png" alt="end_node"> <br>
+                    End Node
+                </div>
+                <div class="description-node wall-node">
+                    <img src="./images/nodes/wall_node.png" alt="wall_node"> <br>
+                    Wall Node
+                </div>
+                <div class="description-node current-node">
+                    <img src="./images/nodes/current_node.png" alt="current_node"> <br>
+                    Current Node
+                </div>
+                <div class="description-node visited-node">
+                    <img src="./images/nodes/visited_node.png" alt="visited_node"> <br>
+                    Visited Node
+                </div>
+                <div class="description-node unvisited-node">
+                    <img src="./images/nodes/unvisited_node.png" alt="unvisited_node"> <br>
+                    Unvisited Node
+                </div>
+                <div class="description-node path-node">
+                    <img src="./images/nodes/path_node.png" alt="path_node"> <br>
+                    Path Node
                 </div>
             </div>
             <div id="maze_container" class="maze_container"></div>
@@ -29,6 +100,9 @@
         <!-- JS -->
         <script src="./scripts/mazeSettings.js"></script>
         <script src="./scripts/navBar.js"></script>
-        <!-- <script src="scripts/BFS.js"></script> -->
+        <!-- Bootstrap JS -->
+        <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script> -->
     </body>
 </html>

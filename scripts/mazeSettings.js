@@ -20,8 +20,8 @@ ORANGE_COLOR = 'rgb(240, 102, 40)';
 //for maze entities
 SEARCH_NODE_COLOR = 'rgb(51, 193, 228)';
 GOAL_SEARCH_NODE_COLOR = 'rgb(240, 128, 128)';
-EDGE_NODE_COLOR = 'rgb(245, 193, 0)';
-GOAL_EDGE_NODE_COLOR = 'rgb(68, 139, 229)';
+EDGE_NODE_COLOR = 'rgb(240, 102, 40)';
+GOAL_EDGE_NODE_COLOR = 'rgb(89, 235, 99)';
 WALL_COLOR = 'rgb(119, 120, 122)';
 PATH_COLOR = 'rgb(245, 193, 0)';
 START_NODE_COLOR = 'rgb(74, 145, 212)';
@@ -114,6 +114,23 @@ function getNodeCoordinates(nodeNumber){
     }
     return coordinate;
 }
+// Returns node coordinates without walls
+function getNodeCoordinatesWithoutWalls(nodeNumber){
+    let maze = construct2dArrayWithoutWalls();
+    let coordinate = []
+
+    //nadji elegantnije resenje za pronalazenje currentNode u 2d nizu maze!!!
+    for(i = 0; i < HEIGHT; i++){
+        for(j = 0; j < WIDTH; j++){
+            if(maze[i][j] == nodeNumber){
+                coordinate[0] = i;
+                coordinate[1] = j;
+                break;
+            }
+        }
+    }
+    return coordinate;
+}
 // Generate walls for maze
 function generateWalls() {
     var scheme_array = new Array(HEIGHT * WIDTH).fill(0);
@@ -128,7 +145,6 @@ function generateWalls() {
     }
     return scheme_array;
 }
-
 // Generate maze with forwarded array as a parameter
 async function generateMaze(scheme_array){
     for(let i = 0; i < HEIGHT * WIDTH; i++){
@@ -317,12 +333,13 @@ function constructGrid(){
         }
         maze_container.appendChild(row);
     }
+    return maze_container;
 }
 function construct2dArray(){
     var nodeCount = 0;
     let maze = [];
     
-    /* Filling the a complete 2d array with zeros */
+    /* Filling a complete 2d array with zeros */
     for(i = 0; i < HEIGHT; i++){
         maze[i] = new Array(WIDTH).fill(0);
     }
@@ -344,23 +361,45 @@ function construct2dArray(){
     }
     return maze;
 }
+function construct2dArrayWithoutWalls(){
+    var nodeCount = 0;
+    let maze = [];
+    
+    /* Filling a complete 2d array with zeros */
+    for(i = 0; i < HEIGHT; i++){
+        maze[i] = new Array(WIDTH).fill(0);
+    }
+
+    /* 
+        Traverse through grid
+        node value equals -1 if its a wall
+        node value equals incrementing value of nodeCount if its not a wall
+    */
+    for(i = 0; i < HEIGHT; i++){
+        for(j = 0; j < WIDTH; j++){
+            nodeCount++;
+            maze[i][j] = nodeCount;
+        }
+    }
+    return maze;
+}
 // #endregion
 // #region RESET_BUTTON
-document.querySelector('#buttonReset').addEventListener('click', function(e){
-    var nodes = document.querySelectorAll('.node');
-    nodes.forEach(function(node){
-        node.style.backgroundColor = WHITE_COLOR;
-        node.style.borderColor = BORDER_COLOR;
-    })
-    startNodeExists = false;
-    goalNodeExists = false;
-});
+// document.querySelector('#buttonReset').addEventListener('click', function(e){
+//     var nodes = document.querySelectorAll('.node');
+//     nodes.forEach(function(node){
+//         node.style.backgroundColor = WHITE_COLOR;
+//         node.style.borderColor = BORDER_COLOR;
+//     })
+//     startNodeExists = false;
+//     goalNodeExists = false;
+// });
 // #endregion
 // #region ALGORITHMS
 // #region BFS_ALGORITHM 
 /* --------------------BFS algorithm---------------------------*/
 // triggers a button for BFS algorithm trying new approach
-document.querySelector('#buttonBFS').addEventListener('click', function(e){
+document.querySelector('a#buttonBFS').addEventListener('click', function(e){
     var nodes = findStartAndGoalNode(); 
     if(nodes.length < 2){
         alert('You need to provide start and goal nodes!');
@@ -486,7 +525,7 @@ async function reconstructPathForBfs(prev){
 // #endregion
 // #region BIDIRECTIONAL_BFS_ALGORITHM 
 /* ---------------Bidirectional BFS algorithm------------------*/
-document.querySelector('#buttonBD_BFS').addEventListener('click', function(e){
+document.querySelector('a#buttonBD_BFS').addEventListener('click', function(e){
     var nodes = findStartAndGoalNode(); 
     if(nodes.length < 2){
         alert('You need to provide start and goal nodes!');
@@ -911,7 +950,7 @@ async function solveBidirectionalBfs(startNodeNumber, goalNodeNumber){
 // #endregion
 // #region DFS_ALGORITHM 
 /* --------------------DFS algorithm---------------------------*/
-document.querySelector('#buttonDFS').addEventListener('click', function(e){
+document.querySelector('a#buttonDFS').addEventListener('click', function(e){
     var nodes = findStartAndGoalNode(); 
     if(nodes.length < 2){
         alert('You need to provide start and goal nodes!');
@@ -1071,7 +1110,7 @@ async function reconstructPathForDfs(prev){
 // #endregion
 // #region BIDIRECTIONAL_DFS_ALGORITHM 
 /* ---------------Bidirectional BFS algorithm------------------*/
-document.querySelector('#buttonBD_DFS').addEventListener('click', function(e){
+document.querySelector('a#buttonBD_DFS').addEventListener('click', function(e){
     var nodes = findStartAndGoalNode(); 
     if(nodes.length < 2){
         alert('You need to provide start and goal nodes!');
@@ -1280,7 +1319,7 @@ async function solveFromGoalNodeDfs(startNodeNumber){
 // #endregion
 // #region A_STAR_ALGORITHM 
 /* --------------------A* algorithm---------------------------*/
-document.querySelector('#buttonA_star').addEventListener('click', function(e){
+document.querySelector('a#buttonA_star').addEventListener('click', function(e){
     var nodes = findStartAndGoalNode(); 
     if(nodes.length < 2){
         alert('You need to provide start and goal nodes!');
@@ -1289,136 +1328,136 @@ document.querySelector('#buttonA_star').addEventListener('click', function(e){
     let startNodeNumber = Node.GetNodeNumber(nodes[0].id);
     let goalNodeNumber = Node.GetNodeNumber(nodes[1].id);
 
-    aStar(startNodeNumber, goalNodeNumber);
+    solveAstar(startNodeNumber, goalNodeNumber);
 });
-async function solveAstar(startNodeNumber, goalNodeNumber){
-    var maze = construct2dArray();
-    var adjacentsDict = findAdjacents(maze);
-    count = 0;
-    queue = new Array();
-    queueSet = new Set();
-    queue.push({'fScore': 0, 'count': count, 'nodeNumber': startNodeNumber});
-    let prev = new Array(HEIGHT * WIDTH).fill(0);
-    let visited = [];
-    let solved = false;
-    gScore = {};
-    fScore = {};
+// async function solveAstar(startNodeNumber, goalNodeNumber){
+//     var maze = construct2dArray();
+//     var adjacentsDict = findAdjacents(maze);
+//     count = 0;
+//     queue = new Array();
+//     queueSet = new Set();
+//     queue.push({'fScore': 0, 'count': count, 'nodeNumber': startNodeNumber});
+//     let prev = new Array(HEIGHT * WIDTH).fill(0);
+//     let visited = [];
+//     let solved = false;
+//     gScore = {};
+//     fScore = {};
 
-    for(let i = 0; i < HEIGHT; i++){ visited[i] = new Array(WIDTH).fill(false); }
-    for(let i = 0; i < HEIGHT * WIDTH; i++) { gScore[i] = Number.MAX_VALUE; }
-    for(let i = 0; i < HEIGHT * WIDTH; i++) { gScore[i] = Number.MAX_VALUE; }
+//     for(let i = 0; i < HEIGHT; i++){ visited[i] = new Array(WIDTH).fill(false); }
+//     for(let i = 0; i < HEIGHT * WIDTH; i++) { gScore[i] = Number.MAX_VALUE; }
+//     for(let i = 0; i < HEIGHT * WIDTH; i++) { gScore[i] = Number.MAX_VALUE; }
     
-    gScore[startNodeNumber] = 0;
-    fScore[startNodeNumber] = heuristicFunction(getNodeCoordinates(startNodeNumber), 
-                                                getNodeCoordinates(goalNodeNumber));                                            
+//     gScore[startNodeNumber] = 0;
+//     fScore[startNodeNumber] = heuristicFunction(getNodeCoordinates(startNodeNumber), 
+//                                                 getNodeCoordinates(goalNodeNumber));                                            
     
 
-    visited[startNodeNumber] = true;
-    queueSet.add(startNodeNumber);
+//     visited[startNodeNumber] = true;
+//     queueSet.add(startNodeNumber);
 
-    while(queue.length > 0){
-        var maze = construct2dArray();
-        var adjacentsDict = findAdjacents(maze);
+//     while(queue.length > 0){
+//         var maze = construct2dArray();
+//         var adjacentsDict = findAdjacents(maze);
 
-        // let currentNode = queue.shift(); // shift() is used for the queue to remove items in order 
+//         // let currentNode = queue.shift(); // shift() is used for the queue to remove items in order 
         
-        // searching for a min value inside a queue
-        var currentNode = queue.reduce(function(prev, curr) {
-            return prev.fScore < curr.fScore ? prev : curr;
-        });
+//         // searching for a min value inside a queue
+//         var currentNode = queue.reduce(function(prev, curr) {
+//             return prev.fScore < curr.fScore ? prev : curr;
+//         });
         
-        // deleting current min value from the queue
-        var index = queue.indexOf(currentNode);
-        if (index > -1) { // only splice queue when item is found
-            queue.splice(index, 1); // 2nd parameter means remove one item only
-        }
+//         // deleting current min value from the queue
+//         var index = queue.indexOf(currentNode);
+//         if (index > -1) { // only splice queue when item is found
+//             queue.splice(index, 1); // 2nd parameter means remove one item only
+//         }
 
-        queueSet.delete(currentNode.nodeNumber);
+//         queueSet.delete(currentNode.nodeNumber);
         
-        let coordinate = getNodeCoordinates(currentNode.nodeNumber);
-        visited[coordinate[0]][coordinate[1]] = true;
+//         let coordinate = getNodeCoordinates(currentNode.nodeNumber);
+//         visited[coordinate[0]][coordinate[1]] = true;
 
-        if(currentNode.nodeNumber == goalNodeNumber){
-            //TODO: make path
-            document.getElementById('node' + goalNodeNumber).style.backgroundColor = GOAL_NODE_COLOR; // prevents goal node disappear glitch
-            solved = true;
-            break;
-        }
+//         if(currentNode.nodeNumber == goalNodeNumber){
+//             //TODO: make path
+//             document.getElementById('node' + goalNodeNumber).style.backgroundColor = GOAL_NODE_COLOR; // prevents goal node disappear glitch
+//             solved = true;
+//             break;
+//         }
 
-        var adj = adjacentsDict[currentNode.nodeNumber];
-        for(count = 0; count < adj.length; count++){
-            document.getElementById('node' + goalNodeNumber).style.backgroundColor = GOAL_NODE_COLOR; // prevents goal node disappear glitch
-            var n = adj[count];
-            tempGScore = gScore[currentNode.nodeNumber] + 1;
+//         var adj = adjacentsDict[currentNode.nodeNumber];
+//         for(count = 0; count < adj.length; count++){
+//             document.getElementById('node' + goalNodeNumber).style.backgroundColor = GOAL_NODE_COLOR; // prevents goal node disappear glitch
+//             var n = adj[count];
+//             tempGScore = gScore[currentNode.nodeNumber] + 1;
 
-            if(tempGScore < gScore[maze[n[0]][n[1]]]){
-                prev[maze[n[0]][n[1]] - 1] = currentNode.nodeNumber - 1;
-                gScore[maze[n[0]][n[1]]] = tempGScore;
-                fScore[maze[n[0]][n[1]]] = tempGScore + heuristicFunction(n, getNodeCoordinates(goalNodeNumber));
-                // console.log('heuristicFunction(n, getNodeCoordinates(goalNodeNumber)): ', heuristicFunction(n, getNodeCoordinates(goalNodeNumber)));
-                if(!queueSet.has(maze[n[0]][n[1]]) && visited[n[0]][n[1]] == false){
-                    visited[n[0]][n[1]] = true;
-                    count += 1;
-                    queue.push({'fScore': fScore[maze[n[0]][n[1]]], 'count': count, 'nodeNumber': maze[n[0]][n[1]]});
-                    queueSet.add(maze[n[0]][n[1]]);
+//             if(tempGScore < gScore[maze[n[0]][n[1]]]){
+//                 prev[maze[n[0]][n[1]] - 1] = currentNode.nodeNumber - 1;
+//                 gScore[maze[n[0]][n[1]]] = tempGScore;
+//                 fScore[maze[n[0]][n[1]]] = tempGScore + heuristicFunction(n, getNodeCoordinates(goalNodeNumber));
+//                 // console.log('heuristicFunction(n, getNodeCoordinates(goalNodeNumber)): ', heuristicFunction(n, getNodeCoordinates(goalNodeNumber)));
+//                 if(!queueSet.has(maze[n[0]][n[1]]) && visited[n[0]][n[1]] == false){
+//                     visited[n[0]][n[1]] = true;
+//                     count += 1;
+//                     queue.push({'fScore': fScore[maze[n[0]][n[1]]], 'count': count, 'nodeNumber': maze[n[0]][n[1]]});
+//                     queueSet.add(maze[n[0]][n[1]]);
 
-                    document.getElementById('node' + maze[n[0]][n[1]]).style.backgroundColor = EDGE_NODE_COLOR;
-                    await sleep(0.1);
-                    document.getElementById('node' + maze[n[0]][n[1]]).style.backgroundColor = SEARCH_NODE_COLOR;
+//                     document.getElementById('node' + maze[n[0]][n[1]]).style.backgroundColor = EDGE_NODE_COLOR;
+//                     await sleep(0.1);
+//                     document.getElementById('node' + maze[n[0]][n[1]]).style.backgroundColor = SEARCH_NODE_COLOR;
                 
-                    if(maze[n[0]][n[1]] == goalNodeNumber){
-                        solved = true;
-                        break;
-                    }
-                }
-            }
-            if(solved){
-                break;
-            }
-        }
-    }
-    if(!solved){
-        alert('Impossible to solve! I will reset it.');
-        return;
-    }
+//                     if(maze[n[0]][n[1]] == goalNodeNumber){
+//                         solved = true;
+//                         break;
+//                     }
+//                 }
+//             }
+//             if(solved){
+//                 break;
+//             }
+//         }
+//     }
+//     if(!solved){
+//         alert('Impossible to solve! I will reset it.');
+//         return;
+//     }
 
-    let loopControl = false;
-    goalToStart = []; // gathers nodes from goal to start node by grabbing the previous nodes
-    previous = goalNodeNumber - 1;
-    goalToStart.push(previous);
+//     let loopControl = false;
+//     goalToStart = []; // gathers nodes from goal to start node by grabbing the previous nodes
+//     previous = goalNodeNumber - 1;
+//     goalToStart.push(previous);
     
-    while(true){
-        let node = prev[previous];
-        goalToStart.push(node);
+//     while(true){
+//         let node = prev[previous];
+//         goalToStart.push(node);
 
-        if(node == 0) loopControl = true;
-        else previous = node;
+//         if(node == 0) loopControl = true;
+//         else previous = node;
 
-        if(loopControl){
-            break;
-        }
-    }
+//         if(loopControl){
+//             break;
+//         }
+//     }
 
-    for(node of goalToStart.reverse()){ //goalToStart.reverse() gives nodes sorted from start to node
-        await sleep(25);
-        try{
-            if(node != 0){
-                let n = document.getElementById('node' + (node + 1));
-                n.style.backgroundColor = RED_COLOR
-                await sleep(1);
-                n.style.backgroundColor = ORANGE_COLOR;
-                await sleep(1);
-                n.style.backgroundColor = PATH_COLOR;
-            }
-        }catch(err){
-            loopControl = true;
-        }
-        document.getElementById('node' + startNodeNumber).style.backgroundColor = START_NODE_COLOR;
-        document.getElementById('node' + goalNodeNumber).style.backgroundColor = GOAL_NODE_COLOR;
-    }
+//     for(node of goalToStart.reverse()){ //goalToStart.reverse() gives nodes sorted from start to node
+//         await sleep(25);
+//         try{
+//             if(node != 0){
+//                 let n = document.getElementById('node' + (node + 1));
+//                 n.style.backgroundColor = RED_COLOR
+//                 await sleep(1);
+//                 n.style.backgroundColor = ORANGE_COLOR;
+//                 await sleep(1);
+//                 n.style.backgroundColor = PATH_COLOR;
+//             }
+//         }catch(err){
+//             loopControl = true;
+//         }
+//         document.getElementById('node' + startNodeNumber).style.backgroundColor = START_NODE_COLOR;
+//         document.getElementById('node' + goalNodeNumber).style.backgroundColor = GOAL_NODE_COLOR;
+//     }
 
-}
-async function aStar(start, goal) {
+// }
+async function solveAstar(start, goal) {
     var maze = construct2dArray();
     var adjacentsDict = findAdjacents(maze);
     var solved = false;
@@ -1539,11 +1578,10 @@ function heuristicFunction(a, b) {
         .reduce((sum, now) => sum + now) // sum
         ** (1/2)
 }
-
 /* ------------------------------------------------------------*/
 // #endregion
 // #region DIJKSTRA
-document.querySelector('#buttonDijkstra').addEventListener('click', function(e){
+document.querySelector('a#buttonDijkstra').addEventListener('click', function(e){
     var nodes = findStartAndGoalNode(); 
     if(nodes.length < 2){
         alert('You need to provide start and goal nodes!');
@@ -1664,51 +1702,131 @@ async function solveDijkstra(startNodeNumber, goalNodeNumber) {
 // #region MAZE_GENERATORS
 // #region RANDOM_MAZE
 document.querySelector('#buttonRandomMaze').addEventListener('click', function(e){
-    // var scheme_array = [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
-    //     -1, 62, -1, 64, 65, 66, 67, 68, 69, 70, -1, 72, 73, 74, 75, 76, 77, 78, -1, 80, 81, 82, 83, -1, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, -1, 102, -1, 104, 105, 106, 107, 108, 109, 110, -1, 112, 113, 114, 115, 116, 117, 118, 119, -1,
-    //     -1, 122, -1, 124, -1, -1, 127, -1, 129, -1, -1, 132, -1, 134, -1, -1, -1, 138, -1, 140, -1, -1, -1, -1, 145, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 158, -1, 160, -1, 162, -1, 164, -1, -1, 167, -1, 169, -1, -1, 172, -1, 174, -1, -1, -1, 178, -1, -1,
-    //     -1, 182, -1, 184, -1, 186, 187, -1, 189, 190, -1, 192, -1, 194, 195, 196, -1, 198, 199, 200, -1, 202, 203, 204, 205, 206, -1, 208, 209, 210, 211, 212, -1, 214, -1, 216, 217, 218, -1, 220, -1, 222, -1, 224, -1, 226, 227, -1, 229, 230, -1, 232, -1, 234, 235, 236, -1, 238, 239, -1,
-    //     -1, 242, 243, 244, -1, 246, -1, -1, 249, -1, -1, 252, -1, -1, -1, 256, -1, -1, -1, -1, -1, 262, -1, -1, -1, 266, -1, 268, -1, -1, -1, 272, -1, 274, -1, 276, -1, 278, -1, 280, -1, 282, 283, 284, -1, 286, -1, -1, 289, -1, -1, 292, -1, -1, -1, 296, -1, 298, -1, -1,
-    //     -1, -1, -1, -1, -1, 306, -1, 308, 309, 310, -1, 312, -1, 314, -1, 316, -1, 318, 319, 320, -1, 322, 323, 324, -1, 326, -1, 328, 329, 330, -1, 332, 333, 334, -1, 336, -1, 338, -1, 340, -1, -1, -1, -1, -1, 346, -1, 348, 349, 350, -1, 352, -1, 354, -1, 356, -1, 358, 359, -1,
-    //     -1, 362, 363, 364, 365, 366, -1, 368, -1, 370, -1, 372, -1, 374, -1, 376, -1, 378, -1, 380, -1, -1, -1, 384, -1, 386, -1, -1, -1, 390, -1, -1, -1, -1, -1, 396, -1, -1, -1, 400, -1, 402, 403, 404, 405, 406, -1, 408, -1, 410, -1, 412, -1, 414, -1, 416, -1, 418, -1, -1,
-    //     -1, 422, -1, -1, -1, -1, -1, 428, -1, 430, -1, 432, -1, 434, -1, 436, -1, 438, -1, 440, -1, 442, 443, 444, -1, 446, 447, 448, -1, 450, 451, 452, 453, 454, -1, 456, -1, 458, 459, 460, -1, 462, -1, -1, -1, -1, -1, 468, -1, 470, -1, 472, -1, 474, -1, 476, -1, 478, 479, -1,
-    //     -1, 482, -1, 484, 485, 486, -1, 488, -1, 490, -1, 492, -1, 494, -1, 496, -1, -1, -1, 500, -1, 502, -1, -1, -1, -1, -1, 508, -1, -1, -1, 512, -1, 514, -1, 516, -1, 518, -1, -1, -1, 522, -1, 524, 525, 526, -1, 528, -1, 530, -1, 532, -1, 534, -1, 536, -1, -1, -1, -1,
-    //     -1, 542, 543, 544, -1, 546, -1, -1, -1, -1, -1, 552, 553, 554, -1, 556, 557, 558, -1, 560, 561, 562, 563, 564, -1, 566, 567, 568, -1, 570, 571, 572, -1, 574, -1, 576, -1, 578, -1, 580, 581, 582, 583, 584, -1, 586, -1, -1, -1, -1, -1, 592, 593, 594, -1, 596, 597, 598, 599, -1,
-    //     -1, 602, -1, 604, -1, 606, -1, 608, 609, 610, -1, -1, -1, -1, -1, 616, -1, 618, -1, -1, -1, -1, -1, -1, -1, 626, -1, -1, -1, -1, -1, -1, -1, 634, -1, 636, -1, 638, -1, 640, -1, 642, -1, 644, -1, 646, -1, 648, 649, 650, -1, -1, -1, -1, -1, 656, -1, 658, -1, -1,
-    //     -1, 662, -1, 664, -1, 666, -1, 668, -1, 670, -1, 672, 673, 674, 675, 676, -1, 678, 679, 680, 681, 682, 683, 684, 685, 686, 687, 688, -1, 690, 691, 692, -1, 694, 695, 696, -1, 698, 699, 700, -1, 702, -1, 704, -1, 706, -1, 708, -1, 710, -1, 712, 713, 714, 715, 716, -1, 718, 719, -1,
-    //     -1, 722, -1, -1, -1, 726, -1, 728, -1, -1, -1, 732, -1, -1, -1, 736, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 748, -1, 750, -1, 752, -1, -1, -1, -1, -1, -1, -1, 760, -1, 762, -1, -1, -1, 766, -1, 768, -1, -1, -1, 772, -1, -1, -1, 776, -1, -1, -1, -1,
-    //     -1, 782, -1, 784, 785, 786, -1, 788, -1, 790, 791, 792, -1, 794, -1, 796, 797, 798, 799, 800, 801, 802, 803, 804, 805, 806, -1, 808, -1, 810, -1, 812, -1, 814, 815, 816, 817, 818, -1, 820, -1, -1, -1, 824, 825, 826, -1, 828, -1, 830, 831, 832, -1, 834, -1, 836, 837, 838, 839, -1,
-    //     -1, 842, -1, 844, -1, -1, -1, 848, -1, 850, -1, -1, -1, 854, -1, 856, -1, -1, -1, -1, -1, -1, -1, -1, -1, 866, -1, 868, -1, 870, -1, 872, -1, 874, -1, -1, -1, 878, -1, 880, 881, 882, -1, 884, -1, -1, -1, 888, -1, 890, -1, -1, -1, 894, -1, 896, -1, -1, -1, -1,
-    //     -1, 902, -1, 904, 905, 906, -1, 908, 909, 910, 911, 912, -1, 914, 915, 916, -1, 918, 919, 920, -1, 922, -1, 924, -1, 926, -1, 928, -1, 930, -1, 932, 933, 934, -1, 936, -1, 938, -1, 940, -1, -1, -1, 944, 945, 946, -1, 948, 949, 950, 951, 952, -1, 954, 955, 956, -1, 958, 959, -1,
-    //     -1, 962, -1, -1, -1, 966, -1, -1, -1, -1, -1, 972, -1, 974, -1, -1, -1, 978, -1, 980, -1, 982, 983, 984, -1, 986, -1, -1, -1, 990, -1, -1, -1, -1, -1, 996, -1, 998, -1, 1000, 1001, 1002, -1, -1, -1, 1006, -1, -1, -1, -1, -1, 1012, -1, 1014, -1, -1, -1, 1018, -1, -1,
-    //     -1, 1022, 1023, 1024, -1, 1026, -1, 1028, 1029, 1030, 1031, 1032, -1, 1034, 1035, 1036, -1, 1038, -1, -1, -1, -1, -1, 1044, -1, 1046, 1047, 1048, 1049, 1050, -1, 1052, 1053, 1054, 1055, 1056, -1, 1058, -1, 1060, -1, 1062, 1063, 1064, -1, 1066, -1, 1068, 1069, 1070, 1071, 1072, -1, 1074, 1075, 1076, 1077, 1078, 1079, -1,
-    //     -1, 1082, -1, 1084, -1, -1, -1, 1088, -1, 1090, -1, -1, -1, -1, -1, -1, -1, 1098, -1, 1100, 1101, 1102, 1103, 1104, -1, -1, -1, 1108, -1, -1, -1, 1112, -1, -1, -1, 1116, -1, 1118, -1, 1120, -1, -1, -1, 1124, -1, -1, -1, 1128, -1, 1130, -1, -1, -1, -1, -1, -1, -1, -1, 1139, -1,
-    //     -1, 1142, -1, 1144, 1145, 1146, -1, 1148, -1, 1150, 1151, 1152, -1, 1154, 1155, 1156, 1157, 1158, -1, 1160, -1, -1, -1, 1164, 1165, 1166, -1, 1168, 1169, 1170, 1171, 1172, -1, 1174, 1175, 1176, -1, 1178, -1, 1180, -1, 1182, -1, 1184, 1185, 1186, -1, 1188, -1, 1190, 1191, 1192, -1, 1194, 1195, 1196, 1197, 1198, 1199, -1,
-    //     -1, -1, -1, -1, -1, 1206, -1, 1208, -1, -1, -1, -1, -1, 1214, -1, -1, -1, -1, -1, 1220, 1221, 1222, -1, -1, -1, 1226, -1, -1, -1, -1, -1, -1, -1, 1234, -1, 1236, -1, 1238, -1, 1240, -1, 1242, -1, -1, -1, 1246, -1, 1248, -1, -1, -1, -1, -1, 1254, -1, -1, -1, -1, -1, -1,
-    //     -1, 1262, 1263, 1264, -1, 1266, -1, 1268, -1, 1270, 1271, 1272, -1, 1274, 1275, 1276, 1277, 1278, -1, -1, -1, 1282, -1, 1284, 1285, 1286, -1, 1288, 1289, 1290, 1291, 1292, 1293, 1294, -1, 1296, -1, 1298, -1, 1300, -1, 1302, -1, 1304, -1, 1306, -1, 1308, -1, 1310, 1311, 1312, -1, 1314, 1315, 1316, 1317, 1318, 1319, -1,
-    //     -1, 1322, -1, 1324, 1325, 1326, -1, 1328, 1329, 1330, -1, 1332, -1, -1, -1, -1, -1, 1338, -1, 1340, 1341, 1342, -1, 1344, -1, 1346, -1, 1348, -1, -1, -1, -1, -1, 1354, -1, -1, -1, 1358, -1, 1360, 1361, 1362, -1, 1364, -1, 1366, -1, 1368, 1369, 1370, -1, 1372, -1, 1374, -1, -1, 1377, -1, -1, -1,
-    //     -1, 1382, -1, -1, -1, -1, -1, -1, 1389, -1, -1, 1392, -1, 1394, 1395, 1396, -1, 1398, -1, -1, -1, 1402, -1, 1404, -1, 1406, -1, 1408, -1, 1410, 1411, 1412, -1, 1414, -1, 1416, 1417, 1418, -1, 1420, -1, 1422, 1423, 1424, 1425, 1426, -1, -1, 1429, -1, -1, 1432, -1, 1434, 1435, 1436, 1437, -1, 1439, -1,
-    //     -1, 1442, 1443, 1444, 1445, 1446, 1447, 1448, 1449, 1450, -1, 1452, 1453, 1454, -1, 1456, -1, 1458, -1, 1460, -1, 1462, 1463, 1464, -1, 1466, -1, 1468, -1, -1, -1, 1472, -1, 1474, -1, 1476, -1, -1, -1, -1, -1, 1482, -1, -1, -1, 1486, 1487, 1488, 1489, 1490, -1, 1492, 1493, 1494, 1495, -1, -1, -1, 1499, -1,
-    //     -1, 1502, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 1514, -1, -1, -1, 1518, -1, 1520, -1, -1, -1, -1, -1, 1526, 1527, 1528, 1529, 1530, 1531, 1532, -1, 1534, -1, 1536, 1537, 1538, 1539, 1540, -1, 1542, -1, 1544, 1545, 1546, -1, -1, -1, -1, -1, -1, -1, -1, 1555, 1556, 1557, 1558, 1559, -1,
-    //     -1, 1562, -1, 1564, 1565, 1566, -1, 1568, 1569, 1570, -1, 1572, 1573, 1574, 1575, 1576, -1, 1578, -1, 1580, 1581, 1582, 1583, 1584, 1585, 1586, 1587, -1, -1, -1, -1, -1, -1, 1594, -1, -1, -1, 1598, -1, 1600, -1, 1602, -1, 1604, -1, 1606, 1607, 1608, 1609, 1610, -1, 1612, 1613, -1, 1615, -1, -1, -1, 1619, -1,
-    //     -1, 1622, 1623, 1624, -1, -1, -1, 1628, -1, 1630, -1, -1, -1, -1, -1, 1636, -1, 1638, -1, 1640, -1, -1, -1, -1, -1, -1, 1647, 1648, 1649, 1650, 1651, 1652, 1653, 1654, -1, 1656, 1657, 1658, -1, 1660, -1, 1662, 1663, 1664, -1, 1666, -1, -1, -1, -1, -1, 1672, 1673, -1, 1675, -1, 1677, 1678, 1679, -1,
-    //     -1, -1, -1, -1, -1, 1686, 1687, 1688, -1, 1690, 1691, 1692, 1693, -1, 1695, 1696, -1, 1698, -1, 1700, -1, 1702, 1703, 1704, 1705, -1, 1707, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 1720, -1, -1, -1, -1, -1, 1726, -1, 1728, 1729, 1730, -1, 1732, -1, -1, 1735, -1, -1, -1, 1739, -1,
-    //     -1, 1742, 1743, 1744, -1, 1746, -1, -1, -1, -1, -1, -1, 1753, -1, -1, 1756, -1, 1758, -1, 1760, -1, 1762, -1, -1, 1765, -1, 1767, -1, 1769, 1770, 1771, 1772, 1773, 1774, 1775, 1776, 1777, 1778, -1, 1780, -1, 1782, 1783, 1784, -1, 1786, -1, -1, -1, 1790, -1, 1792, -1, 1794, 1795, 1796, 1797, -1, 1799, -1,
-    //     -1, 1802, -1, 1804, -1, 1806, 1807, 1808, -1, 1810, 1811, 1812, 1813, -1, 1815, 1816, 1817, 1818, -1, 1820, 1821, 1822, -1, 1824, 1825, -1, 1827, -1, 1829, -1, -1, -1, -1, -1, -1, -1, -1, 1838, -1, 1840, -1, 1842, -1, 1844, -1, 1846, 1847, 1848, -1, 1850, 1851, 1852, -1, 1854, -1, 1856, -1, -1, 1859, -1,
-    //     -1, 1862, -1, 1864, -1, -1, -1, -1, -1, 1870, -1, -1, 1873, -1, -1, -1, -1, 1878, -1, 1880, -1, -1, -1, 1884, -1, -1, 1887, -1, 1889, 1890, 1891, -1, 1893, 1894, 1895, 1896, -1, 1898, -1, 1900, -1, 1902, -1, 1904, -1, 1906, -1, -1, -1, 1910, -1, -1, -1, -1, -1, 1916, 1917, 1918, 1919, -1,
-    //     -1, 1922, -1, 1924, -1, 1926, 1927, 1928, -1, 1930, -1, 1932, 1933, 1934, 1935, 1936, -1, 1938, -1, 1940, 1941, 1942, -1, 1944, 1945, 1946, 1947, -1, -1, -1, 1951, -1, 1953, -1, 1955, 1956, -1, 1958, 1959, 1960, -1, 1962, -1, 1964, -1, 1966, -1, 1968, 1969, 1970, 1971, 1972, -1, 1974, 1975, 1976, -1, -1, -1, -1,
-    //     -1, 1982, -1, 1984, -1, 1986, -1, 1988, -1, 1990, -1, -1, -1, 1994, -1, -1, -1, 1998, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 2009, 2010, 2011, -1, 2013, -1, 2015, -1, -1, -1, -1, 2020, -1, 2022, -1, 2024, -1, 2026, -1, 2028, -1, -1, 2031, -1, -1, -1, -1, 2036, 2037, 2038, 2039, -1,
-    //     -1, 2042, -1, 2044, -1, 2046, -1, 2048, 2049, 2050, 2051, 2052, -1, 2054, 2055, 2056, -1, 2058, -1, 2060, 2061, 2062, 2063, 2064, 2065, 2066, 2067, 2068, 2069, -1, -1, -1, 2073, -1, 2075, 2076, 2077, 2078, 2079, 2080, -1, 2082, -1, 2084, -1, 2086, -1, 2088, -1, 2090, 2091, 2092, -1, 2094, -1, 2096, -1, -1, -1, -1,
-    //     -1, 2102, -1, 2104, -1, 2106, -1, -1, -1, -1, -1, 2112, -1, -1, -1, -1, -1, 2118, -1, 2120, -1, -1, -1, -1, -1, 2126, -1, -1, -1, -1, 2131, 2132, 2133, -1, 2135, -1, 2137, -1, -1, -1, -1, 2142, -1, 2144, -1, -1, -1, 2148, -1, 2150, -1, -1, -1, 2154, -1, 2156, -1, 2158, 2159, -1,
-    //     -1, 2162, -1, 2164, 2165, 2166, -1, 2168, 2169, 2170, -1, 2172, 2173, 2174, -1, 2176, 2177, 2178, -1, 2180, 2181, 2182, 2183, 2184, -1, 2186, 2187, 2188, 2189, -1, 2191, -1, 2193, -1, 2195, -1, 2197, 2198, 2199, 2200, -1, 2202, -1, 2204, 2205, 2206, 2207, 2208, 2209, 2210, -1, 2212, 2213, 2214, -1, 2216, -1, 2218, -1, -1,
-    //     -1, 2222, -1, -1, -1, -1, -1, -1, -1, 2230, -1, -1, -1, 2234, -1, 2236, -1, -1, -1, -1, -1, -1, -1, 2244, -1, -1, -1, -1, 2249, -1, 2251, -1, -1, -1, 2255, -1, 2257, -1, -1, 2260, 2261, 2262, -1, -1, -1, -1, -1, -1, -1, 2270, -1, 2272, -1, 2274, -1, 2276, 2277, 2278, 2279, -1,
-    //     -1, 2282, 2283, 2284, 2285, 2286, 2287, 2288, 2289, 2290, 2291, 2292, -1, 2294, 2295, 2296, 2297, 2298, -1, 2300, 2301, 2302, 2303, 2304, -1, 2306, 2307, 2308, 2309, -1, 2311, 2312, 2313, 2314, 2315, -1, 2317, 2318, 2319, 2320, -1, 2322, 2323, 2324, 2325, 2326, 2327, 2328, 2329, 2330, -1, 2332, -1, 2334, 2335, 2336, -1, 2338, 2339, -1,
-    //     -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1];
     generateMaze(generateWalls());
 })
 // #endregion
+// #region RANDOM_DFS_MAZE
+document.querySelector('#buttonDFS_Maze').addEventListener('click', function(e){
+    var maze = generateDfsMaze(HEIGHT, WIDTH);
+    console.log('generated maze:', maze);
+});
+async function generateDfsMaze(height, width/*, cellSize*/) {
+    // Create a maze filled with walls
+    let maze = [];
+    let count = 0;
+    for (let i = 0; i < height; i++) {
+        maze[i] = new Array(width).fill(WALL_VALUE);
+    }
+
+    for (let i = 0; i < height * width; i++) {
+        count++;
+        document.getElementById('node' + count).style.backgroundColor = WALL_COLOR;
+    }
+
+    console.log('generateDfsMaze: ', maze);
+    // return;
+    // Start the maze from a random cell
+    let currentCell = (Math.floor(Math.random() * (HEIGHT * WIDTH)) + 1);
+    document.getElementById('node' + currentCell).style.backgroundColor = WHITE_COLOR;
+    console.log('currentCell: ', currentCell);
+    let visitedCells = [];
+    for (let i = 0; i < height; i++) {
+      visitedCells[i] = [];
+      for (let j = 0; j < width; j++) {
+        visitedCells[i][j] = false;
+      }
+    }
+    // Create a stack to store the cells that need to be visited
+    let stack = [];
+    let currentCellCoord = getNodeCoordinatesWithoutWalls(currentCell);
+    // Mark the current cell as visited and add it to the stack
+    visitedCells[currentCellCoord[0]][currentCellCoord[1]] = true;
+    stack.push(currentCell);
+
+    console.log('visitedCells: ', visitedCells);
+    console.log('stack: ', stack);
+    
+    // While there are cells in the stack
+    while (stack.length > 0) {
+        // Get the last cell in the stack
+        currentCell = stack[stack.length - 1];
+        console.log('grabbed node: ', currentCell);
+
+        
+        let currentCellCoord = getNodeCoordinatesWithoutWalls(currentCell);
+        console.log('grabbed node coords: ', currentCellCoord);
+        // Find a random unvisited neighbor
+        let neighbors = [];
+
+        if (currentCellCoord[0] > 0 && !visitedCells[currentCellCoord[0] - 1][currentCellCoord[1]]) {
+            // neighbors.push([currentCellCoord[0] - 1, currentCellCoord[1]]);
+            neighbors.push(currentCell - WIDTH);
+        }
+        if (currentCellCoord[1] > 0 && !visitedCells[currentCellCoord[0]][currentCellCoord[1] - 1]) {
+            // neighbors.push([currentCellCoord[0], currentCellCoord[1] - 1]);
+            neighbors.push(currentCell - 1);
+        }
+        if (currentCellCoord[0] < height - 1 && !visitedCells[currentCellCoord[0] + 1][currentCellCoord[1]]) {
+            // neighbors.push([currentCellCoord[0] + 1, currentCellCoord[1]]);
+            neighbors.push(currentCell + WIDTH);
+        }
+        if (currentCellCoord[1] < width - 1 && !visitedCells[currentCellCoord[0]][currentCellCoord[1] + 1]) {
+            // neighbors.push([currentCellCoord[0], currentCellCoord[1] + 1]);
+            neighbors.push(currentCell + 1);
+        }
+        console.log('neighbors:', neighbors);
+        console.log('neighbors length:', neighbors.length);
+        if (neighbors.length > 0) {
+            // Choose a random neighbor
+            let nextCell = neighbors[Math.floor(Math.random() * neighbors.length)];
+            console.log('nextCell:', nextCell);
+            // Calculates coordinates of the next cell
+            let nextCellCoord = getNodeCoordinatesWithoutWalls(nextCell);
+            console.log('nextCellCoord:', nextCellCoord);
+            // Remove the wall between the current cell and the next cell
+            maze[currentCellCoord[0]][currentCellCoord[1]] = 0;
+            maze[nextCellCoord[0]][nextCellCoord[1]] = 0;
+            // Mark the next cell as visited and add it to the stack
+            visitedCells[nextCellCoord[0]][nextCellCoord[1]] = true;
+            stack.push(nextCell);
+            await sleep(1);
+            document.getElementById('node' + nextCell).style.backgroundColor = WHITE_COLOR;
+        } else {
+            // If there are no unvisited neighbors, remove the current cell from the stack
+            stack.pop();
+        }
+        console.log('generateDfsMaze: ', maze);
+        console.log('visitedCells: ', visitedCells);
+        console.log('stack: ', stack);
+        console.log('---------------------------------------');
+    }
+  
+    // // Visualize the maze
+    // background(255);
+    // stroke(0);
+    // strokeWeight(1);
+    // for (let i = 0; i < mazeSize; i++) {
+    //   for (let j = 0; j < mazeSize; j++) {
+    //     if (maze[i][j] === 1) {
+    //       fill(0);
+    //     } else {
+    //       fill(255);
+    //     }
+    //     rect(i * cellSize, j * cellSize, cellSize, cellSize);
+    //   }
+    // }
+    return maze;
+}
+function RemoveItem(arr, value) { 
+    return arr.filter(function(ele){ 
+        return ele != value; 
+    });
+}
+// #endregion
+// #endregion
+// #region ARBITRARY_SHAPES
 // #region VERTICAL_BAES__MAZE
-document.querySelector('#buttonVerticalBaesMaze').addEventListener('click', function(e){
+document.querySelector('a#buttonVerticalBaesMaze').addEventListener('click', function(e){
     var scheme_array = [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
         -1, 62, 63, 64, -1, 66, 67, 68, -1, 70, -1, 72, -1, 74, -1, 76, -1, 78, -1, 80, 81, 82, 83, 84, 85, 86, -1, 88, -1, 90, -1, 92, -1, 94, -1, 96, 97, 98, -1, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, -1,
         -1, 122, -1, 124, -1, 126, -1, 128, -1, 130, -1, 132, -1, 134, -1, 136, -1, 138, -1, 140, -1, 142, -1, 144, -1, 146, -1, 148, -1, 150, -1, 152, -1, 154, -1, -1, -1, 158, -1, -1, -1, 162, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 174, -1, -1, -1, 178, -1, -1,
@@ -1752,4 +1870,95 @@ document.querySelector('#buttonVerticalBaesMaze').addEventListener('click', func
     generateMaze(scheme_array);
 })
 // #endregion
+// #region NORMAL_BAES_MAZE
+document.querySelector('a#buttonNormalBaesMaze').addEventListener('click', function(e){
+    var scheme_array = [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+        -1, 62, -1, 64, 65, 66, 67, 68, 69, 70, -1, 72, 73, 74, 75, 76, 77, 78, -1, 80, 81, 82, 83, -1, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, -1, 102, -1, 104, 105, 106, 107, 108, 109, 110, -1, 112, 113, 114, 115, 116, 117, 118, 119, -1,
+        -1, 122, -1, 124, -1, -1, 127, -1, 129, -1, -1, 132, -1, 134, -1, -1, -1, 138, -1, 140, -1, -1, -1, -1, 145, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 158, -1, 160, -1, 162, -1, 164, -1, -1, 167, -1, 169, -1, -1, 172, -1, 174, -1, -1, -1, 178, -1, -1,
+        -1, 182, -1, 184, -1, 186, 187, -1, 189, 190, -1, 192, -1, 194, 195, 196, -1, 198, 199, 200, -1, 202, 203, 204, 205, 206, -1, 208, 209, 210, 211, 212, -1, 214, -1, 216, 217, 218, -1, 220, -1, 222, -1, 224, -1, 226, 227, -1, 229, 230, -1, 232, -1, 234, 235, 236, -1, 238, 239, -1,
+        -1, 242, 243, 244, -1, 246, -1, -1, 249, -1, -1, 252, -1, -1, -1, 256, -1, -1, -1, -1, -1, 262, -1, -1, -1, 266, -1, 268, -1, -1, -1, 272, -1, 274, -1, 276, -1, 278, -1, 280, -1, 282, 283, 284, -1, 286, -1, -1, 289, -1, -1, 292, -1, -1, -1, 296, -1, 298, -1, -1,
+        -1, -1, -1, -1, -1, 306, -1, 308, 309, 310, -1, 312, -1, 314, -1, 316, -1, 318, 319, 320, -1, 322, 323, 324, -1, 326, -1, 328, 329, 330, -1, 332, 333, 334, -1, 336, -1, 338, -1, 340, -1, -1, -1, -1, -1, 346, -1, 348, 349, 350, -1, 352, -1, 354, -1, 356, -1, 358, 359, -1,
+        -1, 362, 363, 364, 365, 366, -1, 368, -1, 370, -1, 372, -1, 374, -1, 376, -1, 378, -1, 380, -1, -1, -1, 384, -1, 386, -1, -1, -1, 390, -1, -1, -1, -1, -1, 396, -1, -1, -1, 400, -1, 402, 403, 404, 405, 406, -1, 408, -1, 410, -1, 412, -1, 414, -1, 416, -1, 418, -1, -1,
+        -1, 422, -1, -1, -1, -1, -1, 428, -1, 430, -1, 432, -1, 434, -1, 436, -1, 438, -1, 440, -1, 442, 443, 444, -1, 446, 447, 448, -1, 450, 451, 452, 453, 454, -1, 456, -1, 458, 459, 460, -1, 462, -1, -1, -1, -1, -1, 468, -1, 470, -1, 472, -1, 474, -1, 476, -1, 478, 479, -1,
+        -1, 482, -1, 484, 485, 486, -1, 488, -1, 490, -1, 492, -1, 494, -1, 496, -1, -1, -1, 500, -1, 502, -1, -1, -1, -1, -1, 508, -1, -1, -1, 512, -1, 514, -1, 516, -1, 518, -1, -1, -1, 522, -1, 524, 525, 526, -1, 528, -1, 530, -1, 532, -1, 534, -1, 536, -1, -1, -1, -1,
+        -1, 542, 543, 544, -1, 546, -1, -1, -1, -1, -1, 552, 553, 554, -1, 556, 557, 558, -1, 560, 561, 562, 563, 564, -1, 566, 567, 568, -1, 570, 571, 572, -1, 574, -1, 576, -1, 578, -1, 580, 581, 582, 583, 584, -1, 586, -1, -1, -1, -1, -1, 592, 593, 594, -1, 596, 597, 598, 599, -1,
+        -1, 602, -1, 604, -1, 606, -1, 608, 609, 610, -1, -1, -1, -1, -1, 616, -1, 618, -1, -1, -1, -1, -1, -1, -1, 626, -1, -1, -1, -1, -1, -1, -1, 634, -1, 636, -1, 638, -1, 640, -1, 642, -1, 644, -1, 646, -1, 648, 649, 650, -1, -1, -1, -1, -1, 656, -1, 658, -1, -1,
+        -1, 662, -1, 664, -1, 666, -1, 668, -1, 670, -1, 672, 673, 674, 675, 676, -1, 678, 679, 680, 681, 682, 683, 684, 685, 686, 687, 688, -1, 690, 691, 692, -1, 694, 695, 696, -1, 698, 699, 700, -1, 702, -1, 704, -1, 706, -1, 708, -1, 710, -1, 712, 713, 714, 715, 716, -1, 718, 719, -1,
+        -1, 722, -1, -1, -1, 726, -1, 728, -1, -1, -1, 732, -1, -1, -1, 736, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 748, -1, 750, -1, 752, -1, -1, -1, -1, -1, -1, -1, 760, -1, 762, -1, -1, -1, 766, -1, 768, -1, -1, -1, 772, -1, -1, -1, 776, -1, -1, -1, -1,
+        -1, 782, -1, 784, 785, 786, -1, 788, -1, 790, 791, 792, -1, 794, -1, 796, 797, 798, 799, 800, 801, 802, 803, 804, 805, 806, -1, 808, -1, 810, -1, 812, -1, 814, 815, 816, 817, 818, -1, 820, -1, -1, -1, 824, 825, 826, -1, 828, -1, 830, 831, 832, -1, 834, -1, 836, 837, 838, 839, -1,
+        -1, 842, -1, 844, -1, -1, -1, 848, -1, 850, -1, -1, -1, 854, -1, 856, -1, -1, -1, -1, -1, -1, -1, -1, -1, 866, -1, 868, -1, 870, -1, 872, -1, 874, -1, -1, -1, 878, -1, 880, 881, 882, -1, 884, -1, -1, -1, 888, -1, 890, -1, -1, -1, 894, -1, 896, -1, -1, -1, -1,
+        -1, 902, -1, 904, 905, 906, -1, 908, 909, 910, 911, 912, -1, 914, 915, 916, -1, 918, 919, 920, -1, 922, -1, 924, -1, 926, -1, 928, -1, 930, -1, 932, 933, 934, -1, 936, -1, 938, -1, 940, -1, -1, -1, 944, 945, 946, -1, 948, 949, 950, 951, 952, -1, 954, 955, 956, -1, 958, 959, -1,
+        -1, 962, -1, -1, -1, 966, -1, -1, -1, -1, -1, 972, -1, 974, -1, -1, -1, 978, -1, 980, -1, 982, 983, 984, -1, 986, -1, -1, -1, 990, -1, -1, -1, -1, -1, 996, -1, 998, -1, 1000, 1001, 1002, -1, -1, -1, 1006, -1, -1, -1, -1, -1, 1012, -1, 1014, -1, -1, -1, 1018, -1, -1,
+        -1, 1022, 1023, 1024, -1, 1026, -1, 1028, 1029, 1030, 1031, 1032, -1, 1034, 1035, 1036, -1, 1038, -1, -1, -1, -1, -1, 1044, -1, 1046, 1047, 1048, 1049, 1050, -1, 1052, 1053, 1054, 1055, 1056, -1, 1058, -1, 1060, -1, 1062, 1063, 1064, -1, 1066, -1, 1068, 1069, 1070, 1071, 1072, -1, 1074, 1075, 1076, 1077, 1078, 1079, -1,
+        -1, 1082, -1, 1084, -1, -1, -1, 1088, -1, 1090, -1, -1, -1, -1, -1, -1, -1, 1098, -1, 1100, 1101, 1102, 1103, 1104, -1, -1, -1, 1108, -1, -1, -1, 1112, -1, -1, -1, 1116, -1, 1118, -1, 1120, -1, -1, -1, 1124, -1, -1, -1, 1128, -1, 1130, -1, -1, -1, -1, -1, -1, -1, -1, 1139, -1,
+        -1, 1142, -1, 1144, 1145, 1146, -1, 1148, -1, 1150, 1151, 1152, -1, 1154, 1155, 1156, 1157, 1158, -1, 1160, -1, -1, -1, 1164, 1165, 1166, -1, 1168, 1169, 1170, 1171, 1172, -1, 1174, 1175, 1176, -1, 1178, -1, 1180, -1, 1182, -1, 1184, 1185, 1186, -1, 1188, -1, 1190, 1191, 1192, -1, 1194, 1195, 1196, 1197, 1198, 1199, -1,
+        -1, -1, -1, -1, -1, 1206, -1, 1208, -1, -1, -1, -1, -1, 1214, -1, -1, -1, -1, -1, 1220, 1221, 1222, -1, -1, -1, 1226, -1, -1, -1, -1, -1, -1, -1, 1234, -1, 1236, -1, 1238, -1, 1240, -1, 1242, -1, -1, -1, 1246, -1, 1248, -1, -1, -1, -1, -1, 1254, -1, -1, -1, -1, -1, -1,
+        -1, 1262, 1263, 1264, -1, 1266, -1, 1268, -1, 1270, 1271, 1272, -1, 1274, 1275, 1276, 1277, 1278, -1, -1, -1, 1282, -1, 1284, 1285, 1286, -1, 1288, 1289, 1290, 1291, 1292, 1293, 1294, -1, 1296, -1, 1298, -1, 1300, -1, 1302, -1, 1304, -1, 1306, -1, 1308, -1, 1310, 1311, 1312, -1, 1314, 1315, 1316, 1317, 1318, 1319, -1,
+        -1, 1322, -1, 1324, 1325, 1326, -1, 1328, 1329, 1330, -1, 1332, -1, -1, -1, -1, -1, 1338, -1, 1340, 1341, 1342, -1, 1344, -1, 1346, -1, 1348, -1, -1, -1, -1, -1, 1354, -1, -1, -1, 1358, -1, 1360, 1361, 1362, -1, 1364, -1, 1366, -1, 1368, 1369, 1370, -1, 1372, -1, 1374, -1, -1, 1377, -1, -1, -1,
+        -1, 1382, -1, -1, -1, -1, -1, -1, 1389, -1, -1, 1392, -1, 1394, 1395, 1396, -1, 1398, -1, -1, -1, 1402, -1, 1404, -1, 1406, -1, 1408, -1, 1410, 1411, 1412, -1, 1414, -1, 1416, 1417, 1418, -1, 1420, -1, 1422, 1423, 1424, 1425, 1426, -1, -1, 1429, -1, -1, 1432, -1, 1434, 1435, 1436, 1437, -1, 1439, -1,
+        -1, 1442, 1443, 1444, 1445, 1446, 1447, 1448, 1449, 1450, -1, 1452, 1453, 1454, -1, 1456, -1, 1458, -1, 1460, -1, 1462, 1463, 1464, -1, 1466, -1, 1468, -1, -1, -1, 1472, -1, 1474, -1, 1476, -1, -1, -1, -1, -1, 1482, -1, -1, -1, 1486, 1487, 1488, 1489, 1490, -1, 1492, 1493, 1494, 1495, -1, -1, -1, 1499, -1,
+        -1, 1502, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 1514, -1, -1, -1, 1518, -1, 1520, -1, -1, -1, -1, -1, 1526, 1527, 1528, 1529, 1530, 1531, 1532, -1, 1534, -1, 1536, 1537, 1538, 1539, 1540, -1, 1542, -1, 1544, 1545, 1546, -1, -1, -1, -1, -1, -1, -1, -1, 1555, 1556, 1557, 1558, 1559, -1,
+        -1, 1562, -1, 1564, 1565, 1566, -1, 1568, 1569, 1570, -1, 1572, 1573, 1574, 1575, 1576, -1, 1578, -1, 1580, 1581, 1582, 1583, 1584, 1585, 1586, 1587, -1, -1, -1, -1, -1, -1, 1594, -1, -1, -1, 1598, -1, 1600, -1, 1602, -1, 1604, -1, 1606, 1607, 1608, 1609, 1610, -1, 1612, 1613, -1, 1615, -1, -1, -1, 1619, -1,
+        -1, 1622, 1623, 1624, -1, -1, -1, 1628, -1, 1630, -1, -1, -1, -1, -1, 1636, -1, 1638, -1, 1640, -1, -1, -1, -1, -1, -1, 1647, 1648, 1649, 1650, 1651, 1652, 1653, 1654, -1, 1656, 1657, 1658, -1, 1660, -1, 1662, 1663, 1664, -1, 1666, -1, -1, -1, -1, -1, 1672, 1673, -1, 1675, -1, 1677, 1678, 1679, -1,
+        -1, -1, -1, -1, -1, 1686, 1687, 1688, -1, 1690, 1691, 1692, 1693, -1, 1695, 1696, -1, 1698, -1, 1700, -1, 1702, 1703, 1704, 1705, -1, 1707, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 1720, -1, -1, -1, -1, -1, 1726, -1, 1728, 1729, 1730, -1, 1732, -1, -1, 1735, -1, -1, -1, 1739, -1,
+        -1, 1742, 1743, 1744, -1, 1746, -1, -1, -1, -1, -1, -1, 1753, -1, -1, 1756, -1, 1758, -1, 1760, -1, 1762, -1, -1, 1765, -1, 1767, -1, 1769, 1770, 1771, 1772, 1773, 1774, 1775, 1776, 1777, 1778, -1, 1780, -1, 1782, 1783, 1784, -1, 1786, -1, -1, -1, 1790, -1, 1792, -1, 1794, 1795, 1796, 1797, -1, 1799, -1,
+        -1, 1802, -1, 1804, -1, 1806, 1807, 1808, -1, 1810, 1811, 1812, 1813, -1, 1815, 1816, 1817, 1818, -1, 1820, 1821, 1822, -1, 1824, 1825, -1, 1827, -1, 1829, -1, -1, -1, -1, -1, -1, -1, -1, 1838, -1, 1840, -1, 1842, -1, 1844, -1, 1846, 1847, 1848, -1, 1850, 1851, 1852, -1, 1854, -1, 1856, -1, -1, 1859, -1,
+        -1, 1862, -1, 1864, -1, -1, -1, -1, -1, 1870, -1, -1, 1873, -1, -1, -1, -1, 1878, -1, 1880, -1, -1, -1, 1884, -1, -1, 1887, -1, 1889, 1890, 1891, -1, 1893, 1894, 1895, 1896, -1, 1898, -1, 1900, -1, 1902, -1, 1904, -1, 1906, -1, -1, -1, 1910, -1, -1, -1, -1, -1, 1916, 1917, 1918, 1919, -1,
+        -1, 1922, -1, 1924, -1, 1926, 1927, 1928, -1, 1930, -1, 1932, 1933, 1934, 1935, 1936, -1, 1938, -1, 1940, 1941, 1942, -1, 1944, 1945, 1946, 1947, -1, -1, -1, 1951, -1, 1953, -1, 1955, 1956, -1, 1958, 1959, 1960, -1, 1962, -1, 1964, -1, 1966, -1, 1968, 1969, 1970, 1971, 1972, -1, 1974, 1975, 1976, -1, -1, -1, -1,
+        -1, 1982, -1, 1984, -1, 1986, -1, 1988, -1, 1990, -1, -1, -1, 1994, -1, -1, -1, 1998, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 2009, 2010, 2011, -1, 2013, -1, 2015, -1, -1, -1, -1, 2020, -1, 2022, -1, 2024, -1, 2026, -1, 2028, -1, -1, 2031, -1, -1, -1, -1, 2036, 2037, 2038, 2039, -1,
+        -1, 2042, -1, 2044, -1, 2046, -1, 2048, 2049, 2050, 2051, 2052, -1, 2054, 2055, 2056, -1, 2058, -1, 2060, 2061, 2062, 2063, 2064, 2065, 2066, 2067, 2068, 2069, -1, -1, -1, 2073, -1, 2075, 2076, 2077, 2078, 2079, 2080, -1, 2082, -1, 2084, -1, 2086, -1, 2088, -1, 2090, 2091, 2092, -1, 2094, -1, 2096, -1, -1, -1, -1,
+        -1, 2102, -1, 2104, -1, 2106, -1, -1, -1, -1, -1, 2112, -1, -1, -1, -1, -1, 2118, -1, 2120, -1, -1, -1, -1, -1, 2126, -1, -1, -1, -1, 2131, 2132, 2133, -1, 2135, -1, 2137, -1, -1, -1, -1, 2142, -1, 2144, -1, -1, -1, 2148, -1, 2150, -1, -1, -1, 2154, -1, 2156, -1, 2158, 2159, -1,
+        -1, 2162, -1, 2164, 2165, 2166, -1, 2168, 2169, 2170, -1, 2172, 2173, 2174, -1, 2176, 2177, 2178, -1, 2180, 2181, 2182, 2183, 2184, -1, 2186, 2187, 2188, 2189, -1, 2191, -1, 2193, -1, 2195, -1, 2197, 2198, 2199, 2200, -1, 2202, -1, 2204, 2205, 2206, 2207, 2208, 2209, 2210, -1, 2212, 2213, 2214, -1, 2216, -1, 2218, -1, -1,
+        -1, 2222, -1, -1, -1, -1, -1, -1, -1, 2230, -1, -1, -1, 2234, -1, 2236, -1, -1, -1, -1, -1, -1, -1, 2244, -1, -1, -1, -1, 2249, -1, 2251, -1, -1, -1, 2255, -1, 2257, -1, -1, 2260, 2261, 2262, -1, -1, -1, -1, -1, -1, -1, 2270, -1, 2272, -1, 2274, -1, 2276, 2277, 2278, 2279, -1,
+        -1, 2282, 2283, 2284, 2285, 2286, 2287, 2288, 2289, 2290, 2291, 2292, -1, 2294, 2295, 2296, 2297, 2298, -1, 2300, 2301, 2302, 2303, 2304, -1, 2306, 2307, 2308, 2309, -1, 2311, 2312, 2313, 2314, 2315, -1, 2317, 2318, 2319, 2320, -1, 2322, 2323, 2324, 2325, 2326, 2327, 2328, 2329, 2330, -1, 2332, -1, 2334, 2335, 2336, -1, 2338, 2339, -1,
+        -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1];
+    generateMaze(scheme_array);
+});
 // #endregion
+// #region CENTRIC_BAES_MAZE
+document.querySelector('a#buttonCentricBaesMaze').addEventListener('click', function(e){
+    var scheme_array = [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+        -1, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, -1,
+        -1, 122, -1, -1, 125, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 150, 151, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 176, -1, -1, 179, -1,
+        -1, 182, -1, -1, 185, 186, 187, 188, 189, 190, 191, 192, 193, 194, 195, 196, 197, 198, 199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 216, 217, 218, 219, 220, 221, 222, 223, 224, 225, 226, 227, 228, 229, 230, 231, 232, 233, 234, 235, 236, -1, -1, 239, -1,
+        -1, 242, 243, 244, -1, -1, 247, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 270, 271, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 294, -1, -1, 297, 298, 299, -1,
+        -1, 302, -1, 304, -1, -1, 307, 308, 309, 310, 311, 312, 313, 314, 315, 316, 317, 318, 319, 320, 321, 322, 323, 324, 325, 326, 327, 328, 329, 330, 331, 332, 333, 334, 335, 336, 337, 338, 339, 340, 341, 342, 343, 344, 345, 346, 347, 348, 349, 350, 351, 352, 353, 354, -1, -1, 357, -1, 359, -1,
+        -1, 362, -1, 364, 365, 366, -1, -1, 369, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 390, 391, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 412, -1, -1, 415, 416, 417, -1, 419, -1,
+        -1, 422, -1, 424, -1, 426, -1, -1, 429, 430, 431, 432, 433, 434, 435, 436, 437, 438, 439, 440, 441, 442, 443, 444, 445, 446, 447, 448, 449, 450, 451, 452, 453, 454, 455, 456, 457, 458, 459, 460, 461, 462, 463, 464, 465, 466, 467, 468, 469, 470, 471, 472, -1, -1, 475, -1, 477, -1, 479, -1,
+        -1, 482, -1, 484, -1, 486, 487, 488, -1, -1, 491, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 510, 511, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 530, -1, -1, 533, 534, 535, -1, 537, -1, 539, -1,
+        -1, 542, -1, 544, -1, 546, -1, 548, -1, -1, 551, 552, 553, 554, 555, 556, 557, 558, 559, 560, 561, 562, 563, 564, 565, 566, 567, 568, 569, 570, 571, 572, 573, 574, 575, 576, 577, 578, 579, 580, 581, 582, 583, 584, 585, 586, 587, 588, 589, 590, -1, -1, 593, -1, 595, -1, 597, -1, 599, -1,
+        -1, 602, -1, 604, -1, 606, -1, 608, 609, 610, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 630, 631, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 651, 652, 653, -1, 655, -1, 657, -1, 659, -1,
+        -1, 662, -1, 664, -1, 666, -1, 668, -1, 670, -1, -1, 673, 674, 675, 676, 677, 678, 679, 680, 681, 682, 683, 684, 685, 686, 687, 688, 689, 690, 691, 692, 693, 694, 695, 696, 697, 698, 699, 700, 701, 702, 703, 704, 705, 706, 707, 708, -1, -1, 711, -1, 713, -1, 715, -1, 717, -1, 719, -1,
+        -1, 722, -1, 724, -1, 726, -1, 728, -1, 730, -1, 732, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 750, 751, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 769, -1, 771, -1, 773, -1, 775, -1, 777, -1, 779, -1,
+        -1, 782, -1, 784, -1, 786, -1, 788, -1, 790, -1, 792, -1, -1, 795, 796, 797, 798, 799, 800, 801, 802, 803, 804, 805, 806, 807, 808, 809, 810, 811, 812, 813, 814, 815, 816, 817, 818, 819, 820, 821, 822, 823, 824, 825, 826, -1, -1, 829, -1, 831, -1, 833, -1, 835, -1, 837, -1, 839, -1,
+        -1, 842, -1, 844, -1, 846, -1, 848, -1, 850, -1, 852, -1, 854, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 870, 871, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 887, -1, 889, -1, 891, -1, 893, -1, 895, -1, 897, -1, 899, -1,
+        -1, 902, -1, 904, -1, 906, -1, 908, -1, 910, -1, 912, -1, 914, -1, -1, 917, 918, 919, 920, 921, 922, 923, 924, 925, 926, 927, 928, 929, 930, 931, 932, 933, 934, 935, 936, 937, 938, 939, 940, 941, 942, 943, 944, -1, -1, 947, -1, 949, -1, 951, -1, 953, -1, 955, -1, 957, -1, 959, -1,
+        -1, 962, -1, 964, -1, 966, -1, 968, -1, 970, -1, 972, -1, 974, -1, 976, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 990, 991, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 1005, -1, 1007, -1, 1009, -1, 1011, -1, 1013, -1, 1015, -1, 1017, -1, 1019, -1,
+        -1, 1022, -1, 1024, -1, 1026, -1, 1028, -1, 1030, -1, 1032, -1, 1034, -1, 1036, -1, -1, 1039, 1040, 1041, 1042, 1043, 1044, 1045, 1046, 1047, 1048, 1049, -1, -1, 1052, 1053, 1054, 1055, 1056, 1057, 1058, 1059, 1060, 1061, 1062, -1, -1, 1065, -1, 1067, -1, 1069, -1, 1071, -1, 1073, -1, 1075, -1, 1077, -1, 1079, -1,
+        -1, 1082, -1, 1084, -1, 1086, -1, 1088, -1, 1090, -1, 1092, -1, 1094, -1, 1096, -1, 1098, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 1110, 1111, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 1123, -1, 1125, -1, 1127, -1, 1129, -1, 1131, -1, 1133, -1, 1135, -1, 1137, -1, 1139, -1,
+        -1, 1142, 1143, 1144, 1145, 1146, 1147, 1148, 1149, 1150, 1151, 1152, 1153, 1154, 1155, 1156, 1157, 1158, 1159, 1160, 1161, 1162, 1163, 1164, 1165, 1166, 1167, 1168, 1169, 1170, 1171, 1172, 1173, 1174, 1175, 1176, 1177, 1178, 1179, 1180, 1181, 1182, 1183, 1184, 1185, 1186, 1187, 1188, 1189, 1190, 1191, 1192, 1193, 1194, 1195, 1196, 1197, 1198, 1199, -1,
+        -1, 1202, 1203, 1204, 1205, 1206, 1207, 1208, 1209, 1210, 1211, 1212, 1213, 1214, 1215, 1216, 1217, 1218, 1219, 1220, 1221, 1222, 1223, 1224, 1225, 1226, 1227, 1228, 1229, 1230, 1231, 1232, 1233, 1234, 1235, 1236, 1237, 1238, 1239, 1240, 1241, 1242, 1243, 1244, 1245, 1246, 1247, 1248, 1249, 1250, 1251, 1252, 1253, 1254, 1255, 1256, 1257, 1258, 1259, -1,
+        -1, 1262, -1, 1264, -1, 1266, -1, 1268, -1, 1270, -1, 1272, -1, 1274, -1, 1276, -1, 1278, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 1290, 1291, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 1303, -1, 1305, -1, 1307, -1, 1309, -1, 1311, -1, 1313, -1, 1315, -1, 1317, -1, 1319, -1,
+        -1, 1322, -1, 1324, -1, 1326, -1, 1328, -1, 1330, -1, 1332, -1, 1334, -1, 1336, -1, -1, 1339, 1340, 1341, 1342, 1343, 1344, 1345, 1346, 1347, 1348, 1349, -1, -1, 1352, 1353, 1354, 1355, 1356, 1357, 1358, 1359, 1360, 1361, 1362, -1, -1, 1365, -1, 1367, -1, 1369, -1, 1371, -1, 1373, -1, 1375, -1, 1377, -1, 1379, -1,
+        -1, 1382, -1, 1384, -1, 1386, -1, 1388, -1, 1390, -1, 1392, -1, 1394, -1, 1396, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 1410, 1411, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 1425, -1, 1427, -1, 1429, -1, 1431, -1, 1433, -1, 1435, -1, 1437, -1, 1439, -1,
+        -1, 1442, -1, 1444, -1, 1446, -1, 1448, -1, 1450, -1, 1452, -1, 1454, -1, -1, 1457, 1458, 1459, 1460, 1461, 1462, 1463, 1464, 1465, 1466, 1467, 1468, 1469, 1470, 1471, 1472, 1473, 1474, 1475, 1476, 1477, 1478, 1479, 1480, 1481, 1482, 1483, 1484, -1, -1, 1487, -1, 1489, -1, 1491, -1, 1493, -1, 1495, -1, 1497, -1, 1499, -1,
+        -1, 1502, -1, 1504, -1, 1506, -1, 1508, -1, 1510, -1, 1512, -1, 1514, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 1530, 1531, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 1547, -1, 1549, -1, 1551, -1, 1553, -1, 1555, -1, 1557, -1, 1559, -1,
+        -1, 1562, -1, 1564, -1, 1566, -1, 1568, -1, 1570, -1, 1572, -1, -1, 1575, 1576, 1577, 1578, 1579, 1580, 1581, 1582, 1583, 1584, 1585, 1586, 1587, 1588, 1589, 1590, 1591, 1592, 1593, 1594, 1595, 1596, 1597, 1598, 1599, 1600, 1601, 1602, 1603, 1604, 1605, 1606, -1, -1, 1609, -1, 1611, -1, 1613, -1, 1615, -1, 1617, -1, 1619, -1,
+        -1, 1622, -1, 1624, -1, 1626, -1, 1628, -1, 1630, -1, 1632, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 1650, 1651, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 1669, -1, 1671, -1, 1673, -1, 1675, -1, 1677, -1, 1679, -1,
+        -1, 1682, -1, 1684, -1, 1686, -1, 1688, -1, 1690, -1, -1, 1693, 1694, 1695, 1696, 1697, 1698, 1699, 1700, 1701, 1702, 1703, 1704, 1705, 1706, 1707, 1708, 1709, 1710, 1711, 1712, 1713, 1714, 1715, 1716, 1717, 1718, 1719, 1720, 1721, 1722, 1723, 1724, 1725, 1726, 1727, 1728, -1, -1, 1731, -1, 1733, -1, 1735, -1, 1737, -1, 1739, -1,
+        -1, 1742, -1, 1744, -1, 1746, -1, 1748, 1749, 1750, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 1770, 1771, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 1791, 1792, 1793, -1, 1795, -1, 1797, -1, 1799, -1,
+        -1, 1802, -1, 1804, -1, 1806, -1, 1808, -1, -1, 1811, 1812, 1813, 1814, 1815, 1816, 1817, 1818, 1819, 1820, 1821, 1822, 1823, 1824, 1825, 1826, 1827, 1828, 1829, 1830, 1831, 1832, 1833, 1834, 1835, 1836, 1837, 1838, 1839, 1840, 1841, 1842, 1843, 1844, 1845, 1846, 1847, 1848, 1849, 1850, -1, -1, 1853, -1, 1855, -1, 1857, -1, 1859, -1,
+        -1, 1862, -1, 1864, -1, 1866, 1867, 1868, -1, -1, 1871, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 1890, 1891, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 1910, -1, -1, 1913, 1914, 1915, -1, 1917, -1, 1919, -1,
+        -1, 1922, -1, 1924, -1, 1926, -1, -1, 1929, 1930, 1931, 1932, 1933, 1934, 1935, 1936, 1937, 1938, 1939, 1940, 1941, 1942, 1943, 1944, 1945, 1946, 1947, 1948, 1949, 1950, 1951, 1952, 1953, 1954, 1955, 1956, 1957, 1958, 1959, 1960, 1961, 1962, 1963, 1964, 1965, 1966, 1967, 1968, 1969, 1970, 1971, 1972, -1, -1, 1975, -1, 1977, -1, 1979, -1,
+        -1, 1982, -1, 1984, 1985, 1986, -1, -1, 1989, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 2010, 2011, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 2032, -1, -1, 2035, 2036, 2037, -1, 2039, -1,
+        -1, 2042, -1, 2044, -1, -1, 2047, 2048, 2049, 2050, 2051, 2052, 2053, 2054, 2055, 2056, 2057, 2058, 2059, 2060, 2061, 2062, 2063, 2064, 2065, 2066, 2067, 2068, 2069, 2070, 2071, 2072, 2073, 2074, 2075, 2076, 2077, 2078, 2079, 2080, 2081, 2082, 2083, 2084, 2085, 2086, 2087, 2088, 2089, 2090, 2091, 2092, 2093, 2094, -1, -1, 2097, -1, 2099, -1,
+        -1, 2102, 2103, 2104, -1, -1, 2107, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 2130, 2131, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 2154, -1, -1, 2157, 2158, 2159, -1,
+        -1, 2162, -1, -1, 2165, 2166, 2167, 2168, 2169, 2170, 2171, 2172, 2173, 2174, 2175, 2176, 2177, 2178, 2179, 2180, 2181, 2182, 2183, 2184, 2185, 2186, 2187, 2188, 2189, 2190, 2191, 2192, 2193, 2194, 2195, 2196, 2197, 2198, 2199, 2200, 2201, 2202, 2203, 2204, 2205, 2206, 2207, 2208, 2209, 2210, 2211, 2212, 2213, 2214, 2215, 2216, -1, -1, 2219, -1,
+        -1, 2222, -1, -1, 2225, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 2250, 2251, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 2276, -1, -1, 2279, -1,
+        -1, -1, 2283, 2284, 2285, 2286, 2287, 2288, 2289, 2290, 2291, 2292, 2293, 2294, 2295, 2296, 2297, 2298, 2299, 2300, 2301, 2302, 2303, 2304, 2305, 2306, 2307, 2308, 2309, 2310, 2311, 2312, 2313, 2314, 2315, 2316, 2317, 2318, 2319, 2320, 2321, 2322, 2323, 2324, 2325, 2326, 2327, 2328, 2329, 2330, 2331, 2332, 2333, 2334, 2335, 2336, 2337, 2338, 2339, -1,
+        -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1];
+    generateMaze(scheme_array);
+});
+// #endregion
+// #endregion
+
