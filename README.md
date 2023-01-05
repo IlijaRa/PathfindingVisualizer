@@ -8,7 +8,6 @@ Link za probu aplikacije: https://dreamy-gingersnap-b0faeb.netlify.app
 
 ### Aplikacija nije kompletna i fali jos dosta funkcionalnosti kao sto su:
 * Dijkstra i A* ne radi alert kada je nemoguc slucaj u pitanju
-* Bidirectional BFS algoritam pokazuje samo polovinu najkraceg puta
 * Greedy Best-First search nije implementiran
 * Pop up za instrukcije o koriscenju nije implementiran
 * Nisu svi maze generatori implementirani koji su planirani
