@@ -1699,7 +1699,7 @@ async function solveDijkstra(startNodeNumber, goalNodeNumber) {
                 continue;
             }
             // (Math.floor(Math.random() * 5) + 1) generates value between 1 and 5, but more realistic is that the weight is always 1
-            const newDistance = distances[currentNode] + (Math.floor(Math.random() * 5) + 1); 
+            const newDistance = distances[currentNode] + 1;//(Math.floor(Math.random() * 5) + 1); 
             if (newDistance < distances[maze[n[0]][n[1]]]) {
                 distances[maze[n[0]][n[1]]] = newDistance;
                 prev[maze[n[0]][n[1]] - 1] = currentNode - 1;
