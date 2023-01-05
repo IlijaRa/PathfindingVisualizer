@@ -1,64 +1,91 @@
-const graph = {
-    A: [{ neighbor: 'B', weight: 10 }, { neighbor: 'C', weight: 3 }],
-    B: [{ neighbor: 'C', weight: 1 }, { neighbor: 'D', weight: 2 }],
-    C: [{ neighbor: 'B', weight: 4 }, { neighbor: 'D', weight: 8 }, { neighbor: 'E', weight: 2 }],
-    D: [{ neighbor: 'E', weight: 7 }],
-    E: [{ neighbor: 'D', weight: 9 }]
-  };
-  
-function aStar(graph, start, goal) {
-    // Set of unvisited nodes
-    const unvisitedNodes = new Set(Object.keys(graph));
-  
-    // Set initial distance to infinity for all nodes except the starting node
-    const distances = {};
-    for (const node of unvisitedNodes) {
-      distances[node] = Number.POSITIVE_INFINITY;
+var maze = construct2dArray();
+    var adjacentsDict = findAdjacents(maze);
+    let visited = [];
+    let prev = new Array(HEIGHT * WIDTH).fill(0);
+    let stack = [];
+    let solved = false;
+    let goalNodeNumber = undefined;
+    for(i = 0; i < HEIGHT; i++){
+        visited[i] = new Array(WIDTH).fill(false);
     }
-    distances[start] = 0;
-  
-    // Set of visited nodes
-    const visitedNodes = new Set();
-  
-    // Set the heuristic distance to the goal for all nodes
-    const heuristicDistances = {};
-    for (const node of unvisitedNodes) {
-      heuristicDistances[node] = Number.POSITIVE_INFINITY;
-    }
-    heuristicDistances[goal] = 0;
-  
-    // Flag to indicate if the goal node has been reached
-    let goalReached = false;
-  
-    // While there are unvisited nodes and the goal has not been reached
-    while (unvisitedNodes.size > 0 && !goalReached) {
-      // Select the unvisited node with the smallest distance + heuristic distance
-      const currentNode = [...unvisitedNodes].sort((a, b) => distances[a] + heuristicDistances[a] - distances[b] - heuristicDistances[b])[0];
-  
-      // Check if we have reached the goal
-      if (currentNode === goal) {
-        goalReached = true;
-        continue;
-      }
-  
-      // Mark the current node as visited
-      visitedNodes.add(currentNode);
-      unvisitedNodes.delete(currentNode);
-  
-      // Update the distance to all neighbors
-      for (const { neighbor, weight } of graph[currentNode]) {
-        if (visitedNodes.has(neighbor)) continue;
-        const newDistance = distances[currentNode] + weight;
-        if (newDistance < distances[neighbor]) {
-          distances[neighbor] = newDistance;
-          heuristicDistances[neighbor] = Math.abs(neighbor.charCodeAt(0) - goal.charCodeAt(0)) + Math.abs(neighbor.charCodeAt(1) - goal.charCodeAt(1));
+    stack.push(startNodeNumber);
+
+    while (stack.length > 0) {
+        //Defining maze and adjacentsDict again and again enables wall changement in real time
+        var maze = construct2dArray();
+        var adjacentsDict = findAdjacents(maze);
+        // await sleep(1);
+        var currentNode = stack.pop();
+        var coordinate = getNodeCoordinates(currentNode);
+        visited[coordinate[0]][coordinate[1]] = true;
+
+        if(document.getElementById('node' + currentNode).style.backgroundColor == GOAL_SEARCH_NODE_COLOR ||
+           document.getElementById('node' + currentNode).style.backgroundColor == GOAL_EDGE_NODE_COLOR){
+            goalNodeNumber = currentNode;
+            solved = true;
+            break;
         }
-      }
+
+        var adj = adjacentsDict[currentNode];
+        for(count = 0; count < adj.length; count++){
+            // document.getElementById('node' + goalNodeNumber).style.backgroundColor = GOAL_NODE_COLOR; // prevents goal node disappear glitch
+            var n = adj[count];
+            if(!visited[n[0]][n[1]]){
+                visited[n[0]][n[1]] = true;
+
+                stack.push(maze[n[0]][n[1]]);
+                prev[maze[n[0]][n[1]] - 1] = currentNode - 1;
+                if( document.getElementById('node' + maze[n[0]][n[1]]).style.backgroundColor == GOAL_SEARCH_NODE_COLOR ||
+                    document.getElementById('node' + maze[n[0]][n[1]]).style.backgroundColor == GOAL_EDGE_NODE_COLOR){
+                        goalNodeNumber = maze[n[0]][n[1]];
+                        solved = true;
+                        break;
+                    }
+                document.getElementById('node' + maze[n[0]][n[1]]).style.backgroundColor = EDGE_NODE_COLOR;
+                await sleep(1);
+                document.getElementById('node' + maze[n[0]][n[1]]).style.backgroundColor = SEARCH_NODE_COLOR;
+            }
+        }
+        if(solved){
+            break;
+        }
     }
-  
-    if (goalReached) {
-      return distances[goal];
-    } else {
-      return Number.POSITIVE_INFINITY;
+    if(!solved){
+        alert('Impossible to solve! I will reset it.');
+        return;
     }
-}
+
+    let loopControl = false;
+    goalToStart = []; // gathers nodes from goal to start node by grabbing the previous nodes
+    previous = goalNodeNumber - 1;
+    goalToStart.push(previous);
+    
+    while(true){
+        let node = prev[previous];
+        goalToStart.push(node);
+
+        if(node == 0) loopControl = true;
+        else previous = node;
+
+        if(loopControl){
+            break;
+        }
+    }
+
+    for(node of goalToStart.reverse()){ //goalToStart.reverse() gives nodes sorted from start to node
+        await sleep(25);
+        try{
+            if(node != 0){
+                let n = document.getElementById('node' + (node + 1));
+                n.style.backgroundColor = RED_COLOR
+                await sleep(1);
+                n.style.backgroundColor = ORANGE_COLOR;
+                await sleep(1);
+                n.style.backgroundColor = PATH_COLOR;
+            }
+        }catch(err){
+            loopControl = true;
+        }
+        document.getElementById('node' + startNodeNumber).style.backgroundColor = START_NODE_COLOR;
+        document.getElementById('node' + goalNodeNumber).style.backgroundColor = GOAL_NODE_COLOR;
+    }
