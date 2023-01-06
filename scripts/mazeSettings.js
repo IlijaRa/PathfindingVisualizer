@@ -152,6 +152,40 @@ function findAdjacents(maze){
 
     return adjacentDictionary;
 }
+function findAdjacentsMazeGenerator(maze){
+    var adjacentDictionary = {};
+    var possibleMoves = [
+        [-2, 0], //left
+        [2, 0],  //right
+        [0, 2],  //down
+        [0, -2]  //up
+    ];
+
+    for(row = 0; row < HEIGHT; row++){
+        for(col = 0; col < WIDTH; col++){
+            if(maze[row][col] == -1){
+                continue;
+            }
+            var currentNode = maze[row][col];
+            var neighbours = [];
+            
+            for(count = 0; count < possibleMoves.length; count++){
+                var nRow = possibleMoves[count][0] + row;
+                var nCol = possibleMoves[count][1] + col;
+
+                if((nRow >= 0 && nRow < maze.length) && (nCol >= 0 && nCol < maze[0].length)){
+                    if(maze[nRow][nCol] != WALL_VALUE){
+                        neighbours.push([nRow, nCol]);
+                    }
+                }
+            }
+            adjacentDictionary[currentNode] = neighbours;
+        }
+    }
+    // console.log('adjacentDictionary', adjacentDictionary);
+
+    return adjacentDictionary;
+}
 // Returns node coordinates 
 function getNodeCoordinates(nodeNumber){
     let maze = construct2dArray();
@@ -1375,6 +1409,110 @@ async function solveBidirectionalDfs(startNodeNumber, goalNodeNumber){
 }
 /* ------------------------------------------------------------*/
 // #endregion
+// #region GREEDY_BEST_FIRST_SEARCH
+document.querySelector('a#buttonGreedy_BFS').addEventListener('click', function(e){
+    var nodes = findStartAndGoalNode(); 
+    if(nodes.length < 2){
+        alert('You need to provide start and goal nodes!');
+        return;
+    }
+    let startNodeNumber = Node.GetNodeNumber(nodes[0].id);
+    let goalNodeNumber = Node.GetNodeNumber(nodes[1].id);
+
+    greedyBestFirstSearch(startNodeNumber, goalNodeNumber);
+});
+async function greedyBestFirstSearch(start, end) {
+    var maze = construct2dArray();
+    var adjacentsDict = findAdjacents(maze);
+    solved = false;
+    // create a set to store the nodes we've already visited
+    let visited = new Set();
+    // create an object to store the path taken to reach the end node
+    let cameFrom = {};
+    // create an array to store the nodes we need to visit
+    let openSet = [start];
+  
+    // create a function to calculate the distance between two points
+    function heuristic(a, b) {
+      // use the Euclidean distance formula to calculate the distance
+    //   return Math.sqrt((b.x - a.x) ** 2 + (b.y - a.y) ** 2);
+    return Math.abs(a[0] - a[1]) + Math.abs(b[0] - b[1]);
+    }
+  
+    // loop until there are no more nodes to visit
+    while (openSet.length > 0) {
+        var maze = construct2dArray();
+        var adjacentsDict = findAdjacents(maze);
+      // find the node in the open set with the lowest heuristic value
+      let current = openSet.reduce((acc, node) => {
+        if (!acc || heuristic(node, end) < heuristic(acc, end)) {
+          return node;
+        } else {
+          return acc;
+        }
+      }, null);
+  
+      // if the current node is the end node, we're done
+      if (current == end) {
+        solved = true;
+        break;
+        return reconstructPath(cameFrom, end);
+      }
+  
+      // remove the current node from the open set
+      openSet = openSet.filter((node) => node !== current);
+      // add the current node to the visited set
+      visited.add(current);
+  
+      // get the neighbors of the current node
+    //   const neighbors = getNeighbors(grid, current);
+
+      var adj = adjacentsDict[current];
+        for(count = 0; count < adj.length; count++){
+            //   document.getElementById('node' + goalNodeNumber).style.backgroundColor = GOAL_NODE_COLOR; // prevents goal node disappear glitch
+            var n = adj[count];
+              
+            // prev.set(maze[n[0]][n[1]], currentNode);
+            if(visited.has(maze[n[0]][n[1]])){
+                continue;
+            }
+            openSet.push(maze[n[0]][n[1]]);
+            cameFrom[maze[n[0]][n[1]]] = current;
+            if(maze[n[0]][n[1]] == end){
+                solved = true;
+                break;
+                return reconstructPath(cameFrom, end);
+            }
+            document.getElementById('node' + maze[n[0]][n[1]]).style.backgroundColor = EDGE_NODE_COLOR;
+            await sleep(1);
+            document.getElementById('node' + maze[n[0]][n[1]]).style.backgroundColor = SEARCH_NODE_COLOR;
+        }
+        if(solved){
+            break;
+        }
+    }
+
+    // if we reach this point, it means we've searched the entire grid and haven't found a path
+    return null;
+  }
+
+async function reconstructPath(cameFrom, current) {
+    // base case: if the current node has no predecessor, we're at the start node
+    if (!(current in cameFrom)) {
+      return [current];
+    }
+    document.getElementById('node' + current).style.backgroundColor = EDGE_NODE_COLOR;
+    await sleep(1);
+    document.getElementById('node' + current).style.backgroundColor = SEARCH_NODE_COLOR;
+    // recursive case: get the path from the start node to the current node's predecessor
+    let path = reconstructPath(cameFrom, cameFrom[current]);
+    // add the current node to the path
+    
+    path.push(current);
+    // return the path
+    return path;
+  }
+// #endregion
 // #region A_STAR_ALGORITHM 
 /* --------------------A* algorithm---------------------------*/
 document.querySelector('a#buttonA_star').addEventListener('click', function(e){
@@ -1388,138 +1526,12 @@ document.querySelector('a#buttonA_star').addEventListener('click', function(e){
 
     solveAstar(startNodeNumber, goalNodeNumber);
 });
-// async function solveAstar(startNodeNumber, goalNodeNumber){
-//     var maze = construct2dArray();
-//     var adjacentsDict = findAdjacents(maze);
-//     count = 0;
-//     queue = new Array();
-//     queueSet = new Set();
-//     queue.push({'fScore': 0, 'count': count, 'nodeNumber': startNodeNumber});
-//     let prev = new Array(HEIGHT * WIDTH).fill(0);
-//     let visited = [];
-//     let solved = false;
-//     gScore = {};
-//     fScore = {};
-
-//     for(let i = 0; i < HEIGHT; i++){ visited[i] = new Array(WIDTH).fill(false); }
-//     for(let i = 0; i < HEIGHT * WIDTH; i++) { gScore[i] = Number.MAX_VALUE; }
-//     for(let i = 0; i < HEIGHT * WIDTH; i++) { gScore[i] = Number.MAX_VALUE; }
-    
-//     gScore[startNodeNumber] = 0;
-//     fScore[startNodeNumber] = heuristicFunction(getNodeCoordinates(startNodeNumber), 
-//                                                 getNodeCoordinates(goalNodeNumber));                                            
-    
-
-//     visited[startNodeNumber] = true;
-//     queueSet.add(startNodeNumber);
-
-//     while(queue.length > 0){
-//         var maze = construct2dArray();
-//         var adjacentsDict = findAdjacents(maze);
-
-//         // let currentNode = queue.shift(); // shift() is used for the queue to remove items in order 
-        
-//         // searching for a min value inside a queue
-//         var currentNode = queue.reduce(function(prev, curr) {
-//             return prev.fScore < curr.fScore ? prev : curr;
-//         });
-        
-//         // deleting current min value from the queue
-//         var index = queue.indexOf(currentNode);
-//         if (index > -1) { // only splice queue when item is found
-//             queue.splice(index, 1); // 2nd parameter means remove one item only
-//         }
-
-//         queueSet.delete(currentNode.nodeNumber);
-        
-//         let coordinate = getNodeCoordinates(currentNode.nodeNumber);
-//         visited[coordinate[0]][coordinate[1]] = true;
-
-//         if(currentNode.nodeNumber == goalNodeNumber){
-//             //TODO: make path
-//             document.getElementById('node' + goalNodeNumber).style.backgroundColor = GOAL_NODE_COLOR; // prevents goal node disappear glitch
-//             solved = true;
-//             break;
-//         }
-
-//         var adj = adjacentsDict[currentNode.nodeNumber];
-//         for(count = 0; count < adj.length; count++){
-//             document.getElementById('node' + goalNodeNumber).style.backgroundColor = GOAL_NODE_COLOR; // prevents goal node disappear glitch
-//             var n = adj[count];
-//             tempGScore = gScore[currentNode.nodeNumber] + 1;
-
-//             if(tempGScore < gScore[maze[n[0]][n[1]]]){
-//                 prev[maze[n[0]][n[1]] - 1] = currentNode.nodeNumber - 1;
-//                 gScore[maze[n[0]][n[1]]] = tempGScore;
-//                 fScore[maze[n[0]][n[1]]] = tempGScore + heuristicFunction(n, getNodeCoordinates(goalNodeNumber));
-//                 // console.log('heuristicFunction(n, getNodeCoordinates(goalNodeNumber)): ', heuristicFunction(n, getNodeCoordinates(goalNodeNumber)));
-//                 if(!queueSet.has(maze[n[0]][n[1]]) && visited[n[0]][n[1]] == false){
-//                     visited[n[0]][n[1]] = true;
-//                     count += 1;
-//                     queue.push({'fScore': fScore[maze[n[0]][n[1]]], 'count': count, 'nodeNumber': maze[n[0]][n[1]]});
-//                     queueSet.add(maze[n[0]][n[1]]);
-
-//                     document.getElementById('node' + maze[n[0]][n[1]]).style.backgroundColor = EDGE_NODE_COLOR;
-//                     await sleep(0.1);
-//                     document.getElementById('node' + maze[n[0]][n[1]]).style.backgroundColor = SEARCH_NODE_COLOR;
-                
-//                     if(maze[n[0]][n[1]] == goalNodeNumber){
-//                         solved = true;
-//                         break;
-//                     }
-//                 }
-//             }
-//             if(solved){
-//                 break;
-//             }
-//         }
-//     }
-//     if(!solved){
-//         alert('Impossible to solve! I will reset it.');
-//         return;
-//     }
-
-//     let loopControl = false;
-//     goalToStart = []; // gathers nodes from goal to start node by grabbing the previous nodes
-//     previous = goalNodeNumber - 1;
-//     goalToStart.push(previous);
-    
-//     while(true){
-//         let node = prev[previous];
-//         goalToStart.push(node);
-
-//         if(node == 0) loopControl = true;
-//         else previous = node;
-
-//         if(loopControl){
-//             break;
-//         }
-//     }
-
-//     for(node of goalToStart.reverse()){ //goalToStart.reverse() gives nodes sorted from start to node
-//         await sleep(25);
-//         try{
-//             if(node != 0){
-//                 let n = document.getElementById('node' + (node + 1));
-//                 n.style.backgroundColor = RED_COLOR
-//                 await sleep(1);
-//                 n.style.backgroundColor = ORANGE_COLOR;
-//                 await sleep(1);
-//                 n.style.backgroundColor = PATH_COLOR;
-//             }
-//         }catch(err){
-//             loopControl = true;
-//         }
-//         document.getElementById('node' + startNodeNumber).style.backgroundColor = START_NODE_COLOR;
-//         document.getElementById('node' + goalNodeNumber).style.backgroundColor = GOAL_NODE_COLOR;
-//     }
-
-// }
 async function solveAstar(start, goal) {
     var maze = construct2dArray();
     var adjacentsDict = findAdjacents(maze);
     var solved = false;
     // var prev = new Map();
+    let queue = []
     var prev = new Array(HEIGHT * WIDTH).fill(0);
     // Set of unvisited nodes
     const unvisitedNodes = new Set();
@@ -1532,7 +1544,7 @@ async function solveAstar(start, goal) {
         unvisitedNodes.add(i + 1);
     }
     distances[start] = 0;
-  
+    queue.push(start);
     // Set of visited nodes
     const visitedNodes = new Set();
   
@@ -1544,12 +1556,12 @@ async function solveAstar(start, goal) {
     heuristicDistances[goal] = 0;
     heuristicDistances[start] = heuristicFunction(getNodeCoordinates(start), getNodeCoordinates(goal));
     // While there are unvisited nodes
-    while (unvisitedNodes.size > 0) {
+    while (queue.length > 0/*unvisitedNodes.size > 0*/) {
         var maze = construct2dArray();
         var adjacentsDict = findAdjacents(maze);
         // Select the unvisited node with the smallest distance + heuristic distance
         const currentNode = [...unvisitedNodes].sort((a, b) => distances[a] + heuristicDistances[a] - distances[b] - heuristicDistances[b])[0];
-    
+        
         // Check if we have reached the goal
         if(currentNode == goal){
             solved = true;
@@ -1559,6 +1571,10 @@ async function solveAstar(start, goal) {
         // Mark the current node as visited
         visitedNodes.add(currentNode);
         unvisitedNodes.delete(currentNode);
+        const index = queue.indexOf(currentNode);
+        if (index > -1) { // only splice array when item is found
+            queue.splice(index, 1); // 2nd parameter means remove one item only
+        }
 
         var adj = adjacentsDict[currentNode];
         for(count = 0; count < adj.length; count++){
@@ -1575,6 +1591,7 @@ async function solveAstar(start, goal) {
                 distances[maze[n[0]][n[1]]] = newDistance;
                 heuristicDistances[maze[n[0]][n[1]]] = heuristicFunction(getNodeCoordinates(maze[n[0]][n[1]]), getNodeCoordinates(goal));
                 prev[maze[n[0]][n[1]] - 1] = currentNode - 1;
+                queue.push(maze[n[0]][n[1]]);
                 if(maze[n[0]][n[1]] == goal){
                     solved = true;
                     break;
@@ -1655,6 +1672,7 @@ async function solveDijkstra(startNodeNumber, goalNodeNumber) {
     var adjacentsDict = findAdjacents(maze);
     var solved = false;
     // var prev = new Map();
+    let queue = []
     var prev = new Array(HEIGHT * WIDTH).fill(0);
     // Set of unvisited nodes
     const unvisitedNodes = new Set();
@@ -1667,24 +1685,29 @@ async function solveDijkstra(startNodeNumber, goalNodeNumber) {
         unvisitedNodes.add(i + 1);
     }
     distances[startNodeNumber] = 0;
-  
+    queue.push(startNodeNumber);
     // Set of visited nodes
     const visitedNodes = new Set();
   
     // While there are unvisited nodes
-    while (unvisitedNodes.size > 0) {
+    while (queue.length > 0/*unvisitedNodes.size > 0*/) {
         var maze = construct2dArray();
         var adjacentsDict = findAdjacents(maze);
         // Select the unvisited node with the smallest distance
         const currentNode = [...unvisitedNodes].sort((a, b) => distances[a] - distances[b])[0];
 
-        // Mark the current node as visited
-        visitedNodes.add(currentNode);
-        unvisitedNodes.delete(currentNode);
-
+        // Check if we have reached the goal
         if(currentNode == goalNodeNumber){
             solved = true;
             break;
+        }
+
+        // Mark the current node as visited
+        visitedNodes.add(currentNode);
+        unvisitedNodes.delete(currentNode);
+        const index = queue.indexOf(currentNode);
+        if (index > -1) { // only splice array when item is found
+            queue.splice(index, 1); // 2nd parameter means remove one item only
         }
 
         var adj = adjacentsDict[currentNode];
@@ -1701,6 +1724,7 @@ async function solveDijkstra(startNodeNumber, goalNodeNumber) {
             if (newDistance < distances[maze[n[0]][n[1]]]) {
                 distances[maze[n[0]][n[1]]] = newDistance;
                 prev[maze[n[0]][n[1]] - 1] = currentNode - 1;
+                queue.push(maze[n[0]][n[1]]);
                 if(maze[n[0]][n[1]] == goalNodeNumber){
                     solved = true;
                     break;
