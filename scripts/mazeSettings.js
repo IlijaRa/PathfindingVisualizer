@@ -27,7 +27,8 @@ PATH_COLOR = 'rgb(245, 193, 0)';
 START_NODE_COLOR = 'rgb(74, 145, 212)';
 GOAL_NODE_COLOR = 'rgb(209, 42, 59)';
 INTERSECT_NODE_COLOR = 'rgb(245, 193, 0)';
-BORDER_COLOR = 'rgb(64, 206, 227);';
+WEIGHTED_NODE_COLOR = 'rgb(91, 177, 125)';
+BORDER_COLOR = 'rgb(64, 206, 227)';
 // #endregion
 // #region GENERAL_PURPOSE_METHODS
 
@@ -396,7 +397,26 @@ function constructGrid(){
                             e.target.style.borderColor = WALL_COLOR;
                         } 
                 }
-            })
+                if(mouseDown == 1 && e.altKey){
+                    if(startNodeExists == false){
+                        e.target.style.backgroundColor = START_NODE_COLOR;
+                        startNodeExists = true;
+                    }
+                    else if(goalNodeExists == false && e.target.style.backgroundColor != START_NODE_COLOR){
+                        e.target.style.backgroundColor = GOAL_NODE_COLOR;
+                        goalNodeExists = true;
+                    }  
+                    else if((startNodeExists == true && goalNodeExists == true) && 
+                        (e.target.style.backgroundColor != START_NODE_COLOR) && 
+                        (e.target.style.backgroundColor != GOAL_NODE_COLOR) &&
+                        (e.target.style.backgroundColor != EDGE_NODE_COLOR) &&
+                        (e.target.style.backgroundColor != SEARCH_NODE_COLOR) 
+                        ){
+                            e.target.style.backgroundColor = WEIGHTED_NODE_COLOR;
+                            e.target.style.borderColor = WALL_COLOR;
+                        } 
+                }
+            });
 
             node.addEventListener('click', function(e){
                 if(e.shiftKey){
@@ -418,7 +438,26 @@ function constructGrid(){
                         e.target.style.borderColor = WALL_COLOR;
                     } 
                 }
-            })
+                if(e.altKey){
+                    if(startNodeExists == false){
+                        e.target.style.backgroundColor = START_NODE_COLOR;
+                        startNodeExists = true;
+                    }
+                    else if(goalNodeExists == false && e.target.style.backgroundColor != START_NODE_COLOR){
+                        e.target.style.backgroundColor = GOAL_NODE_COLOR;
+                        goalNodeExists = true;
+                    }  
+                    else if((startNodeExists == true && goalNodeExists == true) && 
+                        (e.target.style.backgroundColor != START_NODE_COLOR) && 
+                        (e.target.style.backgroundColor != GOAL_NODE_COLOR) &&
+                        (e.target.style.backgroundColor != EDGE_NODE_COLOR) &&
+                        (e.target.style.backgroundColor != SEARCH_NODE_COLOR) 
+                        ){
+                            e.target.style.backgroundColor = WEIGHTED_NODE_COLOR;
+                            e.target.style.borderColor = WALL_COLOR;
+                        } 
+                }
+            });
             row.appendChild(node);
         }
         maze_container.appendChild(row);
@@ -478,16 +517,58 @@ function construct2dArrayWithoutWalls(){
     return maze;
 }
 // #endregion
-// #region RESET_BUTTON
-// document.querySelector('#buttonReset').addEventListener('click', function(e){
-//     var nodes = document.querySelectorAll('.node');
-//     nodes.forEach(function(node){
-//         node.style.backgroundColor = WHITE_COLOR;
-//         node.style.borderColor = BORDER_COLOR;
-//     })
-//     startNodeExists = false;
-//     goalNodeExists = false;
-// });
+// #region CLEAR_BUTTONS
+document.querySelector('a#buttonClearAll').addEventListener('click', function(e){
+    var nodes = document.querySelectorAll('.node');
+    nodes.forEach(function(node){
+        node.style.backgroundColor = WHITE_COLOR;
+        // node.style.borderColor = BORDER_COLOR;
+    })
+    startNodeExists = false;
+    goalNodeExists = false;
+});
+document.querySelector('a#buttonClearAllExceptStartGoal').addEventListener('click', function(e){
+    var nodes = document.querySelectorAll('.node');
+    nodes.forEach(function(node){
+        let n = document.getElementById('node' + Node.GetNodeNumber(node.id))
+        if(n.style.backgroundColor != START_NODE_COLOR && n.style.backgroundColor != GOAL_NODE_COLOR){
+            node.style.backgroundColor = WHITE_COLOR;
+            // node.style.borderColor = BORDER_COLOR;
+        }
+    })
+});
+document.querySelector('a#buttonClearWalls').addEventListener('click', function(e){
+    var nodes = document.querySelectorAll('.node');
+    nodes.forEach(function(node){
+        let n = document.getElementById('node' + Node.GetNodeNumber(node.id))
+        if(n.style.backgroundColor == WALL_COLOR){
+            node.style.backgroundColor = WHITE_COLOR;
+            // node.style.borderColor = BORDER_COLOR;
+        }
+    })
+});
+document.querySelector('a#buttonClearWeights').addEventListener('click', function(e){
+    var nodes = document.querySelectorAll('.node');
+    nodes.forEach(function(node){
+        let n = document.getElementById('node' + Node.GetNodeNumber(node.id))
+        if(n.style.backgroundColor == WEIGHTED_NODE_COLOR){
+            node.style.backgroundColor = WHITE_COLOR;
+            // node.style.borderColor = BORDER_COLOR;
+        }
+    })
+});
+document.querySelector('a#buttonClearSearchPath').addEventListener('click', function(e){
+    var nodes = document.querySelectorAll('.node');
+    nodes.forEach(function(node){
+        let n = document.getElementById('node' + Node.GetNodeNumber(node.id))
+        if( n.style.backgroundColor == SEARCH_NODE_COLOR || 
+            n.style.backgroundColor == GOAL_SEARCH_NODE_COLOR || 
+            n.style.backgroundColor == PATH_COLOR ){
+            node.style.backgroundColor = WHITE_COLOR;
+            // node.style.borderColor = BORDER_COLOR;
+        }
+    })
+});
 // #endregion
 // #region ALGORITHMS
 // #region BFS_ALGORITHM 
@@ -599,10 +680,12 @@ async function solveBfs(startNodeNumber, goalNodeNumber){
             if(node != 0){
                 let n = document.getElementById('node' + (node + 1));
                 n.style.backgroundColor = RED_COLOR
+                // n.style.borderRadius = "30px";
                 await sleep(1);
                 n.style.backgroundColor = ORANGE_COLOR;
                 await sleep(1);
                 n.style.backgroundColor = PATH_COLOR;
+                // n.style.borderRadius = "0px";
             }
         }catch(err){
             loopControl = true;
@@ -1586,7 +1669,7 @@ async function solveAstar(start, goal) {
                 continue;
             }
             // (Math.floor(Math.random() * 5) + 1) generates value between 1 and 5, but more realistic is that the weight is always 1
-            const newDistance = distances[currentNode] + 1;//(Math.floor(Math.random() * 5) + 1); 
+            const newDistance = distances[currentNode] + 1;
             if (newDistance < distances[maze[n[0]][n[1]]]) {
                 distances[maze[n[0]][n[1]]] = newDistance;
                 heuristicDistances[maze[n[0]][n[1]]] = heuristicFunction(getNodeCoordinates(maze[n[0]][n[1]]), getNodeCoordinates(goal));

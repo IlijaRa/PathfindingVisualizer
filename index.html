@@ -48,6 +48,16 @@
                             <a id="buttonCentricBaesMaze" href="#"><img src="./images/shapes/centric_baes_maze.png" alt="centric_baes_maze"></a>
                         </div>
                       </li>
+                      <li class="navbar-dropdown">
+                        <h3>Clear options</h3>
+                        <div class="dropdown">
+                            <a id="buttonClearAll" href="#">Clear All</a>
+                            <a id="buttonClearAllExceptStartGoal" href="#">Clear All Except Start&Goal</a>
+                            <a id="buttonClearWalls" href="#">Clear Walls</a>
+                            <a id="buttonClearWeights" href="#">Clear Weights</a>
+                            <a id="buttonClearSearchPath" href="#">Clear Search&Path</a>
+                        </div>
+                      </li>
                     </ul>
                 </nav>
                 <!-- <h2>Pathfinding Visualizer</h2> -->
@@ -67,18 +77,42 @@
                 </div> -->
             </div>
             <div class="description_container">
-                <div class="description-node start-node">
+                <div class="description-node start-node tooltip">
                     <img src="./images/nodes/start_node.png" alt="start_node"> <br>
                     Start node
+                    <span class="tooltiptext">Shift/Alt + Left mouse click(first click ever)</span>
                 </div>
-                <div class="description-node end-node">
+                <!-- <div class="description-node start-node">
+                    <img src="./images/nodes/start_node.png" alt="start_node"> <br>
+                    Start node
+                </div> -->
+                <div class="description-node goal-node tooltip">
+                    <img src="./images/nodes/goal_node.png" alt="goal_node"> <br>
+                    Goal Node
+                    <span class="tooltiptext">Shift/Alt + Left mouse click(second click ever)</span>
+                </div>
+                <!-- <div class="description-node goal-node">
                     <img src="./images/nodes/end_node.png" alt="end_node"> <br>
                     End Node
-                </div>
-                <div class="description-node wall-node">
+                </div> -->
+                <div class="description-node wall-node tooltip">
                     <img src="./images/nodes/wall_node.png" alt="wall_node"> <br>
                     Wall Node
+                    <span class="tooltiptext">Shift + Left mouse click(generates after start&goal)</span>
                 </div>
+                <!-- <div class="description-node wall-node">
+                    <img src="./images/nodes/wall_node.png" alt="wall_node"> <br>
+                    Wall Node
+                </div> -->
+                <div class="description-node weighted-node tooltip">
+                    <img src="./images/nodes/weighted_node.png" alt="weighted_node"> <br>
+                    Weighted Node
+                    <span class="tooltiptext">Alt + Left mouse click</span>
+                </div>
+                <!-- <div class="description-node weighted-node">
+                    <img src="./images/nodes/weighted_node.png" alt="weighted_node"> <br>
+                    Weighted Node
+                </div> -->
                 <div class="description-node current-node">
                     <img src="./images/nodes/current_node.png" alt="current_node"> <br>
                     Current Node
