@@ -36,6 +36,9 @@ async function solveBidirectionalDfs(startNodeNumber, goalNodeNumber){
         var adjacentsDict = findAdjacents(maze);
         let currentA = queueStart.pop();
 
+        let coordinateA = getNodeCoordinates(currentA);
+        visited[coordinateA[0]][coordinateA[1]] = true;
+
         if(document.getElementById('node' + currentA).style.backgroundColor == GOAL_SEARCH_NODE_COLOR ||
            document.getElementById('node' + currentA).style.backgroundColor == GOAL_EDGE_NODE_COLOR){
             intersectNodeNumber = currentA;
@@ -44,8 +47,9 @@ async function solveBidirectionalDfs(startNodeNumber, goalNodeNumber){
             break;
         }
 
-        let coordinateA = getNodeCoordinates(currentA);
-        visited[coordinateA[0]][coordinateA[1]] = true;
+        document.getElementById('node' + currentA).style.backgroundColor = EDGE_NODE_COLOR;
+        await sleep(1);
+        document.getElementById('node' + currentA).style.backgroundColor = SEARCH_NODE_COLOR;
 
         var adjA = adjacentsDict[currentA];
         for(count = 0; count < adjA.length; count++){
@@ -61,19 +65,22 @@ async function solveBidirectionalDfs(startNodeNumber, goalNodeNumber){
                     break;
                 }
             if(!visited[n[0]][n[1]]){
-                visited[n[0]][n[1]] = true;
+                // visited[n[0]][n[1]] = true;
                 queueStart.push(maze[n[0]][n[1]]);
                 // prevA[maze[n[0]][n[1]] - 1] = currentA - 1;
                 dictA[maze[n[0]][n[1]]] = currentA;
                 // previous.set(maze[n[0]][n[1]], currentA);
-                document.getElementById('node' + maze[n[0]][n[1]]).style.backgroundColor = EDGE_NODE_COLOR;
-                await sleep(1);
-                document.getElementById('node' + maze[n[0]][n[1]]).style.backgroundColor = SEARCH_NODE_COLOR;
+                // document.getElementById('node' + maze[n[0]][n[1]]).style.backgroundColor = EDGE_NODE_COLOR;
+                // await sleep(1);
+                // document.getElementById('node' + maze[n[0]][n[1]]).style.backgroundColor = SEARCH_NODE_COLOR;
             }
             
         }
 
         let currentB = queueGoal.pop();
+
+        let coordinateB = getNodeCoordinates(currentB);
+        visited[coordinateB[0]][coordinateB[1]] = true;
 
         if(document.getElementById('node' + currentB).style.backgroundColor == SEARCH_NODE_COLOR ||
             document.getElementById('node' + currentB).style.backgroundColor == EDGE_NODE_COLOR){
@@ -82,8 +89,10 @@ async function solveBidirectionalDfs(startNodeNumber, goalNodeNumber){
             solved = true;
             break;
         }
-        let coordinateB = getNodeCoordinates(currentB);
-        visited[coordinateB[0]][coordinateB[1]] = true;
+
+        document.getElementById('node' + currentB).style.backgroundColor = GOAL_EDGE_NODE_COLOR;
+        await sleep(1);
+        document.getElementById('node' + currentB).style.backgroundColor = GOAL_SEARCH_NODE_COLOR;
 
         var adjB = adjacentsDict[currentB];
         for(count = 0; count < adjB.length; count++){
@@ -99,14 +108,14 @@ async function solveBidirectionalDfs(startNodeNumber, goalNodeNumber){
                     break;
                 }
             if(!visited[n[0]][n[1]]){
-                visited[n[0]][n[1]] = true;
+                // visited[n[0]][n[1]] = true;
                 queueGoal.push(maze[n[0]][n[1]]);
                 // previous.set(maze[n[0]][n[1]], currentB);
                 // prevB[maze[n[0]][n[1]] - 1] = currentB - 1;
                 dictB[maze[n[0]][n[1]]] = currentB;
-                document.getElementById('node' + maze[n[0]][n[1]]).style.backgroundColor = GOAL_EDGE_NODE_COLOR;
-                await sleep(1);
-                document.getElementById('node' + maze[n[0]][n[1]]).style.backgroundColor = GOAL_SEARCH_NODE_COLOR;
+                // document.getElementById('node' + maze[n[0]][n[1]]).style.backgroundColor = GOAL_EDGE_NODE_COLOR;
+                // await sleep(1);
+                // document.getElementById('node' + maze[n[0]][n[1]]).style.backgroundColor = GOAL_SEARCH_NODE_COLOR;
             }
         }
 
