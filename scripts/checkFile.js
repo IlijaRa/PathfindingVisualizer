@@ -1,120 +1,74 @@
-async function solveAstar(start, goal) {
+async function greedyBestFirstSearch(start, end) {
     var maze = construct2dArray();
     var adjacentsDict = findAdjacents(maze);
-    var solved = false;
-    // var prev = new Map();
-    let queue = []
-    var prev = new Array(HEIGHT * WIDTH).fill(0);
-    // Set of unvisited nodes
-    const unvisitedNodes = new Set();
+    solved = false;
+    // create a set to store the nodes we've already visited
+    let visited = new Set();
+    // create an object to store the path taken to reach the end node
+    let cameFrom = {};
+    // create an array to store the nodes we need to visit
+    let openSet = [start];
   
-    // Set initial distance to infinity for all nodes except the starting node
-    const distances = {};
-
-    for(let i = 0; i < HEIGHT * WIDTH; i++){
-        distances[i] = Number.POSITIVE_INFINITY;
-        unvisitedNodes.add(i + 1);
+    // create a function to calculate the distance between two points
+    function heuristic(a, b) {
+      // use the Euclidean distance formula to calculate the distance
+    //   return Math.sqrt((b.x - a.x) ** 2 + (b.y - a.y) ** 2);
+    return Math.abs(a[0] - a[1]) + Math.abs(b[0] - b[1]);
     }
-    distances[start] = 0;
-    queue.push(start);
-    // Set of visited nodes
-    const visitedNodes = new Set();
   
-    // Set the heuristic distance to the goal for all nodes
-    const heuristicDistances = {};
-    for (const node of unvisitedNodes) {
-      heuristicDistances[node] = Number.POSITIVE_INFINITY;
-    }
-    heuristicDistances[goal] = 0;
-    heuristicDistances[start] = heuristicFunction(getNodeCoordinates(start), getNodeCoordinates(goal));
-    // While there are unvisited nodes
-    while (queue.length > 0) {
+    // loop until there are no more nodes to visit
+    while (openSet.length > 0) {
         var maze = construct2dArray();
         var adjacentsDict = findAdjacents(maze);
-        // Select the unvisited node with the smallest distance + heuristic distance
-        const currentNode = [...unvisitedNodes].sort((a, b) => distances[a] + heuristicDistances[a] - distances[b] - heuristicDistances[b])[0];
-        
-        // Check if we have reached the goal
-        if(currentNode == goal){
-            solved = true;
-            break;
+      // find the node in the open set with the lowest heuristic value
+      let current = openSet.reduce((acc, node) => {
+        if (!acc || heuristic(node, end) < heuristic(acc, end)) {
+          return node;
+        } else {
+          return acc;
         }
-    
-        // Mark the current node as visited
-        visitedNodes.add(currentNode);
-        unvisitedNodes.delete(currentNode);
-        const index = queue.indexOf(currentNode);
-        if (index > -1) { // only splice array when item is found
-            queue.splice(index, 1); // 2nd parameter means remove one item only
-        }
+      }, null);
+  
+      // if the current node is the end node, we're done
+      if (current == end) {
+        solved = true;
+        break;
+        return reconstructPath(cameFrom, end);
+      }
+  
+      // remove the current node from the open set
+      openSet = openSet.filter((node) => node !== current);
+      // add the current node to the visited set
+      visited.add(current);
+  
+      // get the neighbors of the current node
+      //   const neighbors = getNeighbors(grid, current);
 
-        var adj = adjacentsDict[currentNode];
+      var adj = adjacentsDict[current];
         for(count = 0; count < adj.length; count++){
             //   document.getElementById('node' + goalNodeNumber).style.backgroundColor = GOAL_NODE_COLOR; // prevents goal node disappear glitch
             var n = adj[count];
               
             // prev.set(maze[n[0]][n[1]], currentNode);
-            if(visitedNodes.has(maze[n[0]][n[1]])){
+            if(visited.has(maze[n[0]][n[1]])){
                 continue;
             }
-            // (Math.floor(Math.random() * 5) + 1) generates value between 1 and 5, but more realistic is that the weight is always 1
-            const newDistance = distances[currentNode] + 1;//(Math.floor(Math.random() * 5) + 1); 
-            if (newDistance < distances[maze[n[0]][n[1]]]) {
-                distances[maze[n[0]][n[1]]] = newDistance;
-                heuristicDistances[maze[n[0]][n[1]]] = heuristicFunction(getNodeCoordinates(maze[n[0]][n[1]]), getNodeCoordinates(goal));
-                prev[maze[n[0]][n[1]] - 1] = currentNode - 1;
-                queue.push(maze[n[0]][n[1]]);
-                if(maze[n[0]][n[1]] == goal){
-                    solved = true;
-                    break;
-                }
-                document.getElementById('node' + maze[n[0]][n[1]]).style.backgroundColor = EDGE_NODE_COLOR;
-                await sleep(1);
-                document.getElementById('node' + maze[n[0]][n[1]]).style.backgroundColor = SEARCH_NODE_COLOR;
-            } 
+            openSet.push(maze[n[0]][n[1]]);
+            cameFrom[maze[n[0]][n[1]]] = current;
+            if(maze[n[0]][n[1]] == end){
+                solved = true;
+                break;
+                return reconstructPath(cameFrom, end);
+            }
+            document.getElementById('node' + maze[n[0]][n[1]]).style.backgroundColor = EDGE_NODE_COLOR;
+            await sleep(1);
+            document.getElementById('node' + maze[n[0]][n[1]]).style.backgroundColor = SEARCH_NODE_COLOR;
         }
         if(solved){
             break;
         }
     }
 
-    if(!solved){
-        alert('Impossible to solve! I will reset it.');
-        return;
-    }
-
-    let loopControl = false;
-    goalToStart = []; // gathers nodes from goal to start node by grabbing the previous nodes
-    previous = goal - 1;
-    goalToStart.push(previous);
-    
-    while(true){
-        let node = prev[previous];
-        goalToStart.push(node);
-
-        if(node == 0) loopControl = true;
-        else previous = node;
-
-        if(loopControl){
-            break;
-        }
-    }
-
-    for(node of goalToStart.reverse()){ //goalToStart.reverse() gives nodes sorted from start to node
-        await sleep(25);
-        try{
-            if(node != 0){
-                let n = document.getElementById('node' + (node + 1));
-                n.style.backgroundColor = RED_COLOR
-                await sleep(1);
-                n.style.backgroundColor = ORANGE_COLOR;
-                await sleep(1);
-                n.style.backgroundColor = PATH_COLOR;
-            }
-        }catch(err){
-            loopControl = true;
-        }
-        document.getElementById('node' + start).style.backgroundColor = START_NODE_COLOR;
-        document.getElementById('node' + goal).style.backgroundColor = GOAL_NODE_COLOR;
-    }
-}
+    // if we reach this point, it means we've searched the entire grid and haven't found a path
+    return null;
+  }
