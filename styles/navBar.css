@@ -35,7 +35,6 @@ body {
   text-decoration: none;
   font-size: 30px;
   padding-right: 2%;
-  /* padding: 0px 20px; */
 }
 
 .navbar-links {
@@ -93,17 +92,11 @@ body {
   font-weight: 400;
 }
 .navbar-dropdown .dropdown a img:hover {
-  /* padding-left: 30px; */
   box-shadow: 0px 0px 5px #ff3f34;
 }
 .navbar-links li a:hover {
   color: #ff3f34;
 }
-
-/* .dropdown{
-  height: 310px;
-  overflow: auto;
-} */
 
 .header {
   display: flex;
@@ -111,7 +104,6 @@ body {
   align-items: center;
   width: 100vw;
   height: 90vh;
-  /* background-color: #f00; */
   background-image: url("http://lorempixel.com/1366/698/food/");
   background-size: cover;
 }
