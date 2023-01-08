@@ -1168,7 +1168,8 @@ async function solveDfs(startNodeNumber, goalNodeNumber){
         visited[i] = new Array(WIDTH).fill(false);
     }
     stack.push(startNodeNumber);
-
+    
+    console.log('prev', prev);
     while (stack.length > 0) {
         //Defining maze and adjacentsDict again and again enables wall changement in real time
         var maze = construct2dArray();
@@ -1196,6 +1197,10 @@ async function solveDfs(startNodeNumber, goalNodeNumber){
             solved = true;
             break;
         }
+        document.getElementById('node' + startNodeNumber).style.backgroundColor = START_NODE_COLOR;
+        document.getElementById('node' + currentNode).style.backgroundColor = EDGE_NODE_COLOR;
+                await sleep(1);
+                document.getElementById('node' + currentNode).style.backgroundColor = SEARCH_NODE_COLOR;
 
         var adj = adjacentsDict[currentNode];
         for(count = 0; count < adj.length; count++){
@@ -1210,9 +1215,9 @@ async function solveDfs(startNodeNumber, goalNodeNumber){
                     solved = true;
                     break;
                 }
-                document.getElementById('node' + maze[n[0]][n[1]]).style.backgroundColor = EDGE_NODE_COLOR;
-                await sleep(1);
-                document.getElementById('node' + maze[n[0]][n[1]]).style.backgroundColor = SEARCH_NODE_COLOR;
+                // document.getElementById('node' + maze[n[0]][n[1]]).style.backgroundColor = EDGE_NODE_COLOR;
+                // await sleep(1);
+                // document.getElementById('node' + maze[n[0]][n[1]]).style.backgroundColor = SEARCH_NODE_COLOR;
             }
         }
         if(solved){
@@ -1223,7 +1228,8 @@ async function solveDfs(startNodeNumber, goalNodeNumber){
         alert('Impossible to solve! I will reset it.');
         return;
     }
-
+    // prev[0] = 2
+    console.log('prev', prev);
     let loopControl = false;
     goalToStart = []; // gathers nodes from goal to start node by grabbing the previous nodes
     previous = goalNodeNumber - 1;
@@ -1232,15 +1238,15 @@ async function solveDfs(startNodeNumber, goalNodeNumber){
     while(true){
         let node = prev[previous];
         goalToStart.push(node);
-
         if(node == 0) loopControl = true;
         else previous = node;
-
+    
         if(loopControl){
             break;
         }
     }
-
+    console.log('goalToStart', goalToStart);
+    // return;
     for(node of goalToStart.reverse()){ //goalToStart.reverse() gives nodes sorted from start to node
         await sleep(25);
         try{
@@ -1252,6 +1258,14 @@ async function solveDfs(startNodeNumber, goalNodeNumber){
                 await sleep(1);
                 n.style.backgroundColor = PATH_COLOR;
             }
+            // if(node == 1){
+            //     let n = document.getElementById('node' + node);
+            //     n.style.backgroundColor = RED_COLOR
+            //     await sleep(1);
+            //     n.style.backgroundColor = ORANGE_COLOR;
+            //     await sleep(1);
+            //     n.style.backgroundColor = PATH_COLOR;
+            // }
         }catch(err){
             loopControl = true;
         }
@@ -1284,7 +1298,7 @@ async function solveD(startNodeNumber, goalNodeNumber){
         console.log('grabbed node: ', currentCell);
 
         
-        let currentCellCoord = getNodeCoordinatesWithoutWalls(currentCell);
+        let currentCellCoord = getNodeCoordinates(currentCell);
         console.log('grabbed node coords: ', currentCellCoord);
         // Find a random unvisited neighbor
         let neighbors = [];
@@ -1308,11 +1322,12 @@ async function solveD(startNodeNumber, goalNodeNumber){
         console.log('neighbors:', neighbors);
         console.log('neighbors length:', neighbors.length);
         if (neighbors.length > 0) {
+            document.getElementById('node' + startNodeNumber).style.backgroundColor = START_NODE_COLOR;
             // Choose a random neighbor
             let nextCell = neighbors[0];//neighbors[Math.floor(Math.random() * neighbors.length)];
             console.log('nextCell:', nextCell);
             // Calculates coordinates of the next cell
-            let nextCellCoord = getNodeCoordinatesWithoutWalls(nextCell);
+            let nextCellCoord = getNodeCoordinates(nextCell);
             console.log('nextCellCoord:', nextCellCoord);
             // Remove the wall between the current cell and the next cell
             maze[currentCellCoord[0]][currentCellCoord[1]] = 0;
@@ -1320,6 +1335,7 @@ async function solveD(startNodeNumber, goalNodeNumber){
             // Mark the next cell as visited and add it to the stack
             visitedCells[nextCellCoord[0]][nextCellCoord[1]] = true;
             stack.push(nextCell);
+            document.getElementById('node' + nextCell).style.backgroundColor = EDGE_NODE_COLOR;
             await sleep(1);
             document.getElementById('node' + nextCell).style.backgroundColor = SEARCH_NODE_COLOR;
         } else {
@@ -2021,7 +2037,7 @@ document.querySelector('#buttonRandomMaze').addEventListener('click', function(e
 })
 // #endregion
 // #region RANDOM_DFS_MAZE
-document.querySelector('#buttonDFS_Maze').addEventListener('click', function(e){
+document.querySelector('a#buttonDFS_Maze').addEventListener('click', function(e){
     var maze = generateDfsMaze(HEIGHT, WIDTH);
     console.log('generated maze:', maze);
 });
@@ -2115,27 +2131,87 @@ async function generateDfsMaze(height, width/*, cellSize*/) {
         console.log('stack: ', stack);
         console.log('---------------------------------------');
     }
-  
-    // // Visualize the maze
-    // background(255);
-    // stroke(0);
-    // strokeWeight(1);
-    // for (let i = 0; i < mazeSize; i++) {
-    //   for (let j = 0; j < mazeSize; j++) {
-    //     if (maze[i][j] === 1) {
-    //       fill(0);
-    //     } else {
-    //       fill(255);
-    //     }
-    //     rect(i * cellSize, j * cellSize, cellSize, cellSize);
-    //   }
-    // }
     return maze;
 }
 function RemoveItem(arr, value) { 
     return arr.filter(function(ele){ 
         return ele != value; 
     });
+}
+// #endregion
+// #region RANDOMIZED_PRIM_ALGORITHM
+document.querySelector('a#buttonRandomizedPrim').addEventListener('click', function(e){
+    // var nodes = findStartAndGoalNode(); 
+    // if(nodes.length < 2){
+    //     alert('You need to provide start and goal nodes!');
+    //     return;
+    // }
+    // let startNodeNumber = Node.GetNodeNumber(nodes[0].id);
+    // let goalNodeNumber = Node.GetNodeNumber(nodes[1].id);
+    generateRandomizedPrim();
+});
+async function generateRandomizedPrim(){
+    let maze = construct2dArrayWithoutWalls();
+    for (let i = 0; i < HEIGHT; i++) {
+        for (let j = 0; j < WIDTH; j++) {
+            document.getElementById('node' + maze[i][j]).style.backgroundColor = WALL_COLOR;
+        }
+    }
+
+    // Set the start and end points of the maze
+    const start = [0, 0];
+    const end = [39, 59];
+    // Add the start and end points to a list of visited cells
+    let visited = [start];
+
+    // Set the starting cell to be a path
+    document.getElementById('node' + maze[start[0]][start[1]]).style.backgroundColor = WHITE_COLOR;
+    // Set the directions in which we can move from a given cell
+    const directions = [[0, 1], [0, -1], [1, 0], [-1, 0]];
+
+    // While there are still cells to visit
+    while (visited.length > 0) {
+    // Choose a random cell from the list of visited cells
+    let idx = Math.floor(Math.random() * visited.length);
+    let cell = visited[idx];
+
+    // Initialize an array to store the valid neighbors of the current cell
+    let neighbors = [];
+
+    // Check all the possible directions in which we can move from the current cell
+    for (let dir of directions) {
+        let row = cell[0] + dir[0];
+        let col = cell[1] + dir[1];
+
+        // If the new cell is within the bounds of the maze, is not a wall, and has not been visited yet,
+        // add it to the list of valid neighbors
+        if (row >= 0 && row < HEIGHT && col >= 0 && col < WIDTH && document.getElementById('node' + maze[row][col]).style.backgroundColor == WALL_COLOR) {
+            neighbors.push([row, col]);
+        }
+    }
+    // If the current cell has any valid neighbors
+    if (neighbors.length > 0) {
+        // Choose a random valid neighbor
+        const neighbor = neighbors[Math.floor(Math.random() * neighbors.length)];
+
+        // Set the neighbor to be a path
+        await sleep(1);
+        document.getElementById('node' + maze[neighbor[0]][neighbor[1]]).style.backgroundColor = WHITE_COLOR;
+        // Add the neighbor to the list of visited cells
+        visited.push(neighbor);
+    } else {
+        // If the current cell has no valid neighbors, remove it from the list of visited cells
+        visited.splice(idx, 1);
+    }
+    }
+    let maze_array = new Array(HEIGHT*WIDTH);
+    let count = 0;
+    for (let i = 0; i < HEIGHT; i++) {
+        for (let j = 0; j < WIDTH; j++) {
+            maze_array[count] = WALL_VALUE;
+            count++;
+        }
+    }
 }
 // #endregion
 // #endregion
@@ -2227,7 +2303,7 @@ document.querySelector('a#buttonVerticalBaesMaze').addEventListener('click', fun
         -1, 2222, -1, 2224, -1, 2226, -1, 2228, -1, 2230, -1, 2232, -1, 2234, -1, 2236, -1, 2238, -1, 2240, -1, 2242, -1, 2244, -1, 2246, -1, 2248, -1, 2250, -1, 2252, -1, 2254, -1, 2256, -1, 2258, -1, 2260, -1, 2262, -1, 2264, -1, 2266, -1, 2268, -1, 2270, -1, 2272, -1, 2274, -1, 2276, -1, -1, 2279, -1,
         -1, 2282, -1, 2284, -1, 2286, -1, 2288, -1, 2290, -1, 2292, -1, 2294, -1, 2296, -1, 2298, -1, 2300, -1, 2302, -1, 2304, -1, 2306, -1, 2308, -1, 2310, -1, 2312, -1, 2314, -1, 2316, -1, 2318, -1, 2320, -1, 2322, -1, 2324, -1, 2326, -1, 2328, -1, 2330, -1, 2332, -1, 2334, -1, 2336, 2337, 2338, 2339, -1,
         -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1];
-    generateMaze(scheme_array);
+        generateMaze(scheme_array);
 })
 // #endregion
 // #region NORMAL_BAES_MAZE
