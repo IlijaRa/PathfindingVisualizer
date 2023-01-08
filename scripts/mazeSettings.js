@@ -37,7 +37,7 @@ let mouseDown = 0;
 document.onmousedown = () => {mouseDown = 1;}
 document.onmouseup = () => {mouseDown = 0;}
 
-// Provides sleep
+// Provides sleepqueue
 const sleep = (time) => {
     return new Promise(resolve => setTimeout(resolve, time))
 }
@@ -126,40 +126,6 @@ function findAdjacents(maze){
         [1, 0],  //right
         [0, 1],  //down
         [0, -1]  //up
-    ];
-
-    for(row = 0; row < HEIGHT; row++){
-        for(col = 0; col < WIDTH; col++){
-            if(maze[row][col] == -1){
-                continue;
-            }
-            var currentNode = maze[row][col];
-            var neighbours = [];
-            
-            for(count = 0; count < possibleMoves.length; count++){
-                var nRow = possibleMoves[count][0] + row;
-                var nCol = possibleMoves[count][1] + col;
-
-                if((nRow >= 0 && nRow < maze.length) && (nCol >= 0 && nCol < maze[0].length)){
-                    if(maze[nRow][nCol] != WALL_VALUE){
-                        neighbours.push([nRow, nCol]);
-                    }
-                }
-            }
-            adjacentDictionary[currentNode] = neighbours;
-        }
-    }
-    // console.log('adjacentDictionary', adjacentDictionary);
-
-    return adjacentDictionary;
-}
-function findAdjacentsMazeGenerator(maze){
-    var adjacentDictionary = {};
-    var possibleMoves = [
-        [-2, 0], //left
-        [2, 0],  //right
-        [0, 2],  //down
-        [0, -2]  //up
     ];
 
     for(row = 0; row < HEIGHT; row++){
@@ -1150,8 +1116,8 @@ document.querySelector('a#buttonDFS').addEventListener('click', function(e){
     let startNodeNumber = Node.GetNodeNumber(nodes[0].id);
     let goalNodeNumber = Node.GetNodeNumber(nodes[1].id);
 
-    // solveDfs(startNodeNumber, goalNodeNumber);
     solveDfs(startNodeNumber, goalNodeNumber);
+    // solveD(startNodeNumber, goalNodeNumber);
 })
 // async function solveDfs(startNodeNumber, goalNodeNumber){
 //     var maze = construct2dArray();
@@ -1225,6 +1191,7 @@ async function solveDfs(startNodeNumber, goalNodeNumber){
         }
 
         visited[i_save][j_save] = true;
+
         if(currentNode == goalNodeNumber){
             solved = true;
             break;
@@ -1236,8 +1203,6 @@ async function solveDfs(startNodeNumber, goalNodeNumber){
             var n = adj[count];
             if(!visited[n[0]][n[1]]){
                 visited[n[0]][n[1]] = true;
-                
-                
 
                 stack.push(maze[n[0]][n[1]]);
                 prev[maze[n[0]][n[1]] - 1] = currentNode - 1;
@@ -1294,6 +1259,79 @@ async function solveDfs(startNodeNumber, goalNodeNumber){
         document.getElementById('node' + goalNodeNumber).style.backgroundColor = GOAL_NODE_COLOR;
     }
 
+}
+async function solveD(startNodeNumber, goalNodeNumber){
+    // Create a maze filled with walls
+    var maze = construct2dArray();
+    var adjacentsDict = findAdjacents(maze);
+    let prev = new Array(HEIGHT * WIDTH).fill(0);
+    let stack = [];
+    let solved = false;
+
+    let visitedCells = [];
+    for (let i = 0; i < HEIGHT; i++) {
+    visitedCells[i] = [];
+    for (let j = 0; j < WIDTH; j++) {
+        visitedCells[i][j] = false;
+    }
+    }
+    stack.push(startNodeNumber);
+
+    // While there are cells in the stack
+    while (stack.length > 0) {
+        // Get the last cell in the stack
+        currentCell = stack[stack.length - 1];
+        console.log('grabbed node: ', currentCell);
+
+        
+        let currentCellCoord = getNodeCoordinatesWithoutWalls(currentCell);
+        console.log('grabbed node coords: ', currentCellCoord);
+        // Find a random unvisited neighbor
+        let neighbors = [];
+
+        if (currentCellCoord[0] > 0 && !visitedCells[currentCellCoord[0] - 1][currentCellCoord[1]]) {
+            // neighbors.push([currentCellCoord[0] - 1, currentCellCoord[1]]);
+            neighbors.push(currentCell - WIDTH);
+        }
+        if (currentCellCoord[1] > 0 && !visitedCells[currentCellCoord[0]][currentCellCoord[1] - 1]) {
+            // neighbors.push([currentCellCoord[0], currentCellCoord[1] - 1]);
+            neighbors.push(currentCell - 1);
+        }
+        if (currentCellCoord[0] < HEIGHT - 1 && !visitedCells[currentCellCoord[0] + 1][currentCellCoord[1]]) {
+            // neighbors.push([currentCellCoord[0] + 1, currentCellCoord[1]]);
+            neighbors.push(currentCell + WIDTH);
+        }
+        if (currentCellCoord[1] < WIDTH - 1 && !visitedCells[currentCellCoord[0]][currentCellCoord[1] + 1]) {
+            // neighbors.push([currentCellCoord[0], currentCellCoord[1] + 1]);
+            neighbors.push(currentCell + 1);
+        }
+        console.log('neighbors:', neighbors);
+        console.log('neighbors length:', neighbors.length);
+        if (neighbors.length > 0) {
+            // Choose a random neighbor
+            let nextCell = neighbors[0];//neighbors[Math.floor(Math.random() * neighbors.length)];
+            console.log('nextCell:', nextCell);
+            // Calculates coordinates of the next cell
+            let nextCellCoord = getNodeCoordinatesWithoutWalls(nextCell);
+            console.log('nextCellCoord:', nextCellCoord);
+            // Remove the wall between the current cell and the next cell
+            maze[currentCellCoord[0]][currentCellCoord[1]] = 0;
+            maze[nextCellCoord[0]][nextCellCoord[1]] = 0;
+            // Mark the next cell as visited and add it to the stack
+            visitedCells[nextCellCoord[0]][nextCellCoord[1]] = true;
+            stack.push(nextCell);
+            await sleep(1);
+            document.getElementById('node' + nextCell).style.backgroundColor = SEARCH_NODE_COLOR;
+        } else {
+            // If there are no unvisited neighbors, remove the current cell from the stack
+            stack.pop();
+        }
+        console.log('generateDfsMaze: ', maze);
+        console.log('visitedCells: ', visitedCells);
+        console.log('stack: ', stack);
+        console.log('---------------------------------------');
+    }
+    return maze;
 }
 async function reconstructPathForDfs(prev){
     // TODO: Implement it
@@ -1583,25 +1621,15 @@ async function greedyBestFirstSearch(start, goal) {
     var maze = construct2dArray();
     var adjacentsDict = findAdjacents(maze);
     var solved = false;
-    
-    // var prev = new Map();
     let stack = [];
     let visited = [];
     for(let i = 0; i < HEIGHT; i++){
         visited[i] = new Array(WIDTH).fill(false);
     }
     var prev = new Array(HEIGHT * WIDTH).fill(0);
-    // Set of unvisited nodes
-    // const unvisitedNodes = new Set();
-
-    // for(let i = 0; i < HEIGHT * WIDTH; i++){
-    //     unvisitedNodes.add(i + 1);
-    // }
     stack.push(start);
     let coordinates = getNodeCoordinates(start);
     visited[coordinates[0]][coordinates[1]] = true;
-    // Set of visited nodes
-    // const visitedNodes = new Set();
     
     // While there are unvisited nodes
     while (stack.length > 0/*unvisitedNodes.size > 0*/) {
@@ -1630,13 +1658,12 @@ async function greedyBestFirstSearch(start, goal) {
               document.getElementById('node' + start).style.backgroundColor = START_NODE_COLOR; // prevents goal node disappear glitch
             var n = adj[count];
             if(!visited[n[0]][n[1]]){
-                visited[n[0]][n[1]] = true;
                 neighboursDistance[maze[n[0]][n[1]]] = heuristicFunction(getNodeCoordinates(maze[n[0]][n[1]]), getNodeCoordinates(goal));
             }
-            // heuristicDistances[maze[n[0]][n[1]]] = heuristicFunction(getNodeCoordinates(maze[n[0]][n[1]]), getNodeCoordinates(goal));
-            
         }
-        if(neighboursDistance.length == 0){
+        console.log('----------------------------');
+        // checking if length is zero
+        if(Object.keys(neighboursDistance).length == 0){
             break;
         }
         var keys  = Object.keys(neighboursDistance).sort(function(a,b) { return neighboursDistance[a] - neighboursDistance[b]; });
@@ -1644,6 +1671,9 @@ async function greedyBestFirstSearch(start, goal) {
 
         prev[smallestDistanceNode - 1] = currentNode - 1;
         stack.push(smallestDistanceNode);
+        
+        coordinates = getNodeCoordinates(smallestDistanceNode);
+        visited[coordinates[0]][coordinates[1]] = true;
 
         document.getElementById('node' + smallestDistanceNode).style.backgroundColor = EDGE_NODE_COLOR;
         await sleep(1);
