@@ -196,20 +196,4 @@ async function greedyBestFirstSearch(start, goal) {
         document.getElementById('node' + goal).style.backgroundColor = GOAL_NODE_COLOR;
     }
 }
-async function reconstructPath(cameFrom, current) {
-    // base case: if the current node has no predecessor, we're at the start node
-    if (!(current in cameFrom)) {
-      return [current];
-    }
-    document.getElementById('node' + current).style.backgroundColor = EDGE_NODE_COLOR;
-    await sleep(1);
-    document.getElementById('node' + current).style.backgroundColor = SEARCH_NODE_COLOR;
-    // recursive case: get the path from the start node to the current node's predecessor
-    let path = reconstructPath(cameFrom, cameFrom[current]);
-    // add the current node to the path
-    
-    path.push(current);
-    // return the path
-    return path;
-  }
 // #endregion

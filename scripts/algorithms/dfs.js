@@ -64,10 +64,10 @@ async function solveDfs(startNodeNumber, goalNodeNumber){
             if(!visited[n[0]][n[1]]){
                 stack.push(maze[n[0]][n[1]]);
                 prev[maze[n[0]][n[1]] - 1] = currentNode - 1;
-                if(maze[n[0]][n[1]] == goalNodeNumber){
-                    solved = true;
-                    break;
-                }
+                // if(maze[n[0]][n[1]] == goalNodeNumber){
+                //     solved = true;
+                //     break;
+                // }
             }
         }
         if(solved){
@@ -78,43 +78,8 @@ async function solveDfs(startNodeNumber, goalNodeNumber){
         alert('Impossible to solve! I will reset it.');
         return;
     }
-    // prev[0] = 2
-    console.log('prev', prev);
-    let loopControl = false;
-    goalToStart = []; // gathers nodes from goal to start node by grabbing the previous nodes
-    previous = goalNodeNumber - 1;
-    goalToStart.push(previous);
-    
-    while(true){
-        let node = prev[previous];
-        goalToStart.push(node);
-        if(node == 0) loopControl = true;
-        else previous = node;
-    
-        if(loopControl){
-            break;
-        }
-    }
-    console.log('goalToStart', goalToStart);
-    // return;
-    for(node of goalToStart.reverse()){ //goalToStart.reverse() gives nodes sorted from start to node
-        await sleep(25);
-        try{
-            if(node != 0){
-                let n = document.getElementById('node' + (node + 1));
-                n.style.backgroundColor = RED_COLOR
-                await sleep(1);
-                n.style.backgroundColor = ORANGE_COLOR;
-                await sleep(1);
-                n.style.backgroundColor = PATH_COLOR;
-            }
-        }catch(err){
-            loopControl = true;
-        }
-        document.getElementById('node' + startNodeNumber).style.backgroundColor = START_NODE_COLOR;
-        document.getElementById('node' + goalNodeNumber).style.backgroundColor = GOAL_NODE_COLOR;
-    }
-
+    reconstructPath(startNodeNumber, goalNodeNumber, prev);
+    return;
 }
 /* ------------------------------------------------------------*/
 // #endregion
