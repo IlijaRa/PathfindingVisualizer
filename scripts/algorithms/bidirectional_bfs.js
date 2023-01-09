@@ -7,8 +7,7 @@ document.querySelector('a#buttonBD_BFS').addEventListener('click', function(e){
     }
     let startNodeNumber = Node.GetNodeNumber(nodes[0].id);
     let goalNodeNumber = Node.GetNodeNumber(nodes[1].id);
-    
-    let shortestPath = solveBidirectionalBfs(startNodeNumber, goalNodeNumber);
+    solveBidirectionalBfs(startNodeNumber, goalNodeNumber);
 })
 async function solveBidirectionalBfs(startNodeNumber, goalNodeNumber){
     var maze = construct2dArray();
@@ -23,8 +22,6 @@ async function solveBidirectionalBfs(startNodeNumber, goalNodeNumber){
     let prevB = new Array(HEIGHT * WIDTH).fill(0);
     let dictA = {};
     let dictB = {};
-    // Initialize a map to store the previous element for each element in the path
-    // let previous = new Map();
 
     for(i = 0; i < HEIGHT; i++){ visited[i] = new Array(WIDTH).fill(false); }
     for(i = 0; i < HEIGHT * WIDTH; i++){ dictA[i] = 0; dictB[i] = 0; }
@@ -42,7 +39,6 @@ async function solveBidirectionalBfs(startNodeNumber, goalNodeNumber){
         if(document.getElementById('node' + currentA).style.backgroundColor == GOAL_SEARCH_NODE_COLOR ||
            document.getElementById('node' + currentA).style.backgroundColor == GOAL_EDGE_NODE_COLOR){
             intersectNodeNumber = currentA;
-            // document.getElementById('node' + currentA).style.backgroundColor = INTERSECT_NODE_COLOR;
             solved = true;
             break;
         }
@@ -59,7 +55,6 @@ async function solveBidirectionalBfs(startNodeNumber, goalNodeNumber){
                     intersectNodeNumber = maze[n[0]][n[1]];
                     prevA[maze[n[0]][n[1]] - 1] = currentA - 1;
                     dictA[intersectNodeNumber] = currentA;
-                    // document.getElementById('node' + maze[n[0]][n[1]]).style.backgroundColor = INTERSECT_NODE_COLOR;
                     solved = true;
                     break;
                 }
@@ -122,26 +117,15 @@ async function solveBidirectionalBfs(startNodeNumber, goalNodeNumber){
         alert('Impossible to solve! I will reset it.');
         return;
     }
-    console.log('intersectNodeNumber:', intersectNodeNumber);
-    console.log('prevA:', prevA);
-    console.log('prevB:', prevB);
-    console.log('dictA:', dictA);
-    console.log('dictB:', dictB);
-    
-    console.log('------Iteration A------');
+
     let loopControlA = false;
     intersectToStart = []; // gathers nodes from intersect to start node by grabbing the previous nodes
     previous = intersectNodeNumber;
-    console.log('First previous:', previous);
     // document.getElementById('node' + previous).style.backgroundColor = PATH_COLOR;
     intersectToStart.push(previous);
-    console.log('First intersectToStart:', intersectToStart);
     while(true){
-        console.log('previous:', previous);
         let node = dictA[previous];
-        console.log('node:', node);
         intersectToStart.push(node);
-        console.log('intersectToStart:', intersectToStart);
 
         if(node == 0) loopControlA = true;
         else previous = node;
@@ -150,7 +134,6 @@ async function solveBidirectionalBfs(startNodeNumber, goalNodeNumber){
             break;
         }
     }
-    console.log('intersectToStart:', intersectToStart);
     for(node of intersectToStart.reverse()){ //intersectToStart.reverse() gives nodes sorted from start to node
         // await sleep(25);
         try{
@@ -169,20 +152,14 @@ async function solveBidirectionalBfs(startNodeNumber, goalNodeNumber){
         document.getElementById('node' + goalNodeNumber).style.backgroundColor = GOAL_NODE_COLOR;
     }
 
-    console.log('------Iteration B------');
     let loopControlB = false;
     intersectToGoal = []; // gathers nodes from intersect to start node by grabbing the previous nodes
     pre = intersectNodeNumber;
-    console.log('First pre:', pre);
     // document.getElementById('node' + pre).style.backgroundColor = PATH_COLOR;
     intersectToGoal.push(pre);
-    console.log('First intersectToGoal:', intersectToGoal);
     while(true){
-        console.log('pre:', pre);
         let node = dictB[pre];
-        console.log('node:', node);
         intersectToGoal.push(node);
-        console.log('intersectToGoal:', intersectToGoal);
         
         if(node == 0) loopControlB = true;
         else pre = node;
@@ -192,7 +169,6 @@ async function solveBidirectionalBfs(startNodeNumber, goalNodeNumber){
         }
     }
 
-    console.log('intersectToGoal:', intersectToGoal);
     for(node of intersectToGoal.reverse()){ //intersectToGoal.reverse() gives nodes sorted from start to node
         // await sleep(25);
         try{
