@@ -2,7 +2,8 @@
 pathfinding visualizer in javascript programming language
 
 ## Instrukcije za koriscenje
-* Shift + Left mouse click - sluze za formiranje startnog i ciljnog cvora, pri cemu prvi klik generise startni cvor, a drugi generise ciljni cvor. KADA SE GENERISU OVA DVA CVORA TADA Shift + Left mouse click SLUZI ZA KREIRANJE ZIDOVA.
+* SHIFT + Left mouse click - sluze za formiranje zidova, ali pre toga prvi klik generise startni cvor, a drugi generise ciljni cvor ukoliko oni uopste ne postoje na canvas-u.
+* ALT + Left mouse click - sluze za formiranje tezinskih cvorova, ali pre toga prvi klik generise startni cvor, a drugi generise ciljni cvor ukoliko oni uopste ne postoje na canvas-u.
 
 Link za probu aplikacije: https://dreamy-gingersnap-b0faeb.netlify.app
 
@@ -11,4 +12,3 @@ Link za probu aplikacije: https://dreamy-gingersnap-b0faeb.netlify.app
 * Pop up za instrukcije o koriscenju nije implementiran
 * Nisu svi maze generatori implementirani koji su planirani
 * Fali drag and drop za startni i ciljni cvor 
-* Nisu ubaceni weighted cvorovi
