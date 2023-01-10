@@ -1,6 +1,8 @@
 <html>
     <head>
+        <!-- CSS -->
         <link rel = "stylesheet" href = "styles/style.css"/>
+        <link rel = "stylesheet" href = "styles/node_style.css"/>
         <link rel = "stylesheet" href = "styles/navBar.css"/>
         <link rel="icon" href="./images/favicon.png">
         <!-- Load an icon library to show a hamburger menu (bars) on small screens -->
@@ -18,11 +20,12 @@
                         <div class="dropdown">
                           <a id="buttonDFS" href="#">Depth-First Search (DFS)</a>
                           <a id="buttonBFS" href="#">Breadth-First Search (BFS)</a>
-                          <a id="buttonDijkstra" href="#">Dijkstra (UCS)</a>
                           <a id="buttonBD_DFS" href="#">Bidirectional DFS</a>
                           <a id="buttonBD_BFS" href="#">Bidirectional BFS</a>
+                          <a id="buttonDijkstra" href="#">Dijkstra (UCS)</a>
                           <a id="buttonGreedy_BFS" href="#">Greedy Best-First Search</a>
                           <a id="buttonA_star" href="#">A-Star (A*)</a>
+                          <a id="buttonRecursive_BFS" href="#">Recursive Best-First Search</a>
                         </div>
                       </li>
                       <li class="navbar-dropdown">
@@ -64,7 +67,7 @@
                 </nav>
             </div>
             <div id="description_container" class="description_container">
-                <div class="description-node start-node tooltip">
+                <div class="description-node tooltip">
                     <img src="./images/nodes/start_node.png" alt="start_node"> <br>
                     Start node
                     <span class="tooltiptext">Shift/Alt + Left mouse click(first click ever)</span>
@@ -73,7 +76,7 @@
                     <img src="./images/nodes/start_node.png" alt="start_node"> <br>
                     Start node
                 </div> -->
-                <div class="description-node goal-node tooltip">
+                <div class="description-node tooltip">
                     <img src="./images/nodes/goal_node.png" alt="goal_node"> <br>
                     Goal Node
                     <span class="tooltiptext">Shift/Alt + Left mouse click(second click ever)</span>
@@ -82,7 +85,7 @@
                     <img src="./images/nodes/end_node.png" alt="end_node"> <br>
                     End Node
                 </div> -->
-                <div class="description-node wall-node tooltip">
+                <div class="description-node tooltip">
                     <img src="./images/nodes/wall_node.png" alt="wall_node"> <br>
                     Wall Node
                     <span class="tooltiptext">Shift + Left mouse click(generates after start&goal)</span>
@@ -91,7 +94,7 @@
                     <img src="./images/nodes/wall_node.png" alt="wall_node"> <br>
                     Wall Node
                 </div> -->
-                <div class="description-node weighted-node tooltip">
+                <div class="description-node tooltip">
                     <img src="./images/nodes/weighted_node.png" alt="weighted_node"> <br>
                     Weighted Node
                     <span class="tooltiptext">Alt + Left mouse click</span>
@@ -100,19 +103,19 @@
                     <img src="./images/nodes/weighted_node.png" alt="weighted_node"> <br>
                     Weighted Node
                 </div> -->
-                <div class="description-node current-node">
+                <div class="description-node">
                     <img src="./images/nodes/current_node.png" alt="current_node"> <br>
                     Current Node
                 </div>
-                <div class="description-node visited-node">
+                <div class="description-node">
                     <img src="./images/nodes/visited_node.png" alt="visited_node"> <br>
                     Visited Node
                 </div>
-                <div class="description-node unvisited-node">
+                <div class="description-node">
                     <img src="./images/nodes/unvisited_node.png" alt="unvisited_node"> <br>
                     Unvisited Node
                 </div>
-                <div class="description-node path-node">
+                <div class="description-node">
                     <img src="./images/nodes/path_node.png" alt="path_node"> <br>
                     Path Node
                 </div>
@@ -134,7 +137,8 @@
         <script src="./scripts/algorithms/bidirectional_dfs.js"></script>
         <script src="./scripts/algorithms/dfs.js"></script>
         <script src="./scripts/algorithms/dijkstra.js"></script>
-        <script src="./scripts/algorithms/greedy_search.js"></script>
+        <script src="./scripts/algorithms/greedy_bfs.js"></script>
+        <script src="./scripts/algorithms/recursive_bfs.js"></script>
         <!-- Maze generators -->
         <script src="./scripts/maze_generators/random_seed.js"></script>
         <script src="./scripts/maze_generators/randomized_dfs.js"></script>

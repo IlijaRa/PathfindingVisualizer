@@ -31,6 +31,7 @@ async function constructPathReverse(startNodeNumber, goalNodeNumber, goalToStart
                 n.style.backgroundColor = ORANGE_COLOR;
                 await sleep(1);
                 n.style.backgroundColor = PATH_COLOR;
+                n.style.borderColor = PATH_COLOR;
             }
         }catch(err){
             loopControl = true;

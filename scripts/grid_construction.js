@@ -15,39 +15,44 @@ function constructGrid(){
                 if(mouseDown == 1 && e.shiftKey){
                     if(startNodeExists == false){
                         e.target.style.backgroundColor = START_NODE_COLOR;
+                        e.target.style.borderColor = START_NODE_COLOR;
                         startNodeExists = true;
                     }
                     else if(goalNodeExists == false && e.target.style.backgroundColor != START_NODE_COLOR){
                         e.target.style.backgroundColor = GOAL_NODE_COLOR;
+                        e.target.style.borderColor = GOAL_NODE_COLOR;
                         goalNodeExists = true;
                     }  
                     else if((startNodeExists == true && goalNodeExists == true) && 
                         (e.target.style.backgroundColor != START_NODE_COLOR) && 
                         (e.target.style.backgroundColor != GOAL_NODE_COLOR) &&
                         (e.target.style.backgroundColor != EDGE_NODE_COLOR) &&
-                        (e.target.style.backgroundColor != SEARCH_NODE_COLOR) 
-                        ){
+                        (e.target.style.backgroundColor != SEARCH_NODE_COLOR) &&
+                        (e.target.style.backgroundColor != PATH_COLOR)){
                             e.target.style.backgroundColor = WALL_COLOR;
-                            e.target.style.borderColor = WALL_COLOR;
+                            e.target.style.borderColor = BORDER_COLOR;
                         } 
                 }
                 if(mouseDown == 1 && e.altKey){
                     if(startNodeExists == false){
                         e.target.style.backgroundColor = START_NODE_COLOR;
+                        e.target.style.borderColor = START_NODE_COLOR;
                         startNodeExists = true;
                     }
                     else if(goalNodeExists == false && e.target.style.backgroundColor != START_NODE_COLOR){
                         e.target.style.backgroundColor = GOAL_NODE_COLOR;
+                        e.target.style.borderColor = GOAL_NODE_COLOR;
                         goalNodeExists = true;
                     }  
                     else if((startNodeExists == true && goalNodeExists == true) && 
                         (e.target.style.backgroundColor != START_NODE_COLOR) && 
                         (e.target.style.backgroundColor != GOAL_NODE_COLOR) &&
                         (e.target.style.backgroundColor != EDGE_NODE_COLOR) &&
-                        (e.target.style.backgroundColor != SEARCH_NODE_COLOR) 
-                        ){
+                        (e.target.style.backgroundColor != SEARCH_NODE_COLOR) &&
+                        (e.target.style.backgroundColor != PATH_COLOR) &&
+                        (e.target.style.backgroundColor != WALL_COLOR)){
                             e.target.style.backgroundColor = WEIGHTED_NODE_COLOR;
-                            e.target.style.borderColor = WALL_COLOR;
+                            e.target.style.borderColor = BORDER_COLOR;
                         } 
                 }
             });
@@ -56,39 +61,44 @@ function constructGrid(){
                 if(e.shiftKey){
                     if(startNodeExists == false){
                         e.target.style.backgroundColor = START_NODE_COLOR;
+                        e.target.style.borderColor = START_NODE_COLOR;
                         startNodeExists = true;
                     }
                     else if(goalNodeExists == false && e.target.style.backgroundColor != START_NODE_COLOR){
                         e.target.style.backgroundColor = GOAL_NODE_COLOR;
+                        e.target.style.borderColor = GOAL_NODE_COLOR;
                         goalNodeExists = true;
                     }
                     else if((startNodeExists == true && goalNodeExists == true) && 
                             (e.target.style.backgroundColor != START_NODE_COLOR) && 
                             (e.target.style.backgroundColor != GOAL_NODE_COLOR) &&
                             (e.target.style.backgroundColor != EDGE_NODE_COLOR) &&
-                            (e.target.style.backgroundColor != SEARCH_NODE_COLOR) 
-                            ){
+                            (e.target.style.backgroundColor != SEARCH_NODE_COLOR) &&
+                            (e.target.style.backgroundColor != PATH_COLOR)){
                         e.target.style.backgroundColor = WHITE_COLOR;
-                        e.target.style.borderColor = WALL_COLOR;
+                        e.target.style.borderColor = BORDER_COLOR;
                     } 
                 }
                 if(e.altKey){
                     if(startNodeExists == false){
                         e.target.style.backgroundColor = START_NODE_COLOR;
+                        e.target.style.borderColor = START_NODE_COLOR;
                         startNodeExists = true;
                     }
                     else if(goalNodeExists == false && e.target.style.backgroundColor != START_NODE_COLOR){
                         e.target.style.backgroundColor = GOAL_NODE_COLOR;
+                        e.target.style.borderColor = GOAL_NODE_COLOR;
                         goalNodeExists = true;
                     }  
                     else if((startNodeExists == true && goalNodeExists == true) && 
                         (e.target.style.backgroundColor != START_NODE_COLOR) && 
                         (e.target.style.backgroundColor != GOAL_NODE_COLOR) &&
                         (e.target.style.backgroundColor != EDGE_NODE_COLOR) &&
-                        (e.target.style.backgroundColor != SEARCH_NODE_COLOR) 
-                        ){
+                        (e.target.style.backgroundColor != SEARCH_NODE_COLOR) &&
+                        (e.target.style.backgroundColor != PATH_COLOR) &&
+                        (e.target.style.backgroundColor != WALL_COLOR)){
                             e.target.style.backgroundColor = WEIGHTED_NODE_COLOR;
-                            e.target.style.borderColor = WALL_COLOR;
+                            e.target.style.borderColor = BORDER_COLOR;
                         } 
                 }
             });

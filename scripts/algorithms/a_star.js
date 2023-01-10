@@ -70,8 +70,15 @@ async function solveAstar(start, goal) {
             if(visitedNodes.has(maze[n[0]][n[1]])){
                 continue;
             }
-            // (Math.floor(Math.random() * 5) + 1) generates value between 1 and 5, but more realistic is that the weight is always 1
-            const newDistance = distances[currentNode] + 1;
+            // (Math.floor(Math.random() * 50000) + 20000); generates value between 20000 and 50000
+            let newDistance = undefined;
+            let nod = document.getElementById('node' + maze[n[0]][n[1]]);
+            if(nod.style.backgroundColor == WEIGHTED_NODE_COLOR){
+                newDistance = distances[currentNode] + (Math.floor(Math.random() * 50000) + 20000);
+            }else{
+                newDistance = distances[currentNode] + 1;
+            }
+            
             if (newDistance < distances[maze[n[0]][n[1]]]) {
                 distances[maze[n[0]][n[1]]] = newDistance;
                 heuristicDistances[maze[n[0]][n[1]]] = heuristicFunction(getNodeCoordinates(maze[n[0]][n[1]]), getNodeCoordinates(goal));
