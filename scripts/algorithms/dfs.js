@@ -1,7 +1,7 @@
 /* --------------------DFS algorithm---------------------------*/
 document.querySelector('a#buttonDFS').addEventListener('click', function(e){
     var nodes = findStartAndGoalNode(); 
-    if(nodes.length < 2){
+    if(nodes[0] == null || nodes[1] == null){
         alert('You need to provide start and goal nodes!');
         return;
     }
@@ -33,10 +33,12 @@ async function solveDfs(startNodeNumber, goalNodeNumber){
             break;
         }
         // change color of visited node
-        document.getElementById('node' + startNodeNumber).style.backgroundColor = START_NODE_COLOR;
-        document.getElementById('node' + currentNode).style.backgroundColor = EDGE_NODE_COLOR;
-        await sleep(1);
-        document.getElementById('node' + currentNode).style.backgroundColor = SEARCH_NODE_COLOR;
+        document.getElementById('node' + currentNode).classList.remove('empty-node');
+        document.getElementById('node' + currentNode).classList.remove('visited-node1');
+        // document.getElementById('node' + startNodeNumber).style.backgroundColor = START_NODE_COLOR;
+        // document.getElementById('node' + currentNode).style.backgroundColor = EDGE_NODE_COLOR;
+        // await sleep(1);
+        // document.getElementById('node' + currentNode).style.backgroundColor = SEARCH_NODE_COLOR;
         // find adjacents of the current node
         var adj = adjacentsDict[currentNode];
         for(count = 0; count < adj.length; count++){

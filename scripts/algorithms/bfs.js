@@ -1,7 +1,7 @@
 /* --------------------BFS algorithm---------------------------*/
 document.querySelector('a#buttonBFS').addEventListener('click', function(e){
     var nodes = findStartAndGoalNode(); 
-    if(nodes.length < 2){
+    if(nodes[0] == null || nodes[1] == null){
         alert('You need to provide start and goal nodes!');
         return;
     }
@@ -16,27 +16,30 @@ async function solveBfs(startNodeNumber, goalNodeNumber){
     let prev = new Array(HEIGHT * WIDTH).fill(0);
     let queue = [];
     let solved = false;
-    
     queue.push(startNodeNumber);
 
     while(queue.length > 0){
         //Defining maze and adjacentsDict again and again enables wall changement in real time
         var maze = construct2dArray();
         var adjacentsDict = findAdjacents(maze);
-        
         var currentNode = queue.shift();
-
-        visited[currentNode] = true;
-
         if(currentNode == goalNodeNumber){
             solved = true;
             break;
         }
-        // change color of visited node
-        document.getElementById('node' + startNodeNumber).style.backgroundColor = START_NODE_COLOR;
-        document.getElementById('node' + currentNode).style.backgroundColor = EDGE_NODE_COLOR;
-        await sleep(1);
-        document.getElementById('node' + currentNode).style.backgroundColor = SEARCH_NODE_COLOR;
+        visited[currentNode] = true;
+
+        // change empty-node to visited-node
+        if(currentNode != startNodeNumber){
+            document.getElementById('node' + currentNode).classList.remove('empty-node');
+            document.getElementById('node' + currentNode).classList.add('visited-node1');
+        }
+        
+
+        // document.getElementById('node' + startNodeNumber).style.backgroundColor = START_NODE_COLOR;
+        // document.getElementById('node' + currentNode).style.backgroundColor = EDGE_NODE_COLOR;
+        await sleep(0.001);
+        // document.getElementById('node' + currentNode).style.backgroundColor = SEARCH_NODE_COLOR;
         // find adjacents of the current node
         var adj = adjacentsDict[currentNode];
         for(count = 0; count < adj.length; count++){

@@ -1,105 +1,87 @@
 // #region GRID_CONSTRUCTION
 function constructGrid(){
+    
     var maze_container = document.querySelector('#maze_container');
     for(var i = 0; i < HEIGHT; i++){
         var row = document.createElement('div');
-        row.className = 'row row' + (i + 1);
-        row.id = 'row' + (i + 1);
+        row.classList.add('row', 'row' + (i + 1));
+        row.setAttribute('id', 'row' + (i + 1));
         for(var j = 0; j < WIDTH; j++){
             var node = document.createElement('div');
-            node.className = 'node node' + ((i * WIDTH) + (j + 1));
-            node.id = 'node' + ((i * WIDTH) + (j + 1));
-            node.style.backgroundColor = WHITE_COLOR;
-
+            node.classList.add('node', 'node' + ((i * WIDTH) + (j + 1)), 'empty-node');
+            node.setAttribute('id', 'node' + ((i * WIDTH) + (j + 1)));
+            
             node.addEventListener('mouseover', function(e){
                 if(mouseDown == 1 && e.shiftKey){
                     if(startNodeExists == false){
-                        e.target.style.backgroundColor = START_NODE_COLOR;
-                        e.target.style.borderColor = START_NODE_COLOR;
+                        e.target.classList.remove('empty-node');
+                        e.target.classList.add('start-node');
                         startNodeExists = true;
                     }
-                    else if(goalNodeExists == false && e.target.style.backgroundColor != START_NODE_COLOR){
-                        e.target.style.backgroundColor = GOAL_NODE_COLOR;
-                        e.target.style.borderColor = GOAL_NODE_COLOR;
+                    else if(goalNodeExists == false && !e.target.classList.contains("start-node")){
+                        e.target.classList.remove("empty-node");
+                        e.target.classList.add("goal-node");
                         goalNodeExists = true;
                     }  
-                    else if((startNodeExists == true && goalNodeExists == true) && 
-                        (e.target.style.backgroundColor != START_NODE_COLOR) && 
-                        (e.target.style.backgroundColor != GOAL_NODE_COLOR) &&
-                        (e.target.style.backgroundColor != EDGE_NODE_COLOR) &&
-                        (e.target.style.backgroundColor != SEARCH_NODE_COLOR) &&
-                        (e.target.style.backgroundColor != PATH_COLOR)){
-                            e.target.style.backgroundColor = WALL_COLOR;
-                            e.target.style.borderColor = BORDER_COLOR;
-                        } 
+                    else if(e.target.classList.contains('empty-node') || 
+                            e.target.classList.contains('weighted-node')){
+                        e.target.classList.remove("empty-node");
+                        e.target.classList.remove("weighted-node");
+                        e.target.classList.add("wall-node");
+                    } 
                 }
                 if(mouseDown == 1 && e.altKey){
                     if(startNodeExists == false){
-                        e.target.style.backgroundColor = START_NODE_COLOR;
-                        e.target.style.borderColor = START_NODE_COLOR;
+                        e.target.classList.remove('empty-node');
+                        e.target.classList.add('start-node');
                         startNodeExists = true;
                     }
-                    else if(goalNodeExists == false && e.target.style.backgroundColor != START_NODE_COLOR){
-                        e.target.style.backgroundColor = GOAL_NODE_COLOR;
-                        e.target.style.borderColor = GOAL_NODE_COLOR;
+                    else if(goalNodeExists == false && !e.target.classList.contains("start-node")){
+                        e.target.classList.remove("empty-node");
+                        e.target.classList.add("goal-node");
                         goalNodeExists = true;
                     }  
-                    else if((startNodeExists == true && goalNodeExists == true) && 
-                        (e.target.style.backgroundColor != START_NODE_COLOR) && 
-                        (e.target.style.backgroundColor != GOAL_NODE_COLOR) &&
-                        (e.target.style.backgroundColor != EDGE_NODE_COLOR) &&
-                        (e.target.style.backgroundColor != SEARCH_NODE_COLOR) &&
-                        (e.target.style.backgroundColor != PATH_COLOR) &&
-                        (e.target.style.backgroundColor != WALL_COLOR)){
-                            e.target.style.backgroundColor = WEIGHTED_NODE_COLOR;
-                            e.target.style.borderColor = BORDER_COLOR;
-                        } 
+                    else if(e.target.classList.contains('empty-node')){
+                        e.target.classList.remove("empty-node");
+                        e.target.classList.add("weighted-node");
+                    }
                 }
             });
 
             node.addEventListener('click', function(e){
                 if(e.shiftKey){
                     if(startNodeExists == false){
-                        e.target.style.backgroundColor = START_NODE_COLOR;
-                        e.target.style.borderColor = START_NODE_COLOR;
+                        e.target.classList.remove('empty-node');
+                        e.target.classList.add('start-node');
                         startNodeExists = true;
                     }
-                    else if(goalNodeExists == false && e.target.style.backgroundColor != START_NODE_COLOR){
-                        e.target.style.backgroundColor = GOAL_NODE_COLOR;
-                        e.target.style.borderColor = GOAL_NODE_COLOR;
+                    else if(goalNodeExists == false && !e.target.classList.contains("start-node")){
+                        e.target.classList.remove("empty-node");
+                        e.target.classList.add("goal-node");
                         goalNodeExists = true;
-                    }
-                    else if((startNodeExists == true && goalNodeExists == true) && 
-                            (e.target.style.backgroundColor != START_NODE_COLOR) && 
-                            (e.target.style.backgroundColor != GOAL_NODE_COLOR) &&
-                            (e.target.style.backgroundColor != EDGE_NODE_COLOR) &&
-                            (e.target.style.backgroundColor != SEARCH_NODE_COLOR) &&
-                            (e.target.style.backgroundColor != PATH_COLOR)){
-                        e.target.style.backgroundColor = WHITE_COLOR;
-                        e.target.style.borderColor = BORDER_COLOR;
+                    }  
+                    else if(e.target.classList.contains('empty-node') ||
+                            e.target.classList.contains('weighted-node')){
+                        e.target.classList.remove("empty-node");
+                        e.target.classList.remove("weighted-node");
+                        e.target.classList.add("wall-node");
                     } 
                 }
                 if(e.altKey){
                     if(startNodeExists == false){
-                        e.target.style.backgroundColor = START_NODE_COLOR;
-                        e.target.style.borderColor = START_NODE_COLOR;
+                        e.target.classList.remove('empty-node');
+                        e.target.classList.add('start-node');
                         startNodeExists = true;
                     }
-                    else if(goalNodeExists == false && e.target.style.backgroundColor != START_NODE_COLOR){
-                        e.target.style.backgroundColor = GOAL_NODE_COLOR;
-                        e.target.style.borderColor = GOAL_NODE_COLOR;
+                    else if(goalNodeExists == false && !e.target.classList.contains("start-node")){
+                        e.target.classList.remove("empty-node");
+                        e.target.classList.add("goal-node");
                         goalNodeExists = true;
                     }  
-                    else if((startNodeExists == true && goalNodeExists == true) && 
-                        (e.target.style.backgroundColor != START_NODE_COLOR) && 
-                        (e.target.style.backgroundColor != GOAL_NODE_COLOR) &&
-                        (e.target.style.backgroundColor != EDGE_NODE_COLOR) &&
-                        (e.target.style.backgroundColor != SEARCH_NODE_COLOR) &&
-                        (e.target.style.backgroundColor != PATH_COLOR) &&
-                        (e.target.style.backgroundColor != WALL_COLOR)){
-                            e.target.style.backgroundColor = WEIGHTED_NODE_COLOR;
-                            e.target.style.borderColor = BORDER_COLOR;
-                        } 
+                    else if(e.target.classList.contains('empty-node')){
+                        e.target.classList.remove("empty-node");
+                        e.target.classList.add("weighted-node");
+                    }
                 }
             });
             row.appendChild(node);
@@ -115,21 +97,15 @@ function constructGrid(){
 function construct2dArray(){
     var nodeCount = 0;
     let maze = [];
-    
     /* Filling a complete 2d array with zeros */
     for(i = 0; i < HEIGHT; i++){
         maze[i] = new Array(WIDTH).fill(0);
     }
-
-    /* 
-        Traverse through grid
-        node value equals -1 if its a wall
-        node value equals incrementing value of nodeCount if its not a wall
-    */
+    /* Traverse through a complete container and stores values into a 2d array. WALL = -1, EVERYTHING ELSE = nodeCount */
     for(i = 0; i < HEIGHT; i++){
         for(j = 0; j < WIDTH; j++){
             nodeCount++;
-            if(document.getElementById('node' + nodeCount).style.backgroundColor == WALL_COLOR){
+            if(document.getElementById('node' + nodeCount).classList.contains('wall-node')){
                 maze[i][j] = -1;
             }else{
                 maze[i][j] = nodeCount;
