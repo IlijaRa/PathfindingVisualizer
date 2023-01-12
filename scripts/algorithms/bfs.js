@@ -29,17 +29,9 @@ async function solveBfs(startNodeNumber, goalNodeNumber){
         }
         visited[currentNode] = true;
 
-        // change empty-node to visited-node
-        if(currentNode != startNodeNumber){
-            document.getElementById('node' + currentNode).classList.remove('empty-node');
-            document.getElementById('node' + currentNode).classList.add('visited-node1');
-        }
-        
+        drawVisitedNodeOne(currentNode, startNodeNumber);
+        await sleep(0);
 
-        // document.getElementById('node' + startNodeNumber).style.backgroundColor = START_NODE_COLOR;
-        // document.getElementById('node' + currentNode).style.backgroundColor = EDGE_NODE_COLOR;
-        await sleep(0.001);
-        // document.getElementById('node' + currentNode).style.backgroundColor = SEARCH_NODE_COLOR;
         // find adjacents of the current node
         var adj = adjacentsDict[currentNode];
         for(count = 0; count < adj.length; count++){

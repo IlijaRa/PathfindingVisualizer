@@ -1,7 +1,7 @@
 // #region CONSTANTS
 /*WINDOW SETTINGS*/
-WIDTH = 60;
-HEIGHT = 40;
+WIDTH = 50;
+HEIGHT = 30;
 
 /*GLOBAL VARIABLES*/
 var startNodeExists = false;

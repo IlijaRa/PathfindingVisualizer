@@ -26,21 +26,12 @@ async function constructPathReverse(startNodeNumber, goalNodeNumber, goalToStart
         try{
             if(node != 0){
                 let n = document.getElementById('node' + (node + 1));
-                
                 n.classList.remove('visited-node1');
                 n.classList.remove('visited-node2');
                 n.classList.add('path-node');
-                // n.style.backgroundColor = RED_COLOR
-                // await sleep(1);
-                // n.style.backgroundColor = ORANGE_COLOR;
-                // await sleep(1);
-                // n.style.backgroundColor = PATH_COLOR;
-                // n.style.borderColor = PATH_COLOR;
             }
         }catch(err){
             loopControl = true;
         }
-        // document.getElementById('node' + startNodeNumber).style.backgroundColor = START_NODE_COLOR;
-        // document.getElementById('node' + goalNodeNumber).style.backgroundColor = GOAL_NODE_COLOR;
     }
 }

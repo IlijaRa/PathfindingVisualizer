@@ -138,14 +138,6 @@ class Node{
         return neighboursNumbers;
     }
 
-    static DrawVisited(currentNode){
-        // change empty-node to visited-node
-        if(currentNode != startNodeNumber){
-            document.getElementById('node' + currentNode).classList.remove('empty-node');
-            document.getElementById('node' + currentNode).classList.add('visited-node1');
-        }
-    }
-
     get GetParentNumber(){
         let parentNumber = parseInt(this.parent.replace('node', ''));
         return parentNumber; 
