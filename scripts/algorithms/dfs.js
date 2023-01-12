@@ -26,19 +26,16 @@ async function solveDfs(startNodeNumber, goalNodeNumber){
 
         var currentNode = stack.pop();
 
-        visited[currentNode] = true;
-
         if(currentNode == goalNodeNumber){
             solved = true;
             break;
         }
-        // change color of visited node
-        document.getElementById('node' + currentNode).classList.remove('empty-node');
-        document.getElementById('node' + currentNode).classList.remove('visited-node1');
-        // document.getElementById('node' + startNodeNumber).style.backgroundColor = START_NODE_COLOR;
-        // document.getElementById('node' + currentNode).style.backgroundColor = EDGE_NODE_COLOR;
-        // await sleep(1);
-        // document.getElementById('node' + currentNode).style.backgroundColor = SEARCH_NODE_COLOR;
+
+        visited[currentNode] = true;
+
+        drawVisitedNodeOne(currentNode, startNodeNumber);
+        await sleep(0);
+        
         // find adjacents of the current node
         var adj = adjacentsDict[currentNode];
         for(count = 0; count < adj.length; count++){
