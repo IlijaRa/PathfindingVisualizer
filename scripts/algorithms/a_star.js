@@ -8,7 +8,7 @@ document.querySelector('a#buttonA_star').addEventListener('click', function(e){
     }
     let startNodeNumber = Node.GetNodeNumber(nodes[0].id);
     let goalNodeNumber = Node.GetNodeNumber(nodes[1].id);
-
+    disablePointerActions();
     solveAstar(startNodeNumber, goalNodeNumber);
 });
 async function solveAstar(start, goal) {

@@ -27,3 +27,7 @@ function drawIntersectNode(currentNode){
     deleteAnyNodeClass(currentNode);
     document.getElementById('node' + currentNode).classList.add('intersect-node');
 }
+function drawWeightedNode(currentNode){
+    deleteAnyNodeClass(currentNode);
+    document.getElementById('node' + currentNode).classList.add('weighted-node');
+}

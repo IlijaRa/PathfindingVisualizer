@@ -10,7 +10,7 @@ function constructGrid(){
             var node = document.createElement('div');
             node.classList.add('node', 'node' + ((i * WIDTH) + (j + 1)), 'unvisited-node');
             node.setAttribute('id', 'node' + ((i * WIDTH) + (j + 1)));
-            
+
             node.addEventListener('mouseover', function(e){
                 if(mouseDown == 1 && e.shiftKey){
                     if(startNodeExists == false){
@@ -79,8 +79,7 @@ function constructGrid(){
                         goalNodeExists = true;
                     }  
                     else if(e.target.classList.contains('unvisited-node')){
-                        e.target.classList.remove("unvisited-node");
-                        e.target.classList.add("weighted-node");
+                        drawWeightedNode(e.target);
                     }
                 }
             });
