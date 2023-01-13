@@ -1,5 +1,6 @@
 // #region DIJKSTRA
 document.querySelector('a#buttonDijkstra').addEventListener('click', function(e){
+    disablePointerActions();
     var nodes = findStartAndGoalNode(); 
     if(nodes.length < 2){
         alert('You need to provide start and goal nodes!');
@@ -14,13 +15,10 @@ async function solveDijkstra(startNodeNumber, goalNodeNumber) {
     var maze = construct2dArray();
     var adjacentsDict = findAdjacents(maze);
     var solved = false;
-    // var prev = new Map();
     let queue = []
     var prev = new Array(HEIGHT * WIDTH).fill(0);
-    // Set of unvisited nodes
     const unvisitedNodes = new Set();
-
-    // Set initial distance to infinity for all nodes except the starting node
+    const visitedNodes = new Set();
     const distances = {};
 
     for(let i = 0; i < HEIGHT * WIDTH; i++){
@@ -29,9 +27,7 @@ async function solveDijkstra(startNodeNumber, goalNodeNumber) {
     }
     distances[startNodeNumber] = 0;
     queue.push(startNodeNumber);
-    // Set of visited nodes
-    const visitedNodes = new Set();
-  
+
     // While there are unvisited nodes
     while (queue.length > 0/*unvisitedNodes.size > 0*/) {
         var maze = construct2dArray();
@@ -48,6 +44,7 @@ async function solveDijkstra(startNodeNumber, goalNodeNumber) {
         // Mark the current node as visited
         visitedNodes.add(currentNode);
         unvisitedNodes.delete(currentNode);
+        
         const index = queue.indexOf(currentNode);
         if (index > -1) { // only splice array when item is found
             queue.splice(index, 1); // 2nd parameter means remove one item only

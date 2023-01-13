@@ -5,6 +5,16 @@ let mouseDown = 0;
 document.onmousedown = () => {mouseDown = 1;}
 document.onmouseup = () => {mouseDown = 0;}
 
+function disablePointerActions(){
+    document.querySelector('#content_container').classList.remove('enable-div');
+    document.querySelector('#content_container').classList.add('disabled-div');
+}
+
+function enablePointerActions(){
+    document.querySelector('#content_container').classList.remove('disabled-div');
+    document.querySelector('#content_container').classList.add('enable-div');
+}
+
 // Provides sleepqueue
 const sleep = (time) => {
     return new Promise(resolve => setTimeout(resolve, time))

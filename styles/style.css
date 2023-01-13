@@ -123,6 +123,13 @@ body{
     transform: scale(1.3);
 } */
 
+.disabled-div{
+    pointer-events: none;
+}
+.enabled-div{
+    pointer-events: all;
+}
+
 .hide {
     display: none;
 }

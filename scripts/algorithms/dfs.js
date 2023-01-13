@@ -1,5 +1,6 @@
 /* --------------------DFS algorithm---------------------------*/
 document.querySelector('a#buttonDFS').addEventListener('click', function(e){
+    disablePointerActions();
     var nodes = findStartAndGoalNode(); 
     if(nodes[0] == null || nodes[1] == null){
         alert('You need to provide start and goal nodes!');
@@ -51,6 +52,6 @@ async function solveDfs(startNodeNumber, goalNodeNumber){
         return;
     }
     reconstructPath(goalNodeNumber, prev);
-    return;
+    enablePointerActions();
 }
 /* ------------------------------------------------------------*/

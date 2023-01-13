@@ -1,5 +1,6 @@
 /* --------------------BFS algorithm---------------------------*/
 document.querySelector('a#buttonBFS').addEventListener('click', function(e){
+    disablePointerActions();
     var nodes = findStartAndGoalNode(); 
     if(nodes[0] == null || nodes[1] == null){
         alert('You need to provide start and goal nodes!');
@@ -48,6 +49,6 @@ async function solveBfs(startNodeNumber, goalNodeNumber){
         return;
     }
     reconstructPath(goalNodeNumber, prev);
-    return;
+    enablePointerActions();
 }
 /* ------------------------------------------------------------*/
