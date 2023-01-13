@@ -47,7 +47,7 @@ async function solveBfs(startNodeNumber, goalNodeNumber){
         alert('Impossible to solve! I will reset it.');
         return;
     }
-    reconstructPath(startNodeNumber, goalNodeNumber, prev);
+    reconstructPath(goalNodeNumber, prev);
     return;
 }
 /* ------------------------------------------------------------*/

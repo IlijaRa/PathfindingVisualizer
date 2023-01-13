@@ -8,41 +8,41 @@ function constructGrid(){
         row.setAttribute('id', 'row' + (i + 1));
         for(var j = 0; j < WIDTH; j++){
             var node = document.createElement('div');
-            node.classList.add('node', 'node' + ((i * WIDTH) + (j + 1)), 'empty-node');
+            node.classList.add('node', 'node' + ((i * WIDTH) + (j + 1)), 'unvisited-node');
             node.setAttribute('id', 'node' + ((i * WIDTH) + (j + 1)));
             
             node.addEventListener('mouseover', function(e){
                 if(mouseDown == 1 && e.shiftKey){
                     if(startNodeExists == false){
-                        e.target.classList.remove('empty-node');
+                        e.target.classList.remove('unvisited-node');
                         e.target.classList.add('start-node');
                         startNodeExists = true;
                     }
                     else if(goalNodeExists == false && !e.target.classList.contains("start-node")){
-                        e.target.classList.remove("empty-node");
+                        e.target.classList.remove("unvisited-node");
                         e.target.classList.add("goal-node");
                         goalNodeExists = true;
                     }  
-                    else if(e.target.classList.contains('empty-node') || 
+                    else if(e.target.classList.contains('unvisited-node') || 
                             e.target.classList.contains('weighted-node')){
-                        e.target.classList.remove("empty-node");
+                        e.target.classList.remove("unvisited-node");
                         e.target.classList.remove("weighted-node");
                         e.target.classList.add("wall-node");
                     } 
                 }
                 if(mouseDown == 1 && e.altKey){
                     if(startNodeExists == false){
-                        e.target.classList.remove('empty-node');
+                        e.target.classList.remove('unvisited-node');
                         e.target.classList.add('start-node');
                         startNodeExists = true;
                     }
                     else if(goalNodeExists == false && !e.target.classList.contains("start-node")){
-                        e.target.classList.remove("empty-node");
+                        e.target.classList.remove("unvisited-node");
                         e.target.classList.add("goal-node");
                         goalNodeExists = true;
                     }  
-                    else if(e.target.classList.contains('empty-node')){
-                        e.target.classList.remove("empty-node");
+                    else if(e.target.classList.contains('unvisited-node')){
+                        e.target.classList.remove("unvisited-node");
                         e.target.classList.add("weighted-node");
                     }
                 }
@@ -51,35 +51,35 @@ function constructGrid(){
             node.addEventListener('click', function(e){
                 if(e.shiftKey){
                     if(startNodeExists == false){
-                        e.target.classList.remove('empty-node');
+                        e.target.classList.remove('unvisited-node');
                         e.target.classList.add('start-node');
                         startNodeExists = true;
                     }
                     else if(goalNodeExists == false && !e.target.classList.contains("start-node")){
-                        e.target.classList.remove("empty-node");
+                        e.target.classList.remove("unvisited-node");
                         e.target.classList.add("goal-node");
                         goalNodeExists = true;
                     }  
-                    else if(e.target.classList.contains('empty-node') ||
+                    else if(e.target.classList.contains('unvisited-node') ||
                             e.target.classList.contains('weighted-node')){
-                        e.target.classList.remove("empty-node");
+                        e.target.classList.remove("unvisited-node");
                         e.target.classList.remove("weighted-node");
                         e.target.classList.add("wall-node");
                     } 
                 }
                 if(e.altKey){
                     if(startNodeExists == false){
-                        e.target.classList.remove('empty-node');
+                        e.target.classList.remove('unvisited-node');
                         e.target.classList.add('start-node');
                         startNodeExists = true;
                     }
                     else if(goalNodeExists == false && !e.target.classList.contains("start-node")){
-                        e.target.classList.remove("empty-node");
+                        e.target.classList.remove("unvisited-node");
                         e.target.classList.add("goal-node");
                         goalNodeExists = true;
                     }  
-                    else if(e.target.classList.contains('empty-node')){
-                        e.target.classList.remove("empty-node");
+                    else if(e.target.classList.contains('unvisited-node')){
+                        e.target.classList.remove("unvisited-node");
                         e.target.classList.add("weighted-node");
                     }
                 }

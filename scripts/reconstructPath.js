@@ -1,5 +1,5 @@
-async function reconstructPath(startNodeNumber, goalNodeNumber, prev){
-    constructPathReverse(startNodeNumber, goalNodeNumber, grabPrevious(goalNodeNumber, prev));
+async function reconstructPath(goalNodeNumber, prev){
+    constructPathReverse(grabPrevious(goalNodeNumber, prev));
 }
 function grabPrevious(goalNodeNumber, prev){
     let loopControl = false;
@@ -20,14 +20,13 @@ function grabPrevious(goalNodeNumber, prev){
     }
     return goalToStart;
 }
-async function constructPathReverse(startNodeNumber, goalNodeNumber, goalToStart){
+async function constructPathReverse(goalToStart){
     for(node of goalToStart.reverse()){ //goalToStart.reverse() gives nodes sorted from start to node
         await sleep(1);
         try{
             if(node != 0){
                 let n = document.getElementById('node' + (node + 1));
-                n.classList.remove('visited-node1');
-                n.classList.remove('visited-node2');
+                deleteAnyNodeClass(node + 1);
                 n.classList.add('path-node');
             }
         }catch(err){
