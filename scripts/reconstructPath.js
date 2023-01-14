@@ -26,10 +26,13 @@ async function constructPathReverse(startNodeNumber, goalNodeNumber, goalToStart
         try{
             if(node != 0){
                 let n = document.getElementById('node' + (node + 1));
-                deleteAnyNodeClass(node + 1);
-                n.classList.add('path-node');
-                drawStartNode(startNodeNumber);
-                drawGoalNode(goalNodeNumber);
+                if(!n.classList.contains('start-node') && !n.classList.contains('goal-node')){
+                    deleteAnyNodeClass(node + 1);
+                    n.classList.add('path-node');
+                }
+                
+                // drawStartNode(startNodeNumber);
+                // drawGoalNode(goalNodeNumber);
             }
         }catch(err){
             loopControl = true;

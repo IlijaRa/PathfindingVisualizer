@@ -93,6 +93,6 @@ async function solveBidirectionalDfs(startNodeNumber, goalNodeNumber){
     }
 
     reconstructPath(startNodeNumber, intersectNodeNumber, prevA);
-    reconstructPath(intersectNodeNumber, goalNodeNumber, prevB);
+    reconstructPath(goalNodeNumber, intersectNodeNumber, prevB);
     enablePointerActions();
 }

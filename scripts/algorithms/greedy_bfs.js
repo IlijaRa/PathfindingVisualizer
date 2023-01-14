@@ -59,14 +59,14 @@ async function greedyBestFirstSearch(start, goal) {
         prev[smallestDistanceNode - 1] = currentNode - 1;
         stack.push(smallestDistanceNode);
 
-        visited[smallestDistanceNode] = true;
-        drawVisitedNodeOne(smallestDistanceNode, start);
-
         if(smallestDistanceNode == goal){
             solved = true;
             break;
         }
 
+        visited[smallestDistanceNode] = true;
+        drawVisitedNodeOne(smallestDistanceNode, start);
+        
         if(solved){
             break;
         }
