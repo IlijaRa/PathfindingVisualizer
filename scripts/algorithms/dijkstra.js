@@ -20,15 +20,14 @@ async function solveDijkstra(startNodeNumber, goalNodeNumber) {
     const visitedNodes = new Set();
     const distances = {};
 
-    for(let i = 0; i < HEIGHT * WIDTH; i++){ distances[i] = Number.POSITIVE_INFINITY; unvisitedNodes.add(i + 1); }
+    for(let i = 0; i <= HEIGHT * WIDTH; i++){ distances[i] = Number.POSITIVE_INFINITY; unvisitedNodes.add(i + 1); }
     distances[startNodeNumber] = 0;
     queue.push(startNodeNumber);
 
     // While there are unvisited nodes
     while (queue.length > 0) {
         await sleep(0);
-        var maze = construct2dArray();
-        var adjacentsDict = findAdjacents(maze);
+
         // Select the unvisited node with the smallest distance
         const currentNode = [...unvisitedNodes].sort((a, b) => distances[a] - distances[b])[0];
 

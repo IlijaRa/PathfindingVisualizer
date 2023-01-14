@@ -19,7 +19,7 @@
     animation-duration: 0.5s;
 }
 @keyframes unvisited-node-effect {
-    from {background-color: rgb(163, 241, 194);}
+    from {background-color: rgb(157, 216, 235);}
     to {background-color: white;}
 }
 
