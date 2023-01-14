@@ -68,6 +68,16 @@
     to {background-color: rgb(117, 235, 164);}
 }
 
+.current-nodeA{
+    background-color: rgb(240, 102, 40);
+    border-color: rgb(245, 153, 111);
+}
+
+.current-nodeB{
+    background-color: rgb(240, 102, 40);
+    border-color: rgb(245, 153, 111);
+}
+
 .visited-nodeA{
     background-color: rgb(51, 193, 228);
     border-color: rgb(157, 216, 235);
@@ -88,16 +98,6 @@
 @keyframes visited-nodeB-effect {
     from {background-color: rgb(209, 42, 59);}
     to {background-color: rgb(240, 128, 128);}
-}
-
-.current-nodeA{
-    background-color: rgb(240, 102, 40);
-    border-color: rgb(245, 153, 111);
-}
-
-.current-nodeB{
-    background-color: rgb(240, 102, 40);
-    border-color: rgb(245, 153, 111);
 }
 
 .intersect-node{

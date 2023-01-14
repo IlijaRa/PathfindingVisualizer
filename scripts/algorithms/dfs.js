@@ -51,7 +51,7 @@ async function solveDfs(startNodeNumber, goalNodeNumber){
         alert('Impossible to solve! I will reset it.');
         return;
     }
-    reconstructPath(goalNodeNumber, prev);
+    reconstructPath(startNodeNumber, goalNodeNumber, prev);
     enablePointerActions();
 }
 /* ------------------------------------------------------------*/

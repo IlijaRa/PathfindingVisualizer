@@ -94,7 +94,7 @@ async function solveBidirectionalBfs(startNodeNumber, goalNodeNumber){
         alert('Impossible to solve! I will reset it.');
         return;
     }
-    reconstructPath(intersectNodeNumber, prevA);
-    reconstructPath(intersectNodeNumber, prevB);
+    reconstructPath(startNodeNumber, intersectNodeNumber, prevA);
+    reconstructPath(goalNodeNumber, intersectNodeNumber, prevB);
     enablePointerActions();
 }

@@ -76,6 +76,6 @@ async function greedyBestFirstSearch(start, goal) {
         alert('Impossible to solve! I will reset it.');
         return;
     }
-    reconstructPath(goal, prev);
+    reconstructPath(start, goal, prev);
     enablePointerActions();
 }
