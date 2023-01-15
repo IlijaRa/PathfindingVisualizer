@@ -1,5 +1,8 @@
 // #region CLEAR_BUTTONS
 document.querySelector('a#buttonClearAll').addEventListener('click', function(e){
+    ClearAll();
+});
+function ClearAll(){
     var nodes = document.querySelectorAll('.node');
     nodes.forEach(function(node){
         deleteAnyNodeClass(Node.GetNodeNumber(node.id));
@@ -7,7 +10,8 @@ document.querySelector('a#buttonClearAll').addEventListener('click', function(e)
     })
     startNodeExists = false;
     goalNodeExists = false;
-});
+}
+
 document.querySelector('a#buttonClearAllExceptStartGoal').addEventListener('click', function(e){
     var nodes = document.querySelectorAll('.node');
     for(let node of nodes){
