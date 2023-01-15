@@ -12,6 +12,10 @@ function deleteAnyNodeClass(currentNode){
     document.getElementById('node' + currentNode).classList.remove('intersect-node');
     document.getElementById('node' + currentNode).classList.remove('path-node');
 }
+function drawUnvisitedNode(currentNode){
+    deleteAnyNodeClass(currentNode);
+    document.getElementById('node' + currentNode).classList.add('unvisited-node');
+}
 function drawVisitedNodeOne(currentNode, startNodeNumber){
     if(currentNode != startNodeNumber){
         deleteAnyNodeClass(currentNode);
@@ -39,4 +43,14 @@ function drawStartNode(currentNode){
 function drawGoalNode(currentNode){
     deleteAnyNodeClass(currentNode);
     document.getElementById('node' + currentNode).classList.add('goal-node');
+}
+function drawWallNode(currentNode){
+    deleteAnyNodeClass(currentNode);
+    document.getElementById('node' + currentNode).classList.add('wall-node');
+}
+function isNodeWall(currentNode){
+    if(document.getElementById('node' + currentNode).classList.contains('wall-node')){
+        return true;
+    }
+    return false;
 }

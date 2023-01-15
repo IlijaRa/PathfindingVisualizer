@@ -81,30 +81,30 @@ function getNodeCoordinates(nodeNumber){
     }
     return coordinate;
 }
-// // Returns node coordinates without walls
-// function getNodeCoordinatesWithoutWalls(nodeNumber){
-//     let maze = construct2dArrayWithoutWalls();
-//     let coordinate = []
+// Returns node coordinates without walls
+function getNodeCoordinatesWithoutWalls(nodeNumber){
+    let maze = construct2dArrayWithoutWalls();
+    let coordinate = []
 
-//     //nadji elegantnije resenje za pronalazenje currentNode u 2d nizu maze!!!
-//     for(i = 0; i < HEIGHT; i++){
-//         for(j = 0; j < WIDTH; j++){
-//             if(maze[i][j] == nodeNumber){
-//                 coordinate[0] = i;
-//                 coordinate[1] = j;
-//                 break;
-//             }
-//         }
-//     }
-//     return coordinate;
-// }
+    //nadji elegantnije resenje za pronalazenje currentNode u 2d nizu maze!!!
+    for(i = 0; i < HEIGHT; i++){
+        for(j = 0; j < WIDTH; j++){
+            if(maze[i][j] == nodeNumber){
+                coordinate[0] = i;
+                coordinate[1] = j;
+                break;
+            }
+        }
+    }
+    return coordinate;
+}
 // Generate walls for maze
 function generateWalls() {
     var scheme_array = new Array(HEIGHT * WIDTH).fill(0);
     for (let i = 0; i < HEIGHT * WIDTH; i++) {
         let x = Math.floor((Math.random() * 5) - 1); // arbitrary formula for generating WALL_VALUE
-        if (x == -1) {
-            scheme_array[i] = -1;
+        if (x == WALL_VALUE) {
+            scheme_array[i] = WALL_VALUE;
         } else {
             scheme_array[i] = i + 1;
         }
@@ -115,13 +115,13 @@ function generateWalls() {
 async function generateMaze(scheme_array){
     for(let i = 0; i < HEIGHT * WIDTH; i++){
         if(scheme_array[i] == WALL_VALUE){
-            document.getElementById('node' + (i + 1)).style.backgroundColor = ORANGE_COLOR;
-            await sleep(1);
-            document.getElementById('node' + (i + 1)).style.backgroundColor = WALL_COLOR;
+            drawWallNode(i + 1);
         }else{
-            document.getElementById('node' + (i + 1)).style.backgroundColor = WHITE_COLOR;
+            drawUnvisitedNode(i + 1);
         }
     }
+    startNodeExists = false;
+    goalNodeExists = false;
 }
 // Node class with useful methods
 class Node{

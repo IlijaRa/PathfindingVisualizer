@@ -1,0 +1,27 @@
+/* .components_container {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+} */
+  
+.select_component {
+    display: flex;
+    align-items: center;
+    height: 10%;
+    width: 33%;
+    justify-content: space-between;
+    background-color: #fff;
+    border-radius: 8px;
+    border: 2px solid #e9e9e9;
+}
+
+select {
+    background-color: transparent;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    margin-right: 8px;
+}
