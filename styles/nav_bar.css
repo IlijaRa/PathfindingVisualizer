@@ -63,7 +63,7 @@ nav {
 
 #logo {
 	display: block;
-	padding: 0 30px;
+	padding: 0 15px;
 	float: left;
 	font-size:30px;
 	line-height: 60px;
@@ -265,4 +265,9 @@ li > a:only-child:after { content: ''; }
 		width: 94%;
 	}
 
+}
+/* slider */
+#slider{
+	background-color: #FFF;
+	color: #FFF;
 }
