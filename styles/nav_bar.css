@@ -46,8 +46,12 @@ p {
 
 /* Giving a background-color to the nav container. */
 .gradient{
-  background-image: linear-gradient(to right, black, rgb(74, 145, 212));
+	background-color: #1E2431;
+  /* background-image: linear-gradient(to right, black, rgb(74, 145, 212)); */
 }
+.nav-background{
+	background-color: rgb(74, 145, 212);
+  }
 
 nav { 
 	/* background-color: #254441; */
@@ -266,6 +270,7 @@ li > a:only-child:after { content: ''; }
 	}
 
 }
+
 /* slider */
 #node-slider{
 	background-color: #FFF;
@@ -275,3 +280,6 @@ li > a:only-child:after { content: ''; }
 #speed-slider{
 	direction: rtl;
 } */
+#weight-input{
+	width: 100%;
+}

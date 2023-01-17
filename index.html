@@ -14,72 +14,6 @@
 </head>
 
 <body onload="constructGrid()">
-    <div id="popup" class="overlay">
-        <div class="survey-form">
-            <a class="close" href="#">&times;</a>
-            <main>
-                <!-- <header>
-                  <h1 id="title">Set your parameters for visualization</h1>
-                </header> -->
-                
-                <form id="survey-form">
-                  <div class="form-group">
-                    <label id="name-label" for="name">CANVAS DIMENSIONS</label>
-                    <input type="number" name="name" id="name" max="40" value="30" class="form-control" placeholder="height" required/>
-                    <input type="number" name="name" id="name" max="60" value="50" class="form-control" placeholder="width" required/>
-                  </div>       
-                  
-                  <div class="form-group">
-                    <p>Choose maze</p>
-                    <select id="dropdown" name="role" class="form-control" required>
-                      <option disabled selected value>Maze generator</option>
-                      <option value="depth-first-search">Depth-First Search</option>
-                      <option value="randomized-prim">Randomized Prim</option>
-                      <option value="randomized-kruskal">Randomized Kruskal</option>
-                      <option value="random-seed">Random Seed</option>
-                    </select>
-                    <select id="dropdown" name="role" class="form-control" required>
-                        <option disabled selected value>Static wall shapes</option>
-                        <option value="stairs">Stairs</option>
-                        <option value="centric-baes">Centric Baes</option>
-                        <option value="horizontal-baes">Horizontal Baes</option>
-                        <option value="vertical-baes">Vertical Baes</option>
-                        <option value="normal-baes">Normal Baes</option>
-                    </select>
-                  </div>
-                  <div class="form-group">
-                    <p>Choose algorithm & heuristic</p>
-                    <select id="dropdown" name="role" class="form-control" required>
-                      <option disabled selected value>Algorithm</option>
-                      <option value="dfs">Depth-First Search</option>
-                      <option value="bfs">Breadth-First Search</option>
-                      <option value="bidirectional-dfs">Bidirectional DFS</option>
-                      <option value="bidirectional-bfs">Bidirectional BFS</option>
-                      <option value="dijkstra-ucs">Dijsktra (UCS)</option>
-                      <option value="greedy-bfs">Greedy Best-First Search</option>
-                      <option value="a-star">A-star (A*)</option>
-                      <option value="recursive-bfs">Recursive Best-First Search</option>
-                    </select>
-                    <select id="dropdown" name="role" class="form-control" required>
-                        <option disabled selected value>Heuristic</option>
-                        <option value="euclidean-distance">Euclidean distance</option>
-                        <option value="manhattan-distance">Manhattan distance</option>
-                        <option value="mahalanobis-distance">Mahalanobis distance</option>
-                      </select>
-                  </div>
-                  <div class="form-group">
-                    <label>
-                      <input name="reasons" value="research/info" type="checkbox" class="input-checkbox" /><p>Set start and goal node to previous positions</p>
-                </label>
-                  
-                  <div class="form-group">
-                    <button type="submit" id="submit" class="submit-button">Submit</button>
-                  </div>
-                </form>
-                
-            </main>
-        </div>
-    </div>
     <div id="content_container">
         <nav id="nab-bar-container" class="gradient">
             <div id="logo"><b>P</b>ath<b>F</b>inding <b>V</b>isualizer</div>
@@ -90,43 +24,49 @@
                 <li><a href="#" id="settings">Settings</a>
                     <ul>
                         <li class="gradient"><a id="buttonClearAll">Node number : <input id="node-slider" type="range" min="35" max="60" value="50"></a></li>
-                        <li class="gradient"><a id="buttonClearAll">Speed : <input id="speed-slider" type="range" min="0" max="40" value="30"></a></li>
+                        <li class="gradient"><a id="buttonClearAll">Speed : <input id="speed-slider" type="range" min="0" max="100" value="30"></a></li>
+                        <li class="gradient"><a id="buttonClearAll">Node weight : <input id="weight-input" type="number" min="2" max="20" value="5"></a></li>
                     </ul>
                 </li>
-                <li><a href="#">Start visualization</a></li>
-                <li><a href="#">Helper</a></li>
-                <li><a href="#">Choose speed</a>
+                <li><a href="#">Algorithms</a>
                     <ul>
-                        <!-- <li class="gradient"><a href="#">Slow</a></li>
-                        <li class="gradient"><a href="#">Medium</a></li>
-                        <li class="gradient"><a href="#">Fast</a></li> -->
                         <li class="gradient"><a id="buttonBFS">BFS</a></li>
                         <li class="gradient"><a id="buttonDFS">DFS</a></li>
-                        <li class="gradient"><a id="buttonBD_BFS">Bidirecitonal BFS</a></li>
-                        <li class="gradient"><a id="buttonBD_DFS">Bidirecitonal DFS</a></li>
+                        <li class="gradient"><a id="buttonBD_BFS">Bidirecit. BFS</a></li>
+                        <li class="gradient"><a id="buttonBD_DFS">Bidirecit. DFS</a></li>
                         <li class="gradient"><a id="buttonDijkstra">Dijkstra</a></li>
                         <li class="gradient"><a id="buttonGreedy_BFS">Greedy BFS</a></li>
                         <li class="gradient"><a id="buttonA_star">A star</a></li>
-                        <li class="gradient"><a id="buttonRandomMaze">Random maze</a></li>
-                        <li class="gradient"><a id="buttonRandomizedPrim">Randomized Prim</a></li>
-                        <li class="gradient"><a id="buttonRandomizedKruskal">Randomized Kruskal</a></li>
+                        <li class="gradient"><a id="buttonRecursiveBFS">Recursive BFS</a></li>
+                    </ul>
+                </li>
+                <li><a href="#">Maze generators</a>
+                    <ul>
+                        <li class="gradient"><a href="#">Static shapes</a>
+                            <ul>
+                                <li class="gradient"><a id="buttonStairs">Stairs</a></li>
+                                <li class="gradient"><a id="buttonCentricBaesMaze">Centric baes</a></li>
+                                <li class="gradient"><a id="buttonHorizontalBaesMaze">Horizontal baes</a></li>
+                                <li class="gradient"><a id="buttonVerticalBaesMaze">Vertical baes</a></li>
+                                <li class="gradient"><a id="buttonNormalBaesMaze">Normal baes</a></li>
+                            </ul>
+                        </li>
+                        <li class="gradient"><a id="buttonRandomSeed">Random seed</a></li>
+                        <li class="gradient"><a id="buttonRandomizedPrim">Random Prim</a></li>
+                        <li class="gradient"><a id="buttonRandomizedKruskal">Random Kruskal</a></li>
                         <li class="gradient"><a id="buttonRecursiveBacktracker">Recursive Backtracker</a></li>
-                        <li class="gradient"><a id="buttonStairs">Stairs</a></li>
-                        <li class="gradient"><a id="buttonCentricBaesMaze">Centric baes</a></li>
-                        <li class="gradient"><a id="buttonHorizontalBaesMaze">Horizontal baes</a></li>
-                        <li class="gradient"><a id="buttonVerticalBaesMaze">Vertical baes</a></li>
-                        <li class="gradient"><a id="buttonNormalBaesMaze">Normal baes</a></li>
                     </ul>
                 </li>
                 <li><a href="#">Clear options</a>
                     <ul>
                         <li class="gradient"><a id="buttonClearAll">Clear All</a></li>
-                        <li class="gradient"><a id="buttonClearAllExceptStartGoal">Clear Except Start&Goal</a></li>
+                        <li class="gradient"><a id="buttonClearAllExceptStartGoal">Clear All Except Start&Goal</a></li>
                         <li class="gradient"><a id="buttonClearWalls">Clear Walls</a></li>
                         <li class="gradient"><a id="buttonClearWeights">Clear Weights</a></li>
                         <li class="gradient"><a id="buttonClearSearchPath">Clear Search&Path</a></li>
                     </ul>
                 </li>
+                <li><a href="#">Helper</a></li>
             </ul>
         </nav>
 
@@ -150,10 +90,6 @@
                 <img src="./images/nodes/weighted_node.png" alt="weighted_node"> <br>
                 Weighted Node
                 <!-- <span class="tooltiptext">Alt + Left mouse click</span> -->
-            </div>
-            <div class="description-node">
-                <img src="./images/nodes/current_node.png" alt="current_node"> <br>
-                Current Node
             </div>
             <div class="description-node">
                 <img src="./images/nodes/visited_node.png" alt="visited_node"> <br>

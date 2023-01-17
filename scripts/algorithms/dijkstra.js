@@ -53,10 +53,10 @@ async function solveDijkstra(startNodeNumber, goalNodeNumber) {
             if(visitedNodes.has(maze[n[0]][n[1]])){
                 continue;
             }
-            // (Math.floor(Math.random() * 50) + 5); generates value between 5 and 50
+            // WEIGHT_VALUE adds value between 2 and 50, depending on what user entered
             let newDistance = null;
             if(document.getElementById('node' + maze[n[0]][n[1]]).classList.contains('weighted-node')){
-                newDistance = distances[currentNode] + (Math.floor(Math.random() * 50) + 5);
+                newDistance = distances[currentNode] + WEIGHT_VALUE;
             }else{
                 newDistance = distances[currentNode] + 1;
             }

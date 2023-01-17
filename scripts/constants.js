@@ -10,6 +10,7 @@ var node_classes = ['start-node', 'goal-node', 'wall-node', 'weighted-node', 'cu
 // !node_classes.some(c => e.target.classList.contains(c))
 WALL_VALUE = -1;
 SLEEP_VALUE = 0;
+WEIGHT_VALUE = 5;
 
 /*COLORS*/
 //from palete
