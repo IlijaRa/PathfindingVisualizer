@@ -58,60 +58,52 @@
 }
 
 .weighted-node{
-    /* background-image: url("/images/nodes/weighted_node_image.png"); */
-    background-color: rgb(117, 235, 164);
-    border-color: rgb(163, 241, 194);
-    animation-name: weighted-node-effect;
-    animation-duration: 1s;
-}
-@keyframes weighted-node-effect {
-    from {background-color: rgb(78, 156, 109);}
-    to {background-color: rgb(117, 235, 164);}
+/* used only for easier searches with querySelectorAll(), using contains etc.*/
 }
 
-/* .weighted-node-5{
+.weighted-node-5{
     background-color: rgb(117, 235, 164);
     border-color: rgb(163, 241, 194);
-    animation-name: weighted-node-effect;
+    animation-name: weighted-node-5-effect;
     animation-duration: 1s;
 }
-@keyframes weighted-node-effect {
-    from {background-color: rgb(78, 156, 109);}
+@keyframes weighted-node-5-effect {
+    from {background-color: rgb(43, 110, 70);}
     to {background-color: rgb(117, 235, 164);}
 }
 
 .weighted-node-10{
-    background-color: rgb(117, 235, 164);
-    border-color: rgb(163, 241, 194);
-    animation-name: weighted-node-effect;
+    background-color: rgb(62, 199, 117);
+    border-color: rgb(141, 238, 180);
+    animation-name: weighted-node-10-effect;
     animation-duration: 1s;
 }
-@keyframes weighted-node-effect {
-    from {background-color: rgb(78, 156, 109);}
-    to {background-color: rgb(117, 235, 164);}
+@keyframes weighted-node-10-effect {
+    from {background-color: rgb(43, 110, 70);}
+    to {background-color: rgb(62, 199, 117);}
 }
 
 .weighted-node-15{
-    background-color: rgb(117, 235, 164);
-    border-color: rgb(163, 241, 194);
-    animation-name: weighted-node-effect;
+    background-color: rgb(44, 172, 95);
+    border-color: rgb(119, 230, 163);
+    animation-name: weighted-node-15-effect;
     animation-duration: 1s;
 }
-@keyframes weighted-node-effect {
-    from {background-color: rgb(78, 156, 109);}
-    to {background-color: rgb(117, 235, 164);}
+@keyframes weighted-node-15-effect {
+    from {background-color: rgb(43, 110, 70);}
+    to {background-color: rgb(44, 172, 95);}
 }
 
 .weighted-node-20{
-    background-color: rgb(117, 235, 164);
-    border-color: rgb(163, 241, 194);
-    animation-name: weighted-node-effect;
+    background-color: rgb(78, 156, 109);
+    border-color: rgb(69, 204, 123);
+    animation-name: weighted-node-20-effect;
     animation-duration: 1s;
 }
-@keyframes weighted-node-effect {
-    from {background-color: rgb(78, 156, 109);}
-    to {background-color: rgb(117, 235, 164);}
-} */
+@keyframes weighted-node-20-effect {
+    from {background-color: rgb(43, 110, 70);}
+    to {background-color: rgb(78, 156, 109);}
+}
 
 .visited-nodeA{
     background-color: rgb(51, 193, 228);

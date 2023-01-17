@@ -26,17 +26,6 @@ speedSlider.addEventListener('input', function(e){
 // Setting the weight of weighted nodes in canvas
 let nodeWeightInput = document.getElementById("weight-input");
 nodeWeightInput.addEventListener('input', function(e){
-    WEIGHT_VALUE = e.target.value;
-    // let nodes = document.querySelectorAll('.weighted-node');
-    // nodes.forEach(function(node){
-    //     if(WEIGHT_VALUE < 5){
-    //         node.style.background = 'rgb(105, 245, 138)';
-    //         node.style.borderColor = 'rgb(105, 245, 138)';
-    //     }
-    //     else if(WEIGHT_VALUE < 10){
-    //         node.style.background = 'rgb(8, 71, 23)';
-    //         node.style.borderColor = 'rgb(8, 71, 23)';
-    //     }
-    // });
-    
+    WEIGHT_VALUE = parseInt(e.target.value);
+    console.log('WEIGHTED_VALUE:', WEIGHT_VALUE );
 })

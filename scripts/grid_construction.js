@@ -42,8 +42,9 @@ function constructGrid(){
                         goalNodeExists = true;
                     }  
                     else if(e.target.classList.contains('unvisited-node')){
-                        e.target.classList.remove("unvisited-node");
-                        e.target.classList.add("weighted-node");
+                        // e.target.classList.remove("unvisited-node");
+                        // e.target.classList.add("weighted-node");
+                        drawWeightedNode(Node.GetNodeNumber(e.target.id));
                     }
                 }
             });
@@ -79,7 +80,8 @@ function constructGrid(){
                         goalNodeExists = true;
                     }  
                     else if(e.target.classList.contains('unvisited-node')){
-                        drawWeightedNode(e.target);
+                        // console.log('e.target: ', Node.GetNodeNumber(e.target.id));
+                        drawWeightedNode(Node.GetNodeNumber(e.target.id));
                     }
                 }
             });

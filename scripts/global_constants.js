@@ -6,11 +6,9 @@ HEIGHT = 30;
 /*GLOBAL VARIABLES*/
 var startNodeExists = false;
 var goalNodeExists = false;
-var node_classes = ['start-node', 'goal-node', 'wall-node', 'weighted-node', 'current-node', 'visited-node', 'path-node']
-// !node_classes.some(c => e.target.classList.contains(c))
 WALL_VALUE = -1;
 SLEEP_VALUE = 0;
-WEIGHT_VALUE = 5;
+WEIGHT_VALUE = 2;
 
 /*COLORS*/
 //from palete

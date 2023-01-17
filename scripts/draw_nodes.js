@@ -5,6 +5,10 @@ function deleteAnyNodeClass(currentNode){
     document.getElementById('node' + currentNode).classList.remove('goal-node');
     document.getElementById('node' + currentNode).classList.remove('wall-node');
     document.getElementById('node' + currentNode).classList.remove('weighted-node');
+    document.getElementById('node' + currentNode).classList.remove('weighted-node-5');
+    document.getElementById('node' + currentNode).classList.remove('weighted-node-10');
+    document.getElementById('node' + currentNode).classList.remove('weighted-node-15');
+    document.getElementById('node' + currentNode).classList.remove('weighted-node-20');
     document.getElementById('node' + currentNode).classList.remove('current-nodeA');
     document.getElementById('node' + currentNode).classList.remove('current-nodeB');
     document.getElementById('node' + currentNode).classList.remove('visited-nodeA');
@@ -34,7 +38,15 @@ function drawIntersectNode(currentNode){
 }
 function drawWeightedNode(currentNode){
     deleteAnyNodeClass(currentNode);
-    document.getElementById('node' + currentNode).classList.add('weighted-node');
+    if(WEIGHT_VALUE <= 5){
+        document.getElementById('node' + currentNode).classList.add('weighted-node', 'weighted-node-5');
+    }else if(WEIGHT_VALUE > 5 && WEIGHT_VALUE <= 10){
+        document.getElementById('node' + currentNode).classList.add('weighted-node', 'weighted-node-10');
+    }else if(WEIGHT_VALUE > 10 && WEIGHT_VALUE <= 15){
+        document.getElementById('node' + currentNode).classList.add('weighted-node', 'weighted-node-15');
+    }else if(WEIGHT_VALUE > 15 && WEIGHT_VALUE <= 20){
+        document.getElementById('node' + currentNode).classList.add('weighted-node', 'weighted-node-20');
+    }
 }
 function drawStartNode(currentNode){
     deleteAnyNodeClass(currentNode);
