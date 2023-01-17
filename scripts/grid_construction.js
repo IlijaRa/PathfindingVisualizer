@@ -25,9 +25,8 @@ function constructGrid(){
                     }  
                     else if(e.target.classList.contains('unvisited-node') || 
                             e.target.classList.contains('weighted-node')){
-                        e.target.classList.remove("unvisited-node");
-                        e.target.classList.remove("weighted-node");
-                        e.target.classList.add("wall-node");
+                                deleteAnyNodeClass(Node.GetNodeNumber(e.target.id));
+                                e.target.classList.add("wall-node");
                     } 
                 }
                 if(mouseDown == 1 && e.altKey){
@@ -63,9 +62,8 @@ function constructGrid(){
                     }  
                     else if(e.target.classList.contains('unvisited-node') ||
                             e.target.classList.contains('weighted-node')){
-                        e.target.classList.remove("unvisited-node");
-                        e.target.classList.remove("weighted-node");
-                        e.target.classList.add("wall-node");
+                                deleteAnyNodeClass(Node.GetNodeNumber(e.target.id));
+                                e.target.classList.add("wall-node");
                     } 
                 }
                 if(e.altKey){

@@ -1,4 +1,3 @@
-var node_classes = ['start-node', 'goal-node', 'wall-node', 'weighted-node', 'current-nodeA', 'visited-node', 'path-node']
 function deleteAnyNodeClass(currentNode){
     document.getElementById('node' + currentNode).classList.remove('unvisited-node');
     document.getElementById('node' + currentNode).classList.remove('start-node');
