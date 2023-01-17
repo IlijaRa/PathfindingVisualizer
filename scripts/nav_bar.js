@@ -7,8 +7,8 @@ function myFunction() {
     }
 }
 
-let slider = document.getElementById("slider");
-slider.addEventListener('input', function(e){
+let nodeSlider = document.getElementById("node-slider");
+nodeSlider.addEventListener('input', function(e){
     
     var el = document.getElementById('maze_container');
     while (el.firstChild) el.removeChild(el.firstChild);
@@ -17,4 +17,9 @@ slider.addEventListener('input', function(e){
     startNodeExists = false;
     goalNodeExists = false;
     constructGrid();
+})
+
+let speedSlider = document.getElementById("speed-slider");
+speedSlider.addEventListener('input', function(e){
+    SLEEP_VALUE = 40 - e.target.value;
 })

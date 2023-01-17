@@ -26,7 +26,7 @@ async function solveDijkstra(startNodeNumber, goalNodeNumber) {
 
     // While there are unvisited nodes
     while (queue.length > 0) {
-        await sleep(0);
+        await sleep(SLEEP_VALUE);
 
         // Select the unvisited node with the smallest distance
         const currentNode = [...unvisitedNodes].sort((a, b) => distances[a] - distances[b])[0];

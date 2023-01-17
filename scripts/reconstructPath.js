@@ -22,7 +22,7 @@ function grabPrevious(goalNodeNumber, prev){
 }
 async function constructPathReverse(startNodeNumber, goalNodeNumber, goalToStart){
     for(node of goalToStart.reverse()){ //goalToStart.reverse() gives nodes sorted from start to node
-        await sleep(0);
+        await sleep(SLEEP_VALUE);
         try{
             if(node != 0){
                 let n = document.getElementById('node' + (node + 1));

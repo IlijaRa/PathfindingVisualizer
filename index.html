@@ -81,13 +81,18 @@
         </div>
     </div>
     <div id="content_container">
-        <nav class="gradient">
+        <nav id="nab-bar-container" class="gradient">
             <div id="logo"><b>P</b>ath<b>F</b>inding <b>V</b>isualizer</div>
 
             <label for="drop" class="toggle">Menu</label>
             <input type="checkbox" id="drop" />
             <ul class="menu">
-                <li><a href="#popup">Set environment</a></li>
+                <li><a href="#" id="settings">Settings</a>
+                    <ul>
+                        <li class="gradient"><a id="buttonClearAll">Node number : <input id="node-slider" type="range" min="35" max="60" value="50"></a></li>
+                        <li class="gradient"><a id="buttonClearAll">Speed : <input id="speed-slider" type="range" min="0" max="40" value="30"></a></li>
+                    </ul>
+                </li>
                 <li><a href="#">Start visualization</a></li>
                 <li><a href="#">Helper</a></li>
                 <li><a href="#">Choose speed</a>
@@ -103,8 +108,8 @@
                         <li class="gradient"><a id="buttonGreedy_BFS">Greedy BFS</a></li>
                         <li class="gradient"><a id="buttonA_star">A star</a></li>
                         <li class="gradient"><a id="buttonRandomMaze">Random maze</a></li>
-                        <li class="gradient"><a id="buttonDFS_Maze">DFS maze</a></li>
-                        <li class="gradient"><a id="buttonRandomizedPrim">Randomized prim</a></li>
+                        <li class="gradient"><a id="buttonRandomizedPrim">Randomized Prim</a></li>
+                        <li class="gradient"><a id="buttonRandomizedKruskal">Randomized Kruskal</a></li>
                         <li class="gradient"><a id="buttonRecursiveBacktracker">Recursive Backtracker</a></li>
                         <li class="gradient"><a id="buttonStairs">Stairs</a></li>
                         <li class="gradient"><a id="buttonCentricBaesMaze">Centric baes</a></li>
@@ -121,9 +126,6 @@
                         <li class="gradient"><a id="buttonClearWeights">Clear Weights</a></li>
                         <li class="gradient"><a id="buttonClearSearchPath">Clear Search&Path</a></li>
                     </ul>
-                </li>
-                <li>
-                    <input id="slider" type="range" min="35" max="60" value="50">
                 </li>
             </ul>
         </nav>
@@ -188,8 +190,8 @@
     <script src="./scripts/algorithms/recursive_bfs.js"></script>
     <!-- Maze generators -->
     <script src="./scripts/maze_generators/random_seed.js"></script>
-    <script src="./scripts/maze_generators/randomized_dfs.js"></script>
     <script src="./scripts/maze_generators/randomized_prim.js"></script>
+    <script src="./scripts/maze_generators/randomized_kruskal.js"></script>
     <script src="./scripts/maze_generators/recursive_backtracker.js"></script>
     <!-- Static wall spahes -->
     <script src="./scripts/static_wall_shapes/stairs.js"></script>

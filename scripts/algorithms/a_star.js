@@ -32,7 +32,7 @@ async function solveAstar(start, goal) {
 
     // While there are unvisited nodes
     while (queue.length > 0) {
-        await sleep(0);
+        await sleep(SLEEP_VALUE);
 
         // Select the unvisited node with the smallest distance + heuristic distance
         const currentNode = [...unvisitedNodes].sort((a, b) => distances[a] + heuristicDistances[a] - distances[b] - heuristicDistances[b])[0];

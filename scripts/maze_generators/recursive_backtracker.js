@@ -25,7 +25,7 @@ async function generateRecursiveBacktracker(grid){
     let rnd = Math.floor(Math.random () * neighbours.length);
     s.push(neighbours[rnd]);
     while(s.length){
-        await sleep(0);
+        await sleep(SLEEP_VALUE);
         let batch = s[s.length - 1];
         let frontier = batch[1];
         let inBetween = batch[0];

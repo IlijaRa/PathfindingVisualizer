@@ -26,7 +26,7 @@ async function solveBidirectionalBfs(startNodeNumber, goalNodeNumber){
     queueGoal.push(goalNodeNumber);
      // Set up a loop to continue until one of the queues is empty
     while(queueStart.length > 0 && queueGoal.length > 0){
-        await sleep(0);
+        await sleep(SLEEP_VALUE);
 
         let currentA = queueStart.shift();
 

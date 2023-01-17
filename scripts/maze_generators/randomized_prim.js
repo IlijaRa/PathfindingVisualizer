@@ -25,7 +25,7 @@ async function generateRandomizedPrim(grid){
     let frontierList = [];
     computeFrontierCells(grid,cell,frontierList,choices);
     while(frontierList.length){
-        await sleep(0);
+        await sleep(SLEEP_VALUE);
         // choosing a random value from frontierList
         let rnd = Math.floor(Math.random() * frontierList.length);
         let batch = frontierList[rnd];

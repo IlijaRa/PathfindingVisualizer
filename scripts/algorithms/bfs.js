@@ -31,7 +31,7 @@ async function solveBfs(startNodeNumber, goalNodeNumber){
         visited[currentNode] = true;
 
         drawVisitedNodeOne(currentNode, startNodeNumber);
-        await sleep(0);
+        await sleep(SLEEP_VALUE);
 
         // find adjacents of the current node
         var adj = adjacentsDict[currentNode];

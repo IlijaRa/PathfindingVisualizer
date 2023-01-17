@@ -267,7 +267,11 @@ li > a:only-child:after { content: ''; }
 
 }
 /* slider */
-#slider{
+#node-slider{
 	background-color: #FFF;
 	color: #FFF;
 }
+/* 
+#speed-slider{
+	direction: rtl;
+} */

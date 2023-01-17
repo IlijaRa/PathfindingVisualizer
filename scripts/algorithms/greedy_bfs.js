@@ -24,7 +24,7 @@ async function greedyBestFirstSearch(start, goal) {
     
     // While there are unvisited nodes
     while (stack.length > 0) {
-        await sleep(0);
+        await sleep(SLEEP_VALUE);
         let neighboursDistance = {};
 
         let currentNode = stack.pop();
