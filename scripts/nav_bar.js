@@ -7,9 +7,7 @@ function myFunction() {
     }
 }
 // Setting the number of nodes in canvas
-let nodeSlider = document.getElementById("node-slider");
-nodeSlider.addEventListener('input', function(e){
-    
+document.getElementById("node-slider").addEventListener('input', function(e){
     var el = document.getElementById('maze_container');
     while (el.firstChild) el.removeChild(el.firstChild);
     WIDTH = e.target.value;
@@ -19,13 +17,16 @@ nodeSlider.addEventListener('input', function(e){
     constructGrid();
 })
 // Setting the speed of nodes in canvas
-let speedSlider = document.getElementById("speed-slider");
-speedSlider.addEventListener('input', function(e){
+document.getElementById("speed-slider").addEventListener('input', function(e){
     SLEEP_VALUE = 100 - e.target.value;
 })
 // Setting the weight of weighted nodes in canvas
-let nodeWeightInput = document.getElementById("weight-input");
-nodeWeightInput.addEventListener('input', function(e){
+document.getElementById("weight-input").addEventListener('change', function(e){
+    if(parseInt(e.target.value) < 2 || parseInt(e.target.value) > 20){
+        alert('Weight value need to be between 2 and 20!');
+        e.target.value = 2;
+        return;
+    }
     WEIGHT_VALUE = parseInt(e.target.value);
-    console.log('WEIGHTED_VALUE:', WEIGHT_VALUE );
+    console.log('WEIGHTED_VALUE checking:', WEIGHT_VALUE );
 })
