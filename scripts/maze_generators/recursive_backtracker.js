@@ -3,8 +3,8 @@ document.querySelector('a#buttonRecursiveBacktracker').addEventListener('click',
     let maze = construct2dArray();
     disablePointerActions();
     generateRecursiveBacktracker(maze);
-    startNodeExists = false;
-    goalNodeExists = false;
+    // startNodeExists = false;
+    // goalNodeExists = false;
 });
 async function generateRecursiveBacktracker(grid){
     // Populate canvas with wall nodes
@@ -39,6 +39,7 @@ async function generateRecursiveBacktracker(grid){
             s.pop();
         }
     }
+    generateStartAndGoalNode();
     enablePointerActions();
 }
 function computeFrontierCellsRBT(grid, cell, choices){

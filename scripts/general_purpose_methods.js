@@ -62,6 +62,19 @@ function findAdjacents(maze){
     }
     return adjacentDictionary;
 }
+// Proclaims random nodes for start and goal
+function generateStartAndGoalNode(){
+    let randomStartNumber = null;
+    let randomGoalNumber = null;
+    do{
+        randomStartNumber = Math.floor(Math.random() * (HEIGHT * WIDTH) + 1);
+        randomGoalNumber = Math.floor(Math.random() * (HEIGHT * WIDTH) + 1);
+    }
+    while(isNodeWall(randomStartNumber) || isNodeWall(randomGoalNumber));
+
+    drawStartNode(randomStartNumber);
+    drawGoalNode(randomGoalNumber);
+}
 // Returns node coordinates 
 function getNodeCoordinates(nodeNumber){
     let maze = construct2dArray();

@@ -1,6 +1,7 @@
 // #region CLEAR_BUTTONS
 document.querySelector('a#buttonClearAll').addEventListener('click', function(e){
     ClearAll();
+    generateStartAndGoalNode();
 });
 function ClearAll(){
     var nodes = document.querySelectorAll('.node');
@@ -8,8 +9,8 @@ function ClearAll(){
         deleteAnyNodeClass(Node.GetNodeNumber(node.id));
         node.classList.add('unvisited-node');
     })
-    startNodeExists = false;
-    goalNodeExists = false;
+    // startNodeExists = false;
+    // goalNodeExists = false;
 }
 
 document.querySelector('a#buttonClearAllExceptStartGoal').addEventListener('click', function(e){

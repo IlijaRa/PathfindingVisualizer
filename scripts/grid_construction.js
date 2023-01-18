@@ -86,6 +86,7 @@ function constructGrid(){
         maze_container.appendChild(row);
     }
     
+    generateStartAndGoalNode();
     // let nodes = generateStartAndGoalNode();
     // enableDragAndDrop(nodes[0], nodes[1]);
 

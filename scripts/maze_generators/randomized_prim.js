@@ -3,8 +3,8 @@ document.querySelector('a#buttonRandomizedPrim').addEventListener('click', funct
     let maze = construct2dArray();
     disablePointerActions();
     generateRandomizedPrim(maze);
-    startNodeExists = false;
-    goalNodeExists = false;
+    // startNodeExists = false;
+    // goalNodeExists = false;
 });
 
 async function generateRandomizedPrim(grid){
@@ -38,6 +38,7 @@ async function generateRandomizedPrim(grid){
             computeFrontierCells(grid,frontier,frontierList,choices);
         }
     }
+    generateStartAndGoalNode();
     enablePointerActions();
 }
 function computeFrontierCells(grid, cell, frontierList, choices){
