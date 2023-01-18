@@ -41,8 +41,6 @@ function constructGrid(){
                         goalNodeExists = true;
                     }  
                     else if(e.target.classList.contains('unvisited-node')){
-                        // e.target.classList.remove("unvisited-node");
-                        // e.target.classList.add("weighted-node");
                         drawWeightedNode(Node.GetNodeNumber(e.target.id));
                     }
                 }

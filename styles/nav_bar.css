@@ -271,15 +271,16 @@ li > a:only-child:after { content: ''; }
 
 }
 
-/* slider */
+/* menu settings */
 #node-slider{
 	background-color: #FFF;
 	color: #FFF;
 }
-/* 
-#speed-slider{
-	direction: rtl;
-} */
+
 #weight-input{
+	width: 100%;
+}
+
+#select-heuristic{
 	width: 100%;
 }

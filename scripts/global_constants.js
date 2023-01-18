@@ -9,6 +9,7 @@ var goalNodeExists = false;
 WALL_VALUE = -1;
 SLEEP_VALUE = 0;
 WEIGHT_VALUE = 2;
+CHOSEN_HEURISTIC = "euclidean";
 
 /*COLORS*/
 //from palete

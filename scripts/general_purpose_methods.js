@@ -9,12 +9,10 @@ function disablePointerActions(){
     document.querySelector('#content_container').classList.remove('enable-div');
     document.querySelector('#content_container').classList.add('disabled-div');
 }
-
 function enablePointerActions(){
     document.querySelector('#content_container').classList.remove('disabled-div');
     document.querySelector('#content_container').classList.add('enable-div');
 }
-
 // Provides sleepqueue
 const sleep = (time) => {
     return new Promise(resolve => setTimeout(resolve, time))
@@ -67,7 +65,7 @@ function findAdjacents(maze){
 // Returns node coordinates 
 function getNodeCoordinates(nodeNumber){
     let maze = construct2dArray();
-    let coordinate = []
+    let coordinate = [];
 
     //nadji elegantnije resenje za pronalazenje currentNode u 2d nizu maze!!!
     for(i = 0; i < HEIGHT; i++){
@@ -80,6 +78,12 @@ function getNodeCoordinates(nodeNumber){
         }
     }
     return coordinate;
+}
+// Returns node number from coordinates 
+function getNodeNumberFromCoordinates(coordA, coordB){
+    let maze = construct2dArray();
+    let foundNumber = maze[coordA][coordB];
+    return foundNumber;
 }
 // Returns node coordinates without walls
 function getNodeCoordinatesWithoutWalls(nodeNumber){
@@ -122,6 +126,81 @@ async function generateMaze(scheme_array){
     }
     startNodeExists = false;
     goalNodeExists = false;
+}
+// Heuristic for calculating the distance from current node to goal node
+function heuristicFunction(a, b) {
+    if(CHOSEN_HEURISTIC == "euclidean"){
+        return a.map((x, i) => Math.abs( x - b[i] ) ** 2).reduce((sum, now) => sum + now) ** (1/2);
+    }
+    else if(CHOSEN_HEURISTIC == "manhattan"){
+        return Math.abs(a[0] - a[1]) + Math.abs(b[0] - b[1]);
+    }
+    else if(CHOSEN_HEURISTIC == "minkowski5"){
+        return a.map((x, i) => Math.abs( x - b[i] ) ** 5).reduce((sum, now) => sum + now) ** (1/5)
+    }
+    else if(CHOSEN_HEURISTIC == "cosine"){
+        var dotproduct=0;
+        var mA=0;
+        var mB=0;
+        for(i = 0; i < a.length; i++){ // here you missed the i++
+            dotproduct += (a[i] * b[i]);
+            mA += (a[i]*a[i]);
+            mB += (b[i]*b[i]);
+        }
+        mA = Math.sqrt(mA);
+        mB = Math.sqrt(mB);
+        var similarity = (dotproduct)/((mA)*(mB)) // here you needed extra brackets
+        return similarity;
+    }
+    else if(CHOSEN_HEURISTIC == "hamming"){
+        let d = 0;
+        let aNumber = getNodeNumberFromCoordinates(a[0], a[1]);
+        let bNumber = getNodeNumberFromCoordinates(b[0], b[1]);
+        let h = aNumber ^ bNumber;
+        while (h > 0) {
+            d ++;
+            h &= h - 1;
+        }
+        return d;
+    }
+    else if(CHOSEN_HEURISTIC == "chebyshev"){
+        if (a.length === 0 || a.length !== b.length) {
+            return NaN;
+        }
+        let max = Math.abs(a[0] - b[0]);
+        for (let i = 1; i < a.length; ++i) {
+            const distance = Math.abs(a[i] - b[i]);
+            if (distance > max) {
+                    max = distance;
+            }
+        }
+        return max;
+    }
+    else if(CHOSEN_HEURISTIC == "haversine"){
+        var lon1 = a[0];
+        var lat1 = a[1];
+      
+        var lon2 = b[0];
+        var lat2 = b[1];
+      
+        var R = 6371; // km
+      
+        var x1 = lat2 - lat1;
+        var dLat = toRad(x1);
+        var x2 = lon2 - lon1;
+        var dLon = toRad(x2)
+        var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+          Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
+          Math.sin(dLon / 2) * Math.sin(dLon / 2);
+        var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        var d = R * c;
+      
+        return d;
+    }
+}
+// Calculates degrees to radians
+function toRad(x) {
+    return x * Math.PI / 180;
 }
 // Node class with useful methods
 class Node{

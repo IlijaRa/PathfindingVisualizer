@@ -28,5 +28,9 @@ document.getElementById("weight-input").addEventListener('change', function(e){
         return;
     }
     WEIGHT_VALUE = parseInt(e.target.value);
-    console.log('WEIGHTED_VALUE checking:', WEIGHT_VALUE );
+})
+// Setting the heuristic calculation
+document.getElementById("select-heuristic").addEventListener('change', function(e){
+    console.log('chosen heuristic: ', e.target.value);
+    CHOSEN_HEURISTIC = e.target.value;
 })

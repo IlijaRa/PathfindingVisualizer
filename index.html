@@ -23,9 +23,21 @@
             <ul class="menu">
                 <li><a href="#" id="settings">Settings</a>
                     <ul>
-                        <li class="gradient"><a id="buttonClearAll">Node number : <input id="node-slider" type="range" min="35" max="60" value="50"></a></li>
-                        <li class="gradient"><a id="buttonClearAll">Speed : <input id="speed-slider" type="range" min="0" max="100" value="30"></a></li>
-                        <li class="gradient"><a id="buttonClearAll">Node weight : <input id="weight-input" type="number" min="2" max="20" value="2"></a></li>
+                        <li class="gradient"><a>Canvas size : <input id="node-slider" type="range" min="35" max="60" value="50"></a></li>
+                        <li class="gradient"><a>Speed : <input id="speed-slider" type="range" min="0" max="100" value="30"></a></li>
+                        <li class="gradient"><a>Node weight : <input id="weight-input" type="number" min="2" max="20" value="2"></a></li>
+                        <li class="gradient"><a>Heuristic : 
+                                <select id="select-heuristic">
+                                    <option value="euclidean">Euclidean</option>
+                                    <option value="manhattan">Manhattan</option>
+                                    <option value="hamming">Hamming</option>
+                                    <option value="minkowski5">Minkowski(p = 5)</option>
+                                    <option value="cosine">Cosine</option>
+                                    <option value="chebyshev">Chebyshev</option>
+                                    <option value="haversine">Haversine</option>
+                                </select>
+                            </a>
+                        </li>
                     </ul>
                 </li>
                 <li><a href="#">Algorithms</a>

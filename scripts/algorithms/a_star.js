@@ -87,11 +87,3 @@ async function solveAstar(start, goal) {
     reconstructPath(start, goal, prev);
     enablePointerActions();
 }
-
-function heuristicFunction(a, b) {
-    // return Math.abs(a[0] - a[1]) + Math.abs(b[0] - b[1]);
-    return a
-        .map((x, i) => Math.abs( x - b[i] ) ** 2) // square the difference
-        .reduce((sum, now) => sum + now) // sum
-        ** (1/2)
-}
