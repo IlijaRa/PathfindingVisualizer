@@ -4,6 +4,9 @@ WIDTH = 50;
 HEIGHT = 30;
 
 /*GLOBAL VARIABLES*/
+let mouseDown = 0;
+let dragStart = 0;
+let dragGoal = 0;
 var startNodeExists = false;
 var goalNodeExists = false;
 WALL_VALUE = -1;

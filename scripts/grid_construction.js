@@ -13,70 +13,51 @@ function constructGrid(){
 
             node.addEventListener('mouseover', function(e){
                 if(mouseDown == 1 && e.shiftKey){
-                    if(startNodeExists == false){
-                        e.target.classList.remove('unvisited-node');
-                        e.target.classList.add('start-node');
-                        startNodeExists = true;
-                    }
-                    else if(goalNodeExists == false && !e.target.classList.contains("start-node")){
-                        e.target.classList.remove("unvisited-node");
-                        e.target.classList.add("goal-node");
-                        goalNodeExists = true;
-                    }  
-                    else if(e.target.classList.contains('unvisited-node') || 
-                            e.target.classList.contains('weighted-node')){
-                                deleteAnyNodeClass(Node.GetNodeNumber(e.target.id));
-                                e.target.classList.add("wall-node");
+                    if( e.target.classList.contains('unvisited-node') || 
+                        e.target.classList.contains('weighted-node')){
+                            drawWallNode(Node.GetNodeNumber(e.target.id));
                     } 
                 }
-                if(mouseDown == 1 && e.altKey){
-                    if(startNodeExists == false){
-                        e.target.classList.remove('unvisited-node');
-                        e.target.classList.add('start-node');
-                        startNodeExists = true;
-                    }
-                    else if(goalNodeExists == false && !e.target.classList.contains("start-node")){
-                        e.target.classList.remove("unvisited-node");
-                        e.target.classList.add("goal-node");
-                        goalNodeExists = true;
-                    }  
-                    else if(e.target.classList.contains('unvisited-node')){
+                if(mouseDown == 1 && e.altKey){ 
+                    if(e.target.classList.contains('unvisited-node')){
                         drawWeightedNode(Node.GetNodeNumber(e.target.id));
                     }
                 }
             });
 
             node.addEventListener('click', function(e){
+                if(dragStart == 1 && !isNodeWall(Node.GetNodeNumber(e.target.id))){
+                    drawStartNode(Node.GetNodeNumber(e.target.id));
+                    dragStart = 0;
+                    console.log('dragStart:', dragStart);
+                    return;
+                }
+                if(dragGoal == 1 && !isNodeWall(Node.GetNodeNumber(e.target.id))){
+                    drawGoalNode(Node.GetNodeNumber(e.target.id));
+                    dragGoal = 0;
+                    console.log('dragGoal:', dragGoal);
+                    return;
+                }
+                if(isNodeStart(Node.GetNodeNumber(e.target.id)) && dragStart == 0){
+                    dragStart = 1;
+                    drawUnvisitedNode(Node.GetNodeNumber(e.target.id));
+                    console.log('dragStart:', dragStart);
+                    return;
+                }
+                if(isNodeGoal(Node.GetNodeNumber(e.target.id)) && dragGoal == 0){
+                    dragGoal = 1;
+                    drawUnvisitedNode(Node.GetNodeNumber(e.target.id));
+                    console.log('dragGoal:', dragGoal);
+                    return;
+                }
                 if(e.shiftKey){
-                    if(startNodeExists == false){
-                        e.target.classList.remove('unvisited-node');
-                        e.target.classList.add('start-node');
-                        startNodeExists = true;
-                    }
-                    else if(goalNodeExists == false && !e.target.classList.contains("start-node")){
-                        e.target.classList.remove("unvisited-node");
-                        e.target.classList.add("goal-node");
-                        goalNodeExists = true;
-                    }  
-                    else if(e.target.classList.contains('unvisited-node') ||
-                            e.target.classList.contains('weighted-node')){
-                                deleteAnyNodeClass(Node.GetNodeNumber(e.target.id));
-                                e.target.classList.add("wall-node");
+                    if( e.target.classList.contains('unvisited-node') ||
+                        e.target.classList.contains('weighted-node')){
+                            drawWallNode(Node.GetNodeNumber(e.target.id));
                     } 
                 }
                 if(e.altKey){
-                    if(startNodeExists == false){
-                        e.target.classList.remove('unvisited-node');
-                        e.target.classList.add('start-node');
-                        startNodeExists = true;
-                    }
-                    else if(goalNodeExists == false && !e.target.classList.contains("start-node")){
-                        e.target.classList.remove("unvisited-node");
-                        e.target.classList.add("goal-node");
-                        goalNodeExists = true;
-                    }  
-                    else if(e.target.classList.contains('unvisited-node')){
-                        // console.log('e.target: ', Node.GetNodeNumber(e.target.id));
+                    if(e.target.classList.contains('unvisited-node')){
                         drawWeightedNode(Node.GetNodeNumber(e.target.id));
                     }
                 }

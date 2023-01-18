@@ -1,7 +1,6 @@
 // #region GENERAL_PURPOSE_METHODS
 
 // Mouse button listener
-let mouseDown = 0;
 document.onmousedown = () => {mouseDown = 1;}
 document.onmouseup = () => {mouseDown = 0;}
 

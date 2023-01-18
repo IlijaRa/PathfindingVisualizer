@@ -48,16 +48,34 @@ function drawWeightedNode(currentNode){
     }
 }
 function drawStartNode(currentNode){
+    if(document.getElementById('node' + currentNode).classList.contains('wall-node')){
+        return;
+    }
     deleteAnyNodeClass(currentNode);
     document.getElementById('node' + currentNode).classList.add('start-node');
 }
 function drawGoalNode(currentNode){
+    if(document.getElementById('node' + currentNode).classList.contains('wall-node')){
+        return;
+    }
     deleteAnyNodeClass(currentNode);
     document.getElementById('node' + currentNode).classList.add('goal-node');
 }
 function drawWallNode(currentNode){
     deleteAnyNodeClass(currentNode);
     document.getElementById('node' + currentNode).classList.add('wall-node');
+}
+function isNodeStart(currentNode){
+    if(document.getElementById('node' + currentNode).classList.contains('start-node')){
+        return true;
+    }
+    return false;
+}
+function isNodeGoal(currentNode){
+    if(document.getElementById('node' + currentNode).classList.contains('goal-node')){
+        return true;
+    }
+    return false;
 }
 function isNodeWall(currentNode){
     if(document.getElementById('node' + currentNode).classList.contains('wall-node')){
