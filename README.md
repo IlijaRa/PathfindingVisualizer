@@ -11,4 +11,3 @@ Link za probu aplikacije: https://dreamy-gingersnap-b0faeb.netlify.app
 * Recursive Best-First search nije implementiran
 * Pop up za instrukcije o koriscenju nije implementiran
 * Nisu svi maze generatori implementirani koji su planirani
-* Fali drag and drop za startni i ciljni cvor 
