@@ -78,5 +78,4 @@ async function solveDijkstra(startNodeNumber, goalNodeNumber) {
         return;
     }
     reconstructPath(startNodeNumber, goalNodeNumber, prev);
-    enablePointerActions();
 }

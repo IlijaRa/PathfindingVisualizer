@@ -38,4 +38,5 @@ async function constructPathReverse(startNodeNumber, goalNodeNumber, goalToStart
             loopControl = true;
         }
     }
+    enablePointerActions();
 }

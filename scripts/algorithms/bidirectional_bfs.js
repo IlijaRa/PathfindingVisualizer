@@ -96,5 +96,4 @@ async function solveBidirectionalBfs(startNodeNumber, goalNodeNumber){
     }
     reconstructPath(startNodeNumber, intersectNodeNumber, prevA);
     reconstructPath(goalNodeNumber, intersectNodeNumber, prevB);
-    enablePointerActions();
 }

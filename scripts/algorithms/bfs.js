@@ -49,6 +49,4 @@ async function solveBfs(startNodeNumber, goalNodeNumber){
         return;
     }
     reconstructPath(startNodeNumber, goalNodeNumber, prev);
-    enablePointerActions();
 }
-/* ------------------------------------------------------------*/

@@ -52,6 +52,4 @@ async function solveDfs(startNodeNumber, goalNodeNumber){
         return;
     }
     reconstructPath(startNodeNumber, goalNodeNumber, prev);
-    enablePointerActions();
 }
-/* ------------------------------------------------------------*/

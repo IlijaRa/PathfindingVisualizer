@@ -85,5 +85,4 @@ async function solveAstar(start, goal) {
         return;
     }
     reconstructPath(start, goal, prev);
-    enablePointerActions();
 }

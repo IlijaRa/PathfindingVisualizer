@@ -77,5 +77,4 @@ async function greedyBestFirstSearch(start, goal) {
         return;
     }
     reconstructPath(start, goal, prev);
-    enablePointerActions();
 }
