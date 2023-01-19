@@ -1,4 +1,12 @@
 // #region CLEAR_BUTTONS
+addEventListener('contextmenu', function(e){
+    e.preventDefault();
+    if( isNodeStart(Node.GetNodeNumber(e.target.id)) || 
+        isNodeGoal(Node.GetNodeNumber(e.target.id))){
+            return;
+    }
+    drawUnvisitedNode(Node.GetNodeNumber(e.target.id));
+});
 document.querySelector('a#buttonClearAll').addEventListener('click', function(e){
     ClearAll();
     generateStartAndGoalNode();
@@ -9,10 +17,7 @@ function ClearAll(){
         deleteAnyNodeClass(Node.GetNodeNumber(node.id));
         node.classList.add('unvisited-node');
     })
-    // startNodeExists = false;
-    // goalNodeExists = false;
 }
-
 document.querySelector('a#buttonClearAllExceptStartGoal').addEventListener('click', function(e){
     var nodes = document.querySelectorAll('.node');
     for(let node of nodes){

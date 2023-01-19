@@ -26,28 +26,24 @@ function constructGrid(){
             });
 
             node.addEventListener('click', function(e){
-                if(dragStart == 1 && !isNodeWall(Node.GetNodeNumber(e.target.id))){
+                if(dragStart == 1 && !isNodeWall(Node.GetNodeNumber(e.target.id)) && !isNodeGoal(Node.GetNodeNumber(e.target.id))){
                     drawStartNode(Node.GetNodeNumber(e.target.id));
                     dragStart = 0;
-                    console.log('dragStart:', dragStart);
                     return;
                 }
-                if(dragGoal == 1 && !isNodeWall(Node.GetNodeNumber(e.target.id))){
+                if(dragGoal == 1 && !isNodeWall(Node.GetNodeNumber(e.target.id)) && !isNodeStart(Node.GetNodeNumber(e.target.id))){
                     drawGoalNode(Node.GetNodeNumber(e.target.id));
                     dragGoal = 0;
-                    console.log('dragGoal:', dragGoal);
                     return;
                 }
-                if(isNodeStart(Node.GetNodeNumber(e.target.id)) && dragStart == 0){
+                if(isNodeStart(Node.GetNodeNumber(e.target.id)) && dragStart == 0 && dragGoal == 0){
                     dragStart = 1;
                     drawUnvisitedNode(Node.GetNodeNumber(e.target.id));
-                    console.log('dragStart:', dragStart);
                     return;
                 }
-                if(isNodeGoal(Node.GetNodeNumber(e.target.id)) && dragGoal == 0){
+                if(isNodeGoal(Node.GetNodeNumber(e.target.id)) && dragGoal == 0 && dragStart == 0){
                     dragGoal = 1;
                     drawUnvisitedNode(Node.GetNodeNumber(e.target.id));
-                    console.log('dragGoal:', dragGoal);
                     return;
                 }
                 if(e.shiftKey){
