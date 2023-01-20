@@ -114,19 +114,6 @@ function getNodeCoordinatesWithoutWalls(nodeNumber){
     }
     return coordinate;
 }
-// Generate walls for maze
-function generateWalls() {
-    var scheme_array = new Array(HEIGHT * WIDTH).fill(0);
-    for (let i = 0; i < HEIGHT * WIDTH; i++) {
-        let x = Math.floor((Math.random() * 5) - 1); // basically with this random value, WALL_VALUE has 20% to generate
-        if (x == WALL_VALUE) {
-            scheme_array[i] = WALL_VALUE;
-        } else {
-            scheme_array[i] = i + 1;
-        }
-    }
-    return scheme_array;
-}
 // Generate maze with forwarded array as a parameter
 async function generateMaze(maze, scheme_2dArray){
     for(let i = 0; i < HEIGHT; i++){
