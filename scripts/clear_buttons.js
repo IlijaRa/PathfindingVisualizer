@@ -11,13 +11,13 @@ addEventListener('contextmenu', function(e){
 //     ClearAll();
 //     generateStartAndGoalNode();
 // });
-// function ClearAll(){
-//     var nodes = document.querySelectorAll('.node');
-//     nodes.forEach(function(node){
-//         deleteAnyNodeClass(Node.GetNodeNumber(node.id));
-//         node.classList.add('unvisited-node');
-//     })
-// }
+function ClearAll(){
+    var nodes = document.querySelectorAll('.node');
+    nodes.forEach(function(node){
+        deleteAnyNodeClass(Node.GetNodeNumber(node.id));
+        node.classList.add('unvisited-node');
+    })
+}
 document.querySelector('a#buttonClearAllExceptStartGoal').addEventListener('click', function(e){
     ClearAllExceptStartGoal();
 });
@@ -46,10 +46,13 @@ document.querySelector('a#buttonClearWeights').addEventListener('click', functio
     })
 });
 document.querySelector('a#buttonClearSearchPath').addEventListener('click', function(e){
+    ClearSearchPath();
+});
+function ClearSearchPath(){
     var nodes = document.querySelectorAll("div.visited-nodeA, div.visited-nodeB, div.path-node");
     nodes.forEach(function(node){
         deleteAnyNodeClass(Node.GetNodeNumber(node.id));
         node.classList.add('unvisited-node');
     })
-});
+}
 // #endregion

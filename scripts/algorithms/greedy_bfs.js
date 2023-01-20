@@ -1,6 +1,6 @@
 /* --------------------Greedy Best-First search algorithm---------------------------*/
 document.querySelector('a#buttonGreedy_BFS').addEventListener('click', function(e){
-    ClearAllExceptStartGoal();
+    ClearSearchPath();
     var nodes = findStartAndGoalNode(); 
     if(nodes[0] == null || nodes[1] == null){
         alert('You need to provide start and goal nodes!');
