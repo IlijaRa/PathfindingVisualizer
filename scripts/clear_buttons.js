@@ -7,10 +7,10 @@ addEventListener('contextmenu', function(e){
     }
     drawUnvisitedNode(Node.GetNodeNumber(e.target.id));
 });
-document.querySelector('a#buttonClearAll').addEventListener('click', function(e){
-    ClearAll();
-    generateStartAndGoalNode();
-});
+// document.querySelector('a#buttonClearAll').addEventListener('click', function(e){
+//     ClearAll();
+//     generateStartAndGoalNode();
+// });
 function ClearAll(){
     var nodes = document.querySelectorAll('.node');
     nodes.forEach(function(node){
