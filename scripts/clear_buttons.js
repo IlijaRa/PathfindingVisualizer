@@ -11,14 +11,17 @@ addEventListener('contextmenu', function(e){
 //     ClearAll();
 //     generateStartAndGoalNode();
 // });
-function ClearAll(){
-    var nodes = document.querySelectorAll('.node');
-    nodes.forEach(function(node){
-        deleteAnyNodeClass(Node.GetNodeNumber(node.id));
-        node.classList.add('unvisited-node');
-    })
-}
+// function ClearAll(){
+//     var nodes = document.querySelectorAll('.node');
+//     nodes.forEach(function(node){
+//         deleteAnyNodeClass(Node.GetNodeNumber(node.id));
+//         node.classList.add('unvisited-node');
+//     })
+// }
 document.querySelector('a#buttonClearAllExceptStartGoal').addEventListener('click', function(e){
+    ClearAllExceptStartGoal();
+});
+function ClearAllExceptStartGoal(){
     var nodes = document.querySelectorAll('.node');
     for(let node of nodes){
         if(node.classList.contains('start-node') || node.classList.contains('goal-node')){
@@ -27,7 +30,7 @@ document.querySelector('a#buttonClearAllExceptStartGoal').addEventListener('clic
         deleteAnyNodeClass(Node.GetNodeNumber(node.id));
         node.classList.add('unvisited-node');
     }
-});
+}
 document.querySelector('a#buttonClearWalls').addEventListener('click', function(e){
     var nodes = document.querySelectorAll('.wall-node');
     nodes.forEach(function(node){
