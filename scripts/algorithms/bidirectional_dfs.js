@@ -20,6 +20,7 @@ async function solveBidirectionalDfs(startNodeNumber, goalNodeNumber){
     let queueGoal = [];
     let visited = new Array(HEIGHT * WIDTH).fill(false);
     let solved = false;
+    let noSearchedNodes = 0;
     let prevA = new Array(HEIGHT * WIDTH).fill(0);
     let prevB = new Array(HEIGHT * WIDTH).fill(0);
     
@@ -39,6 +40,7 @@ async function solveBidirectionalDfs(startNodeNumber, goalNodeNumber){
         }
 
         visited[currentA] = true;
+        noSearchedNodes ++;
         drawVisitedNodeOne(currentA, startNodeNumber);
 
         var adjA = adjacentsDict[currentA];
@@ -66,6 +68,7 @@ async function solveBidirectionalDfs(startNodeNumber, goalNodeNumber){
         }
 
         visited[currentB] = true;
+        noSearchedNodes ++;
         drawVisitedNodeTwo(currentB, goalNodeNumber);
 
         var adjB = adjacentsDict[currentB];
@@ -93,6 +96,9 @@ async function solveBidirectionalDfs(startNodeNumber, goalNodeNumber){
         return;
     }
 
-    reconstructPath(startNodeNumber, intersectNodeNumber, prevA);
-    reconstructPath(goalNodeNumber, intersectNodeNumber, prevB);
+    let noPathNodes = await reconstructPath(intersectNodeNumber, prevA);
+    noPathNodes += await reconstructPath(intersectNodeNumber, prevB);
+    // intersectNodeNumber is stored in both prevA and prevB, because of that noPathNodes increments two times instead of once
+    noPathNodes -= 1; 
+    showStatisticsAlert(noPathNodes, noSearchedNodes);
 }

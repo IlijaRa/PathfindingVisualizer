@@ -18,6 +18,7 @@ async function solveBfs(startNodeNumber, goalNodeNumber){
     let prev = new Array(HEIGHT * WIDTH).fill(0);
     let queue = [];
     let solved = false;
+    let noSearchedNodes = 0;
     queue.push(startNodeNumber);
 
     while(queue.length > 0){
@@ -25,12 +26,14 @@ async function solveBfs(startNodeNumber, goalNodeNumber){
         var maze = construct2dArray();
         var adjacentsDict = findAdjacents(maze);
         var currentNode = queue.shift();
+        
         if(currentNode == goalNodeNumber){
             solved = true;
             break;
         }
         visited[currentNode] = true;
-
+        noSearchedNodes ++;
+        
         drawVisitedNodeOne(currentNode, startNodeNumber);
         await sleep(SLEEP_VALUE);
 
@@ -49,5 +52,6 @@ async function solveBfs(startNodeNumber, goalNodeNumber){
         alert('Impossible to solve! I will reset it.');
         return;
     }
-    reconstructPath(startNodeNumber, goalNodeNumber, prev);
+    let noPathNodes = await reconstructPath(goalNodeNumber, prev);
+    showStatisticsAlert(noPathNodes, noSearchedNodes);
 }

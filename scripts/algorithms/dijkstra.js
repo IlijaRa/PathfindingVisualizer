@@ -15,6 +15,7 @@ async function solveDijkstra(startNodeNumber, goalNodeNumber) {
     var maze = construct2dArray();
     var adjacentsDict = findAdjacents(maze);
     var solved = false;
+    let noSearchedNodes = 0;
     let queue = []
     var prev = new Array(HEIGHT * WIDTH).fill(0);
     const unvisitedNodes = new Set();
@@ -40,6 +41,7 @@ async function solveDijkstra(startNodeNumber, goalNodeNumber) {
 
         // Mark the current node as visited
         visitedNodes.add(currentNode);
+        noSearchedNodes ++;
         drawVisitedNodeOne(currentNode, startNodeNumber);
         unvisitedNodes.delete(currentNode);
 
@@ -78,5 +80,6 @@ async function solveDijkstra(startNodeNumber, goalNodeNumber) {
         alert('Impossible to solve! I will reset it.');
         return;
     }
-    reconstructPath(startNodeNumber, goalNodeNumber, prev);
+    let noPathNodes = await reconstructPath(goalNodeNumber, prev);
+    showStatisticsAlert(noPathNodes, noSearchedNodes);
 }

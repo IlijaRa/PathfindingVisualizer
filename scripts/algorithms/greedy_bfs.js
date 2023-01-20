@@ -15,6 +15,7 @@ async function greedyBestFirstSearch(start, goal) {
     var maze = construct2dArray();
     var adjacentsDict = findAdjacents(maze);
     var solved = false;
+    let noSearchedNodes = 0;
     var prev = new Array(HEIGHT * WIDTH).fill(0);
     let stack = [];
     let visited = new Array(HEIGHT * WIDTH).fill(false);
@@ -29,13 +30,13 @@ async function greedyBestFirstSearch(start, goal) {
         let neighboursDistance = {};
 
         let currentNode = stack.pop();
-
+        
         // Check if we have reached the goal
         if(currentNode == goal){
             solved = true;
             break;
         }
-
+        
         visited[currentNode] = true;
 
         const index = stack.indexOf(currentNode);
@@ -66,6 +67,7 @@ async function greedyBestFirstSearch(start, goal) {
         }
 
         visited[smallestDistanceNode] = true;
+        noSearchedNodes ++;
         drawVisitedNodeOne(smallestDistanceNode, start);
         
         if(solved){
@@ -77,5 +79,6 @@ async function greedyBestFirstSearch(start, goal) {
         alert('Impossible to solve! I will reset it.');
         return;
     }
-    reconstructPath(start, goal, prev);
+    let noPathNodes = await reconstructPath(goal, prev);
+    showStatisticsAlert(noPathNodes, noSearchedNodes);
 }
