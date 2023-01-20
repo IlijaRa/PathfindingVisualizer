@@ -71,6 +71,8 @@ function generateStartAndGoalNode(){
 
     drawStartNode(randomStartNumber);
     drawGoalNode(randomGoalNumber);
+    dragStart = 0;
+    dragGoal = 0;
 }
 // Returns node coordinates 
 function getNodeCoordinates(nodeNumber){
@@ -126,16 +128,16 @@ function generateWalls() {
     return scheme_array;
 }
 // Generate maze with forwarded array as a parameter
-async function generateMaze(scheme_array){
-    for(let i = 0; i < HEIGHT * WIDTH; i++){
-        if(scheme_array[i] == WALL_VALUE){
-            drawWallNode(i + 1);
-        }else{
-            drawUnvisitedNode(i + 1);
+async function generateMaze(maze, scheme_2dArray){
+    for(let i = 0; i < HEIGHT; i++){
+        for(let j = 0; j < WIDTH; j++){
+            if(scheme_2dArray[i][j] == WALL_VALUE){
+                drawWallNode(maze[i][j]);
+            }else{
+                drawUnvisitedNode(maze[i][j]);
+            }
         }
     }
-    startNodeExists = false;
-    goalNodeExists = false;
 }
 // Heuristic for calculating the distance from current node to goal node
 function heuristicFunction(a, b) {
