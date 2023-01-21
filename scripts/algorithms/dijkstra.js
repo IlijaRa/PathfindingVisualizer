@@ -17,7 +17,7 @@ async function solveDijkstra(startNodeNumber, goalNodeNumber) {
     var adjacentsDict = findAdjacents(maze);
     var solved = false;
     let queue = []
-    var prev = new Array(HEIGHT * WIDTH).fill(0);
+    var prev = new Array(HEIGHT * WIDTH).fill(-1);
     const unvisitedNodes = new Set();
     const visitedNodes = new Set();
     const distances = {};

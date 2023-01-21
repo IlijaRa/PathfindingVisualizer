@@ -22,8 +22,8 @@ async function solveBidirectionalBfs(startNodeNumber, goalNodeNumber){
     let visited = new Array(HEIGHT * WIDTH).fill(false);
     let solved = false;
     let noSearchedNodes = 0;
-    let prevA = new Array(HEIGHT * WIDTH).fill(0);
-    let prevB = new Array(HEIGHT * WIDTH).fill(0);
+    let prevA = new Array(HEIGHT * WIDTH).fill(-1);
+    let prevB = new Array(HEIGHT * WIDTH).fill(-1);
     
     queueStart.push(startNodeNumber);
     queueGoal.push(goalNodeNumber);

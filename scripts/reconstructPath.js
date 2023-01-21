@@ -12,7 +12,7 @@ function grabPrevious(goalNodeNumber, prev){
         let node = prev[previous];
         goalToStart.push(node);
 
-        if(node == 0) loopControl = true;
+        if(node == -1) loopControl = true;
         else previous = node;
 
         if(loopControl){
@@ -26,7 +26,7 @@ async function constructPathReverse(goalToStart){
     for(node of goalToStart.reverse()){ //goalToStart.reverse() gives nodes sorted from start to node
         await sleep(SLEEP_VALUE);
         try{
-            if(node != 0){
+            if(node != -1){
                 let n = document.getElementById('node' + (node + 1));
                 if(!n.classList.contains('start-node') && !n.classList.contains('goal-node')){
                     deleteAnyNodeClass(node + 1);

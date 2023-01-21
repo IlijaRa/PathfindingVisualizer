@@ -16,7 +16,7 @@ async function greedyBestFirstSearch(start, goal) {
     var maze = construct2dArray();
     var adjacentsDict = findAdjacents(maze);
     var solved = false;
-    var prev = new Array(HEIGHT * WIDTH).fill(0);
+    var prev = new Array(HEIGHT * WIDTH).fill(-1);
     let stack = [];
     let visited = new Array(HEIGHT * WIDTH).fill(false);
 

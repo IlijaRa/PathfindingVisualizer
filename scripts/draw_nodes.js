@@ -83,3 +83,10 @@ function isNodeWall(currentNode){
     }
     return false;
 }
+
+function isNodeFirst(currentNode){
+    if(document.getElementById('node' + currentNode).classList.contains('node1')){
+        return true;
+    }
+    return false;
+}

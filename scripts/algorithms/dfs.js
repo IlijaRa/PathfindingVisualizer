@@ -16,7 +16,7 @@ async function solveDfs(startNodeNumber, goalNodeNumber){
     var maze = construct2dArray();
     var adjacentsDict = findAdjacents(maze);
     let visited = new Array(HEIGHT * WIDTH).fill(false);
-    let prev = new Array(HEIGHT * WIDTH).fill(0);
+    let prev = new Array(HEIGHT * WIDTH).fill(-1);
     let stack = [];
     let solved = false;
 

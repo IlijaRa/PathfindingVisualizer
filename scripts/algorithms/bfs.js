@@ -14,9 +14,10 @@ document.querySelector('a#buttonBFS').addEventListener('click', function(e){
 async function solveBfs(startNodeNumber, goalNodeNumber){
     const startTimer = performance.now();
     var maze = construct2dArray();
+    console.log('maze: ', maze);
     var adjacentsDict = findAdjacents(maze);
     let visited = new Array(HEIGHT * WIDTH).fill(false);
-    let prev = new Array(HEIGHT * WIDTH).fill(0);
+    let prev = new Array(HEIGHT * WIDTH).fill(-1);
     let queue = [];
     let solved = false;
     queue.push(startNodeNumber);
@@ -51,7 +52,9 @@ async function solveBfs(startNodeNumber, goalNodeNumber){
         showErrorAlert('Impossible to solve!');
         enablePointerActions();
     }else if(solved){
+        
         const endTimer = performance.now();
+        console.log('prev:', prev);
         let noPathNodes = await reconstructPath(goalNodeNumber, prev);
         showStatisticsAlert(noPathNodes, endTimer - startTimer);
     }
