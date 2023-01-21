@@ -3,7 +3,7 @@ document.querySelector('a#buttonDFS').addEventListener('click', function(e){
     ClearSearchPath();
     var nodes = findStartAndGoalNode(); 
     if(nodes[0] == null || nodes[1] == null){
-        alert('You need to provide start and goal nodes!');
+        showWarningAlert('You need to provide start and goal nodes!');
         return;
     }
     let startNodeNumber = Node.GetNodeNumber(nodes[0].id);
