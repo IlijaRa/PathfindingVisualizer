@@ -26,6 +26,16 @@
     font-family: 'Open Sans', sans-serif;
     text-align: center;
 }
+
+.warning-alert{
+    padding: 20px;
+    background-color: #F5C100; /* Yellow */
+    color: white;
+    margin-bottom: 15px;
+    font-family: 'Open Sans', sans-serif;
+    text-align: center;
+}
+
 /* The close button */
 .closebtn {
     margin-left: 15px;

@@ -14,9 +14,13 @@ for (i = 0; i < close.length; i++) {
 }
 //Pop ups statistics box with searched nodes and path nodes info
 function showStatisticsAlert(noPathNodes){
-  document.querySelector('.insert-alert').innerHTML = `<div class="info-alert">
+  document.querySelector('.insert-alert').innerHTML = `<div class="success-alert">
                                                             <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
-                                                            The shortest path length: ` + noPathNodes + `. Number of searched nodes: ` + countSearchedNodes() + 
+                                                            Algorithm is successfully executed.
+                                                      </div>` + 
+                                                      `<div class="info-alert">
+                                                        <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
+                                                        The shortest path length: ` + noPathNodes + `. Number of searched nodes: ` + countSearchedNodes() + 
                                                       `</div>`;
 }
 
@@ -31,6 +35,13 @@ function countSearchedNodes(){
 
 function showErrorAlert(message){
   document.querySelector('.insert-alert').innerHTML = `<div class="error-alert">
+                                                            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>` 
+                                                            + message +
+                                                      `</div>`;
+}
+
+function showWarningAlert(message){
+  document.querySelector('.insert-alert').innerHTML = `<div class="warning-alert">
                                                             <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>` 
                                                             + message +
                                                       `</div>`;
