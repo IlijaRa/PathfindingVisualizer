@@ -64,8 +64,8 @@ function generateStartAndGoalNode(){
     let randomStartNumber = null;
     let randomGoalNumber = null;
     do{
-        randomStartNumber = Math.floor(Math.random() * (HEIGHT * WIDTH) + 1);
-        randomGoalNumber = Math.floor(Math.random() * (HEIGHT * WIDTH) + 1);
+        randomStartNumber = Math.floor(Math.random() * (HEIGHT * WIDTH - 1) + 1);
+        randomGoalNumber = Math.floor(Math.random() * (HEIGHT * WIDTH - 1) + 1);
     }
     while(isNodeWall(randomStartNumber) || isNodeWall(randomGoalNumber));
 

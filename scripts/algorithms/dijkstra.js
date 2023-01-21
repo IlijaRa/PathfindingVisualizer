@@ -12,6 +12,7 @@ document.querySelector('a#buttonDijkstra').addEventListener('click', function(e)
     solveDijkstra(startNodeNumber, goalNodeNumber);
 });
 async function solveDijkstra(startNodeNumber, goalNodeNumber) {
+    const startTimer = performance.now();
     var maze = construct2dArray();
     var adjacentsDict = findAdjacents(maze);
     var solved = false;
@@ -78,7 +79,8 @@ async function solveDijkstra(startNodeNumber, goalNodeNumber) {
         showErrorAlert('Impossible to solve!');
         enablePointerActions();
     }else if(solved){
+        const endTimer = performance.now();
         let noPathNodes = await reconstructPath(goalNodeNumber, prev);
-        showStatisticsAlert(noPathNodes);
+        showStatisticsAlert(noPathNodes, endTimer - startTimer);
     }
 }

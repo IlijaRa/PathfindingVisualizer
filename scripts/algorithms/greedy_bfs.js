@@ -12,6 +12,7 @@ document.querySelector('a#buttonGreedy_BFS').addEventListener('click', function(
     greedyBestFirstSearch(startNodeNumber, goalNodeNumber);
 });
 async function greedyBestFirstSearch(start, goal) {
+    const startTimer = performance.now();
     var maze = construct2dArray();
     var adjacentsDict = findAdjacents(maze);
     var solved = false;
@@ -77,8 +78,9 @@ async function greedyBestFirstSearch(start, goal) {
         showErrorAlert('Impossible to solve!');
         enablePointerActions();
     }else if(solved){
+        const endTimer = performance.now();
         let noPathNodes = await reconstructPath(goal, prev);
-        showStatisticsAlert(noPathNodes);
+        showStatisticsAlert(noPathNodes, endTimer - startTimer);
     }
     
 }

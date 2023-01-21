@@ -18,7 +18,7 @@ document.getElementById("node-slider").addEventListener('input', function(e){
 })
 // Setting the speed of nodes in canvas
 document.getElementById("speed-slider").addEventListener('input', function(e){
-    SLEEP_VALUE = 100 - e.target.value;
+    SLEEP_VALUE = 500 - e.target.value;
 })
 // Setting the weight of weighted nodes in canvas
 document.getElementById("weight-input").addEventListener('change', function(e){

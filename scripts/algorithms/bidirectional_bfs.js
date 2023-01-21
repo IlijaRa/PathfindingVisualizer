@@ -12,6 +12,7 @@ document.querySelector('a#buttonBD_BFS').addEventListener('click', function(e){
     solveBidirectionalBfs(startNodeNumber, goalNodeNumber);
 })
 async function solveBidirectionalBfs(startNodeNumber, goalNodeNumber){
+    const startTimer = performance.now();
     var maze = construct2dArray();
     var adjacentsDict = findAdjacents(maze);
     var intersectNodeNumber = null;
@@ -98,10 +99,11 @@ async function solveBidirectionalBfs(startNodeNumber, goalNodeNumber){
         showErrorAlert('Impossible to solve!');
         enablePointerActions();
     }else if(solved){
+        const endTimer = performance.now();
         let noPathNodes = await reconstructPath(intersectNodeNumber, prevA);
         noPathNodes += await reconstructPath(intersectNodeNumber, prevB);
         // intersectNodeNumber is stored in both prevA and prevB, because of that noPathNodes increments two times instead of once
         noPathNodes -= 1; 
-        showStatisticsAlert(noPathNodes);
+        showStatisticsAlert(noPathNodes, endTimer - startTimer);
     }
 }

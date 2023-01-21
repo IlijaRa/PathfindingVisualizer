@@ -12,6 +12,7 @@ document.querySelector('a#buttonDFS').addEventListener('click', function(e){
     solveDfs(startNodeNumber, goalNodeNumber);
 })
 async function solveDfs(startNodeNumber, goalNodeNumber){
+    const startTimer = performance.now();
     var maze = construct2dArray();
     var adjacentsDict = findAdjacents(maze);
     let visited = new Array(HEIGHT * WIDTH).fill(false);
@@ -51,7 +52,8 @@ async function solveDfs(startNodeNumber, goalNodeNumber){
         showErrorAlert('Impossible to solve!');
         enablePointerActions();
     }else if(solved){
+        const endTimer = performance.now();
         let noPathNodes = await reconstructPath(goalNodeNumber, prev);
-        showStatisticsAlert(noPathNodes);
+        showStatisticsAlert(noPathNodes, endTimer - startTimer);
     }
 }

@@ -12,6 +12,7 @@ document.querySelector('a#buttonA_star').addEventListener('click', function(e){
     solveAstar(startNodeNumber, goalNodeNumber);
 });
 async function solveAstar(start, goal) {
+    const startTimer = performance.now();
     var maze = construct2dArray();
     var adjacentsDict = findAdjacents(maze);
     var solved = false;
@@ -85,7 +86,8 @@ async function solveAstar(start, goal) {
         showErrorAlert('Impossible to solve!');
         enablePointerActions();
     }else if (solved){
+        const endTimer = performance.now();
         let noPathNodes = await reconstructPath(goal, prev);
-        showStatisticsAlert(noPathNodes);
+        showStatisticsAlert(noPathNodes, endTimer - startTimer);
     }
 }
