@@ -18,7 +18,6 @@ async function solveDfs(startNodeNumber, goalNodeNumber){
     let prev = new Array(HEIGHT * WIDTH).fill(0);
     let stack = [];
     let solved = false;
-    let noSearchedNodes = 0;
 
     stack.push(startNodeNumber);
 
@@ -34,7 +33,6 @@ async function solveDfs(startNodeNumber, goalNodeNumber){
         }
 
         visited[currentNode] = true;
-        noSearchedNodes ++;
 
         drawVisitedNodeOne(currentNode, startNodeNumber);
         await sleep(SLEEP_VALUE);
@@ -54,5 +52,5 @@ async function solveDfs(startNodeNumber, goalNodeNumber){
         return;
     }
     let noPathNodes = await reconstructPath(goalNodeNumber, prev);
-    showStatisticsAlert(noPathNodes, noSearchedNodes);
+    showStatisticsAlert(noPathNodes);
 }

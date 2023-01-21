@@ -15,7 +15,6 @@ async function solveAstar(start, goal) {
     var maze = construct2dArray();
     var adjacentsDict = findAdjacents(maze);
     var solved = false;
-    let noSearchedNodes = 0;
     let queue = []
     var prev = new Array(HEIGHT * WIDTH).fill(0);
     const unvisitedNodes = new Set();
@@ -47,7 +46,6 @@ async function solveAstar(start, goal) {
     
         // Mark the current node as visited
         visitedNodes.add(currentNode);
-        noSearchedNodes ++;
         drawVisitedNodeOne(currentNode, start);
         unvisitedNodes.delete(currentNode);
 
@@ -88,5 +86,5 @@ async function solveAstar(start, goal) {
         return;
     }
     let noPathNodes = await reconstructPath(goal, prev);
-    showStatisticsAlert(noPathNodes, noSearchedNodes);
+    showStatisticsAlert(noPathNodes);
 }

@@ -18,7 +18,6 @@ async function solveBfs(startNodeNumber, goalNodeNumber){
     let prev = new Array(HEIGHT * WIDTH).fill(0);
     let queue = [];
     let solved = false;
-    let noSearchedNodes = 0;
     queue.push(startNodeNumber);
 
     while(queue.length > 0){
@@ -32,7 +31,6 @@ async function solveBfs(startNodeNumber, goalNodeNumber){
             break;
         }
         visited[currentNode] = true;
-        noSearchedNodes ++;
         
         drawVisitedNodeOne(currentNode, startNodeNumber);
         await sleep(SLEEP_VALUE);
@@ -53,5 +51,5 @@ async function solveBfs(startNodeNumber, goalNodeNumber){
         return;
     }
     let noPathNodes = await reconstructPath(goalNodeNumber, prev);
-    showStatisticsAlert(noPathNodes, noSearchedNodes);
+    showStatisticsAlert(noPathNodes);
 }

@@ -100,5 +100,5 @@ async function solveBidirectionalDfs(startNodeNumber, goalNodeNumber){
     noPathNodes += await reconstructPath(intersectNodeNumber, prevB);
     // intersectNodeNumber is stored in both prevA and prevB, because of that noPathNodes increments two times instead of once
     noPathNodes -= 1; 
-    showStatisticsAlert(noPathNodes, noSearchedNodes);
+    showStatisticsAlert(noPathNodes);
 }

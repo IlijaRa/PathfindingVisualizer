@@ -15,7 +15,6 @@ async function greedyBestFirstSearch(start, goal) {
     var maze = construct2dArray();
     var adjacentsDict = findAdjacents(maze);
     var solved = false;
-    let noSearchedNodes = 0;
     var prev = new Array(HEIGHT * WIDTH).fill(0);
     let stack = [];
     let visited = new Array(HEIGHT * WIDTH).fill(false);
@@ -67,7 +66,6 @@ async function greedyBestFirstSearch(start, goal) {
         }
 
         visited[smallestDistanceNode] = true;
-        noSearchedNodes ++;
         drawVisitedNodeOne(smallestDistanceNode, start);
         
         if(solved){
@@ -80,5 +78,5 @@ async function greedyBestFirstSearch(start, goal) {
         return;
     }
     let noPathNodes = await reconstructPath(goal, prev);
-    showStatisticsAlert(noPathNodes, noSearchedNodes);
+    showStatisticsAlert(noPathNodes);
 }

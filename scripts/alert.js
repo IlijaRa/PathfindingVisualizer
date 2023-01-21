@@ -12,9 +12,18 @@ for (i = 0; i < close.length; i++) {
     div.style.display = "none";
   }
 }
-function showStatisticsAlert(noPathNodes, noSearchedNodes){
-    document.querySelector('.insert-alert').innerHTML = `<div class="info-alert">
+function showStatisticsAlert(noPathNodes){
+  document.querySelector('.insert-alert').innerHTML = `<div class="info-alert">
                                                             <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
-                                                            The shortest path length: ` + noPathNodes + `. Number of searched nodes: ` + noSearchedNodes + 
-                                                        `</div>`
+                                                            The shortest path length: ` + noPathNodes + `. Number of searched nodes: ` + countSearchedNodes() + 
+                                                        `</div>`;
+}
+
+function countSearchedNodes(){
+  let counter = 0;
+  let numberOfSearchedNodes = document.querySelectorAll("div.visited-nodeA, div.visited-nodeB, div.path-node");
+  numberOfSearchedNodes.forEach(function(node){
+    counter ++;
+  });
+  return counter;
 }
