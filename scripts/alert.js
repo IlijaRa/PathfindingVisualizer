@@ -12,11 +12,12 @@ for (i = 0; i < close.length; i++) {
     div.style.display = "none";
   }
 }
+//Pop ups statistics box with searched nodes and path nodes info
 function showStatisticsAlert(noPathNodes){
   document.querySelector('.insert-alert').innerHTML = `<div class="info-alert">
                                                             <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
                                                             The shortest path length: ` + noPathNodes + `. Number of searched nodes: ` + countSearchedNodes() + 
-                                                        `</div>`;
+                                                      `</div>`;
 }
 
 function countSearchedNodes(){
@@ -26,4 +27,11 @@ function countSearchedNodes(){
     counter ++;
   });
   return counter;
+}
+
+function showErrorAlert(message){
+  document.querySelector('.insert-alert').innerHTML = `<div class="error-alert">
+                                                            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>` 
+                                                            + message +
+                                                      `</div>`;
 }

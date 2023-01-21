@@ -48,9 +48,10 @@ async function solveDfs(startNodeNumber, goalNodeNumber){
         }
     }
     if(!solved){
-        alert('Impossible to solve! I will reset it.');
-        return;
+        showErrorAlert('Impossible to solve!');
+        enablePointerActions();
+    }else if(solved){
+        let noPathNodes = await reconstructPath(goalNodeNumber, prev);
+        showStatisticsAlert(noPathNodes);
     }
-    let noPathNodes = await reconstructPath(goalNodeNumber, prev);
-    showStatisticsAlert(noPathNodes);
 }

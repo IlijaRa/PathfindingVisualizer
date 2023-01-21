@@ -74,9 +74,11 @@ async function greedyBestFirstSearch(start, goal) {
     }
 
     if(!solved){
-        alert('Impossible to solve! I will reset it.');
-        return;
+        showErrorAlert('Impossible to solve!');
+        enablePointerActions();
+    }else if(solved){
+        let noPathNodes = await reconstructPath(goal, prev);
+        showStatisticsAlert(noPathNodes);
     }
-    let noPathNodes = await reconstructPath(goal, prev);
-    showStatisticsAlert(noPathNodes);
+    
 }

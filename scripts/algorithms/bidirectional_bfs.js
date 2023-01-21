@@ -94,14 +94,14 @@ async function solveBidirectionalBfs(startNodeNumber, goalNodeNumber){
         }
     }
 
-    if(!solved || intersectNodeNumber == null){
-        alert('Impossible to solve! I will reset it.');
-        return;
+    if(!solved){
+        showErrorAlert('Impossible to solve!');
+        enablePointerActions();
+    }else if(solved){
+        let noPathNodes = await reconstructPath(intersectNodeNumber, prevA);
+        noPathNodes += await reconstructPath(intersectNodeNumber, prevB);
+        // intersectNodeNumber is stored in both prevA and prevB, because of that noPathNodes increments two times instead of once
+        noPathNodes -= 1; 
+        showStatisticsAlert(noPathNodes);
     }
-
-    let noPathNodes = await reconstructPath(intersectNodeNumber, prevA);
-    noPathNodes += await reconstructPath(intersectNodeNumber, prevB);
-    // intersectNodeNumber is stored in both prevA and prevB, because of that noPathNodes increments two times instead of once
-    noPathNodes -= 1; 
-    showStatisticsAlert(noPathNodes);
 }
