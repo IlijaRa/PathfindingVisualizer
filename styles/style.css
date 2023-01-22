@@ -64,6 +64,13 @@ body{
     float: left;
 }
 
+.ppt_container{
+    width: 98%;
+    height: 98%;
+    display: flex;
+    float: center;
+    margin: 1%;
+}
 /* Tooltip container */
 .tooltip {
     position: relative;

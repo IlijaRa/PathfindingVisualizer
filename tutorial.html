@@ -1,0 +1,123 @@
+<html>
+    <head>
+        <!-- CSS -->
+        <link rel="stylesheet" href="styles/style.css" />
+        <!-- <link rel="stylesheet" href="styles/modal.css" /> -->
+        <link rel="stylesheet" href="styles/node_style.css" />
+        <link rel="stylesheet" href="styles/nav_bar.css" />
+        <link rel="stylesheet" href="styles/set_environment.css" />
+        <link rel="stylesheet" href="styles/alert.css" />
+        <link rel="icon" href="./images/favicon.png">
+        <!-- Load an icon library to show a hamburger menu (bars) on small screens -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    </head>
+
+    <body>
+        <div id="content_container">
+            <nav id="nab-bar-container" class="gradient">
+                <div id="logo"><b>P</b>ath<b>F</b>inding <b>V</b>isualizer</div>
+    
+                <label for="drop" class="toggle">Menu</label>
+                <input type="checkbox" id="drop" />
+                <ul class="menu">
+                    <li class="disabled-div"><a href="#" id="settings">Settings</a>
+                        <ul>
+                            <li class="gradient"><a>Canvas size : <input id="node-slider" type="range" min="35" max="60" value="50"></a></li>
+                            <li class="gradient"><a>Speed : <input id="speed-slider" type="range" min="0" max="500" value="30"></a></li>
+                            <li class="gradient"><a>Node weight : <input id="weight-input" type="number" min="2" max="20" value="2"></a></li>
+                            <li class="gradient"><a>Heuristic : 
+                                    <select id="select-heuristic">
+                                        <option value="euclidean">Euclidean</option>
+                                        <option value="manhattan">Manhattan</option>
+                                        <option value="hamming">Hamming</option>
+                                        <option value="minkowski5">Minkowski(p = 5)</option>
+                                        <option value="cosine">Cosine</option>
+                                        <option value="chebyshev">Chebyshev</option>
+                                        <option value="haversine">Haversine</option>
+                                    </select>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="disabled-div"><a href="#">Algorithms</a>
+                        <ul>
+                            <li class="gradient"><a id="buttonBFS">BFS</a></li>
+                            <li class="gradient"><a id="buttonDFS">DFS</a></li>
+                            <li class="gradient"><a id="buttonBD_BFS">Bidirect. BFS</a></li>
+                            <li class="gradient"><a id="buttonBD_DFS">Bidirect. DFS</a></li>
+                            <li class="gradient"><a id="buttonDijkstra">Dijkstra</a></li>
+                            <li class="gradient"><a id="buttonGreedy_BFS">Greedy BFS</a></li>
+                            <li class="gradient"><a id="buttonA_star">A star</a></li>
+                            <!-- <li class="gradient"><a id="buttonRecursiveBFS">Recursive BFS</a></li> -->
+                        </ul>
+                    </li>
+                    <li class="disabled-div"><a href="#">Maze generators</a>
+                        <ul>
+                            <li class="gradient"><a href="#">Static shapes</a>
+                                <ul>
+                                    <li class="gradient"><a id="buttonStairs">Stairs</a></li>
+                                    <li class="gradient"><a id="buttonCentricBaesMaze">Centric baes</a></li>
+                                    <li class="gradient"><a id="buttonHorizontalBaesMaze">Horizontal baes</a></li>
+                                    <li class="gradient"><a id="buttonVerticalBaesMaze">Vertical baes</a></li>
+                                    <li class="gradient"><a id="buttonNormalBaesMaze">Normal baes</a></li>
+                                </ul>
+                            </li>
+                            <li class="gradient"><a id="buttonRandomSeed">Random seed</a></li>
+                            <li class="gradient"><a id="buttonRandomizedPrim">Random Prim</a></li>
+                            <!-- <li class="gradient"><a id="buttonRandomizedKruskal">Random Kruskal</a></li> -->
+                            <li class="gradient"><a id="buttonRecursiveBacktracker">Recursive Backtracker</a></li>
+                        </ul>
+                    </li>
+                    <li class="disabled-div"><a href="#">Clear options</a>
+                        <ul>
+                            <!-- <li class="gradient"><a id="buttonClearAll">Clear All</a></li> -->
+                            <li class="gradient"><a id="buttonClearAllExceptStartGoal">Clear All Except Start&Goal</a></li>
+                            <li class="gradient"><a id="buttonClearWalls">Clear Walls</a></li>
+                            <li class="gradient"><a id="buttonClearWeights">Clear Weights</a></li>
+                            <li class="gradient"><a id="buttonClearSearchPath">Clear Search&Path</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="index.html">Back to visualizer</a></li>
+                </ul>
+            </nav>
+    
+            <div id="description_container" class="description_container">
+                <div class="description-node">
+                    <img src="./images/nodes/start_node.png" alt="start_node"> <br>
+                    Start node
+                    <!-- <span class="tooltiptext">Shift/Alt + Left mouse click(first click ever)</span> -->
+                </div>
+                <div class="description-node">
+                    <img src="./images/nodes/goal_node.png" alt="goal_node"> <br>
+                    Goal Node
+                    <!-- <span class="tooltiptext">Shift/Alt + Left mouse click(second click ever)</span> -->
+                </div>
+                <div class="description-node">
+                    <img src="./images/nodes/wall_node.png" alt="wall_node"> <br>
+                    Wall Node
+                    <!-- <span class="tooltiptext">Shift + Left mouse click(generates after start&goal)</span> -->
+                </div>
+                <div class="description-node">
+                    <img src="./images/nodes/weighted_node.png" alt="weighted_node"> <br>
+                    Weighted Node
+                    <!-- <span class="tooltiptext">Alt + Left mouse click</span> -->
+                </div>
+                <div class="description-node">
+                    <img src="./images/nodes/visited_node.png" alt="visited_node"> <br>
+                    Visited Node
+                </div>
+                <div class="description-node">
+                    <img src="./images/nodes/unvisited_node.png" alt="unvisited_node"> <br>
+                    Unvisited Node
+                </div>
+                <div class="description-node">
+                    <img src="./images/nodes/path_node.png" alt="path_node"> <br>
+                    Path Node
+                </div>
+            </div>
+            <div id="ppt_container" class="ppt_container">
+                <iframe src="https://onedrive.live.com/embed?cid=1739E4AB8B7C10DA&resid=1739E4AB8B7C10DA%2132318&authkey=APc30PxXomVTBMA&em=2" width="100%" height="100%" frameborder="0" scrolling="no"></iframe>
+            </div>
+        </div>
+    </body>
+</html>
