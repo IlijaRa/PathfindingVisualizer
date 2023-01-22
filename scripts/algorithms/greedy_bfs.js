@@ -16,59 +16,52 @@ async function greedyBestFirstSearch(start, goal) {
     var maze = construct2dArray();
     var adjacentsDict = findAdjacents(maze);
     var solved = false;
+    let queue = []
     var prev = new Array(HEIGHT * WIDTH).fill(-1);
-    let stack = [];
-    let visited = new Array(HEIGHT * WIDTH).fill(false);
+    const unvisitedNodes = new Set();
+    const visitedNodes = new Set();
 
-    for(let i = 0; i < HEIGHT; i++){ visited[i] = new Array(WIDTH).fill(false); }
-    
-    stack.push(start);
-    
+    for(let i = 0; i <= HEIGHT * WIDTH; i++){ unvisitedNodes.add(i + 1); }
+    queue.push(start);
+  
+    // Set the heuristic distance to the goal for all nodes
+    const heuristicDistances = {};
+    for (const node of unvisitedNodes) { heuristicDistances[node] = Number.POSITIVE_INFINITY; }
+    heuristicDistances[start] = heuristicFunction(getNodeCoordinates(start), getNodeCoordinates(goal));
+
     // While there are unvisited nodes
-    while (stack.length > 0) {
+    while (queue.length > 0) {
         await sleep(SLEEP_VALUE);
-        let neighboursDistance = {};
 
-        let currentNode = stack.pop();
+        // Select the unvisited node with the smallest distance + heuristic distance
+        const currentNode = [...unvisitedNodes].sort((a, b) => heuristicDistances[a] - heuristicDistances[b])[0];
         
         // Check if we have reached the goal
         if(currentNode == goal){
             solved = true;
             break;
         }
-        
-        visited[currentNode] = true;
+    
+        // Mark the current node as visited
+        visitedNodes.add(currentNode);
+        drawVisitedNodeOne(currentNode, start);
+        unvisitedNodes.delete(currentNode);
 
-        const index = stack.indexOf(currentNode);
+        const index = queue.indexOf(currentNode);
         if (index > -1) { // only splice array when item is found
-            stack.splice(index, 1); // 2nd parameter means remove one item only
+            queue.splice(index, 1); // 2nd parameter means remove one item only
         }
-        
+
         var adj = adjacentsDict[currentNode];
         for(count = 0; count < adj.length; count++){
             var n = adj[count];
-            if(!visited[maze[n[0]][n[1]]]){
-                neighboursDistance[maze[n[0]][n[1]]] = heuristicFunction(getNodeCoordinates(maze[n[0]][n[1]]), getNodeCoordinates(goal));
+            if(visitedNodes.has(maze[n[0]][n[1]])){
+                continue;
             }
+            heuristicDistances[maze[n[0]][n[1]]] = heuristicFunction(getNodeCoordinates(maze[n[0]][n[1]]), getNodeCoordinates(goal));
+            prev[maze[n[0]][n[1]] - 1] = currentNode - 1;
+            queue.push(maze[n[0]][n[1]]);
         }
-        // checking if length is zero
-        if(Object.keys(neighboursDistance).length == 0){
-            break;
-        }
-        var keys  = Object.keys(neighboursDistance).sort(function(a,b) { return neighboursDistance[a] - neighboursDistance[b]; });
-        var smallestDistanceNode = keys[0];
-
-        prev[smallestDistanceNode - 1] = currentNode - 1;
-        stack.push(smallestDistanceNode);
-
-        if(smallestDistanceNode == goal){
-            solved = true;
-            break;
-        }
-
-        visited[smallestDistanceNode] = true;
-        drawVisitedNodeOne(smallestDistanceNode, start);
-        
         if(solved){
             break;
         }
@@ -77,10 +70,9 @@ async function greedyBestFirstSearch(start, goal) {
     if(!solved){
         showErrorAlert('Impossible to solve!');
         enablePointerActions();
-    }else if(solved){
+    }else if (solved){
         const endTimer = performance.now();
         let noPathNodes = await reconstructPath(goal, prev);
         showStatisticsAlert(noPathNodes, endTimer - startTimer);
     }
-    
 }

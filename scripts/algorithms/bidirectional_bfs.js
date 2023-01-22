@@ -21,7 +21,6 @@ async function solveBidirectionalBfs(startNodeNumber, goalNodeNumber){
     let queueGoal = [];
     let visited = new Array(HEIGHT * WIDTH).fill(false);
     let solved = false;
-    let noSearchedNodes = 0;
     let prevA = new Array(HEIGHT * WIDTH).fill(-1);
     let prevB = new Array(HEIGHT * WIDTH).fill(-1);
     
@@ -40,7 +39,6 @@ async function solveBidirectionalBfs(startNodeNumber, goalNodeNumber){
         }
 
         visited[currentA] = true;
-        noSearchedNodes ++;
         drawVisitedNodeOne(currentA, startNodeNumber);
 
         var adjA = adjacentsDict[currentA];
@@ -69,7 +67,6 @@ async function solveBidirectionalBfs(startNodeNumber, goalNodeNumber){
         }
 
         visited[currentB] = true;
-        noSearchedNodes ++;
         drawVisitedNodeTwo(currentB, goalNodeNumber);
 
         var adjB = adjacentsDict[currentB];
@@ -94,7 +91,8 @@ async function solveBidirectionalBfs(startNodeNumber, goalNodeNumber){
             break;
         }
     }
-
+    console.log('prevA', prevA);
+    console.log('prevB', prevB);
     if(!solved){
         showErrorAlert('Impossible to solve!');
         enablePointerActions();

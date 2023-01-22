@@ -21,7 +21,6 @@ async function solveBidirectionalDfs(startNodeNumber, goalNodeNumber){
     let queueGoal = [];
     let visited = new Array(HEIGHT * WIDTH).fill(false);
     let solved = false;
-    let noSearchedNodes = 0;
     let prevA = new Array(HEIGHT * WIDTH).fill(-1);
     let prevB = new Array(HEIGHT * WIDTH).fill(-1);
     
@@ -41,7 +40,6 @@ async function solveBidirectionalDfs(startNodeNumber, goalNodeNumber){
         }
 
         visited[currentA] = true;
-        noSearchedNodes ++;
         drawVisitedNodeOne(currentA, startNodeNumber);
 
         var adjA = adjacentsDict[currentA];
@@ -69,7 +67,6 @@ async function solveBidirectionalDfs(startNodeNumber, goalNodeNumber){
         }
 
         visited[currentB] = true;
-        noSearchedNodes ++;
         drawVisitedNodeTwo(currentB, goalNodeNumber);
 
         var adjB = adjacentsDict[currentB];
