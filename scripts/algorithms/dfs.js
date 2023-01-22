@@ -48,6 +48,7 @@ async function solveDfs(startNodeNumber, goalNodeNumber){
             }
         }
     }
+    
     if(!solved){
         showErrorAlert('Impossible to solve!');
         enablePointerActions();
