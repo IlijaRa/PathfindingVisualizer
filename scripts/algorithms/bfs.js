@@ -48,11 +48,11 @@ async function solveBfs(startNodeNumber, goalNodeNumber){
             }
         }
     }
+    
     if(!solved){
         showErrorAlert('Impossible to solve!');
         enablePointerActions();
     }else if(solved){
-        
         const endTimer = performance.now();
         console.log('prev:', prev);
         let noPathNodes = await reconstructPath(goalNodeNumber, prev);

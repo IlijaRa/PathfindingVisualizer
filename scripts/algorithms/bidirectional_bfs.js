@@ -91,8 +91,7 @@ async function solveBidirectionalBfs(startNodeNumber, goalNodeNumber){
             break;
         }
     }
-    console.log('prevA', prevA);
-    console.log('prevB', prevB);
+    
     if(!solved){
         showErrorAlert('Impossible to solve!');
         enablePointerActions();
