@@ -1,7 +1,144 @@
-.weighted-node{
-    /* background-image: url("images/nodes/current_node_1.png"); */
-    background-color: black;
+.node{
+    width: 5%;
+    height: 100%;
+    border: 0.025px;
+    border-style: solid;
+    border-color: rgb(119, 120, 122);
+    transition: transform .2s;
+    cursor: crosshair;
 }
+.node:hover{
+    -ms-transform: scale(1.3);
+    -webkit-transform: scale(1.3);
+    transform: scale(1.3);
+}
+
+.unvisited-node{
+    background-color: white;
+    border-color: rgb(30, 36, 49);
+    animation-name: unvisited-node-effect;
+    animation-duration: 1s;
+}
+@keyframes unvisited-node-effect {
+    from {background-color: rgb(74, 145, 212);}
+    to {background-color: white;}
+}
+
+.start-node{
+    background-color: rgb(74, 145, 212);
+    border-color: rgb(119, 120, 122);
+    animation-name: start-node-effect;
+    animation-duration: 1s;
+}
+@keyframes start-node-effect {
+    from {background-color: rgb(49, 96, 141);}
+    to {background-color: rgb(74, 145, 212);}
+}
+
+.goal-node{
+    background-color: rgb(209, 42, 59);
+    border-color: rgb(119, 120, 122);
+    animation-name: goal-node-effect;
+    animation-duration: 1s;
+}
+@keyframes goal-node-effect {
+    from {background-color: rgb(139, 28, 39);}
+    to {background-color: rgb(209, 42, 59);}
+}
+
+.wall-node{
+    background-color: rgb(30, 36, 49);
+    border-color: rgb(30, 36, 49);
+    animation-name: wall-node-effect;
+    animation-duration: 1s;
+}
+@keyframes wall-node-effect {
+    from {background-color: rgb(12, 115, 184);}
+    to {background-color: rgb(30, 36, 49);}
+}
+
+.weighted-node{
+/* used only for easier searches with querySelectorAll(), using contains etc.*/
+}
+
+.weighted-node-5{
+    background-color: rgb(117, 235, 164);
+    border-color: rgb(163, 241, 194);
+    animation-name: weighted-node-5-effect;
+    animation-duration: 1s;
+}
+@keyframes weighted-node-5-effect {
+    from {background-color: rgb(43, 110, 70);}
+    to {background-color: rgb(117, 235, 164);}
+}
+
+.weighted-node-10{
+    background-color: rgb(62, 199, 117);
+    border-color: rgb(141, 238, 180);
+    animation-name: weighted-node-10-effect;
+    animation-duration: 1s;
+}
+@keyframes weighted-node-10-effect {
+    from {background-color: rgb(43, 110, 70);}
+    to {background-color: rgb(62, 199, 117);}
+}
+
+.weighted-node-15{
+    background-color: rgb(44, 172, 95);
+    border-color: rgb(119, 230, 163);
+    animation-name: weighted-node-15-effect;
+    animation-duration: 1s;
+}
+@keyframes weighted-node-15-effect {
+    from {background-color: rgb(43, 110, 70);}
+    to {background-color: rgb(44, 172, 95);}
+}
+
+.weighted-node-20{
+    background-color: rgb(78, 156, 109);
+    border-color: rgb(69, 204, 123);
+    animation-name: weighted-node-20-effect;
+    animation-duration: 1s;
+}
+@keyframes weighted-node-20-effect {
+    from {background-color: rgb(43, 110, 70);}
+    to {background-color: rgb(78, 156, 109);}
+}
+
+.visited-nodeA{
+    background-color: rgb(51, 193, 228);
+    border-color: rgb(157, 216, 235);
+    animation-name: visited-nodeA-effect;
+    animation-duration: 1s;
+}
+@keyframes visited-nodeA-effect {
+    from {background-color: rgb(74, 145, 212);}
+    to {background-color: rgb(51, 193, 228);}
+}
+
+.visited-nodeB{
+    background-color: rgb(240, 128, 128);
+    border-color: rgb(245, 170, 170);
+    animation-name: visited-nodeB-effect;
+    animation-duration: 1s;
+}
+@keyframes visited-nodeB-effect {
+    from {background-color: rgb(209, 42, 59);}
+    to {background-color: rgb(240, 128, 128);}
+}
+
+.intersect-node{
+    background-color: rgb(152, 103, 212);
+    border-color: rgb(186, 153, 226);
+}
+
 .path-node{
-    background-color: black;
+    background-color: rgb(245, 193, 0);
+    border-color: rgb(248, 213, 85);
+    animation-name: path-node-effect;
+    animation-duration: 1s;
+}
+@keyframes path-node-effect {
+    from {background-color: rgb(240, 102, 40);}
+    to {background-color: rgb(245, 193, 0);}
 }

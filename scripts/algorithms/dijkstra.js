@@ -1,41 +1,35 @@
-// #region DIJKSTRA
+/* --------------------DIJKSTRA algorithm---------------------------*/
 document.querySelector('a#buttonDijkstra').addEventListener('click', function(e){
+    ClearSearchPath();
     var nodes = findStartAndGoalNode(); 
-    if(nodes.length < 2){
+    if(nodes[0] == null || nodes[1] == null){
         alert('You need to provide start and goal nodes!');
         return;
     }
     let startNodeNumber = Node.GetNodeNumber(nodes[0].id);
     let goalNodeNumber = Node.GetNodeNumber(nodes[1].id);
-    
+    disablePointerActions();
     solveDijkstra(startNodeNumber, goalNodeNumber);
 });
 async function solveDijkstra(startNodeNumber, goalNodeNumber) {
+    const startTimer = performance.now();
     var maze = construct2dArray();
     var adjacentsDict = findAdjacents(maze);
     var solved = false;
-    // var prev = new Map();
     let queue = []
-    var prev = new Array(HEIGHT * WIDTH).fill(0);
-    // Set of unvisited nodes
+    var prev = new Array(HEIGHT * WIDTH).fill(-1);
     const unvisitedNodes = new Set();
-
-    // Set initial distance to infinity for all nodes except the starting node
+    const visitedNodes = new Set();
     const distances = {};
 
-    for(let i = 0; i < HEIGHT * WIDTH; i++){
-        distances[i] = Number.POSITIVE_INFINITY;
-        unvisitedNodes.add(i + 1);
-    }
+    for(let i = 0; i <= HEIGHT * WIDTH; i++){ distances[i] = Number.POSITIVE_INFINITY; unvisitedNodes.add(i + 1); }
     distances[startNodeNumber] = 0;
     queue.push(startNodeNumber);
-    // Set of visited nodes
-    const visitedNodes = new Set();
-  
+
     // While there are unvisited nodes
-    while (queue.length > 0/*unvisitedNodes.size > 0*/) {
-        var maze = construct2dArray();
-        var adjacentsDict = findAdjacents(maze);
+    while (queue.length > 0) {
+        await sleep(SLEEP_VALUE);
+
         // Select the unvisited node with the smallest distance
         const currentNode = [...unvisitedNodes].sort((a, b) => distances[a] - distances[b])[0];
 
@@ -47,7 +41,9 @@ async function solveDijkstra(startNodeNumber, goalNodeNumber) {
 
         // Mark the current node as visited
         visitedNodes.add(currentNode);
+        drawVisitedNodeOne(currentNode, startNodeNumber);
         unvisitedNodes.delete(currentNode);
+
         const index = queue.indexOf(currentNode);
         if (index > -1) { // only splice array when item is found
             queue.splice(index, 1); // 2nd parameter means remove one item only
@@ -55,33 +51,23 @@ async function solveDijkstra(startNodeNumber, goalNodeNumber) {
 
         var adj = adjacentsDict[currentNode];
         for(count = 0; count < adj.length; count++){
-            //   document.getElementById('node' + goalNodeNumber).style.backgroundColor = GOAL_NODE_COLOR; // prevents goal node disappear glitch
             var n = adj[count];
-              
-            // prev.set(maze[n[0]][n[1]], currentNode);
             if(visitedNodes.has(maze[n[0]][n[1]])){
                 continue;
             }
-            // (Math.floor(Math.random() * 50000) + 20000); generates value between 20000 and 50000
-            let newDistance = undefined;
-            let nod = document.getElementById('node' + maze[n[0]][n[1]]);
-            if(nod.style.backgroundColor == WEIGHTED_NODE_COLOR){
-                newDistance = distances[currentNode] + (Math.floor(Math.random() * 50000) + 20000);
+            // WEIGHT_VALUE adds value between 2 and 50, depending on what user entered
+            let newDistance = null;
+            if(document.getElementById('node' + maze[n[0]][n[1]]).classList.contains('weighted-node')){
+                console.log('before adding to a distance dijkstra, WEIGHT_VALUE', WEIGHT_VALUE);
+                newDistance = distances[currentNode] + WEIGHT_VALUE;
             }else{
                 newDistance = distances[currentNode] + 1;
             }
-            // const newDistance = distances[currentNode] + (Math.floor(Math.random() * 5) + 1); 
+
             if (newDistance < distances[maze[n[0]][n[1]]]) {
                 distances[maze[n[0]][n[1]]] = newDistance;
                 prev[maze[n[0]][n[1]] - 1] = currentNode - 1;
                 queue.push(maze[n[0]][n[1]]);
-                if(maze[n[0]][n[1]] == goalNodeNumber){
-                    solved = true;
-                    break;
-                }
-                document.getElementById('node' + maze[n[0]][n[1]]).style.backgroundColor = EDGE_NODE_COLOR;
-                await sleep(1);
-                document.getElementById('node' + maze[n[0]][n[1]]).style.backgroundColor = SEARCH_NODE_COLOR;
             } 
         }
         if(solved){
@@ -90,43 +76,11 @@ async function solveDijkstra(startNodeNumber, goalNodeNumber) {
     }
     
     if(!solved){
-        alert('Impossible to solve! I will reset it.');
-        return;
-    }
-
-    let loopControl = false;
-    goalToStart = []; // gathers nodes from goal to start node by grabbing the previous nodes
-    previous = goalNodeNumber - 1;
-    goalToStart.push(previous);
-    
-    while(true){
-        let node = prev[previous];
-        goalToStart.push(node);
-
-        if(node == 0) loopControl = true;
-        else previous = node;
-
-        if(loopControl){
-            break;
-        }
-    }
-
-    for(node of goalToStart.reverse()){ //goalToStart.reverse() gives nodes sorted from start to node
-        await sleep(25);
-        try{
-            if(node != 0){
-                let n = document.getElementById('node' + (node + 1));
-                n.style.backgroundColor = RED_COLOR
-                await sleep(1);
-                n.style.backgroundColor = ORANGE_COLOR;
-                await sleep(1);
-                n.style.backgroundColor = PATH_COLOR;
-            }
-        }catch(err){
-            loopControl = true;
-        }
-        document.getElementById('node' + startNodeNumber).style.backgroundColor = START_NODE_COLOR;
-        document.getElementById('node' + goalNodeNumber).style.backgroundColor = GOAL_NODE_COLOR;
+        showErrorAlert('Impossible to solve!');
+        enablePointerActions();
+    }else if(solved){
+        const endTimer = performance.now();
+        let noPathNodes = await reconstructPath(goalNodeNumber, prev);
+        showStatisticsAlert(noPathNodes, endTimer - startTimer);
     }
 }
-// #endregion

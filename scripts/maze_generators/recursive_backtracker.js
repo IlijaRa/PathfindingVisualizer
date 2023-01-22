@@ -1,13 +1,12 @@
-document.querySelector('a#buttonRandomizedPrim').addEventListener('click', function(e){
+document.querySelector('a#buttonRecursiveBacktracker').addEventListener('click', function(e){
     ClearAll();
     let maze = construct2dArray();
     disablePointerActions();
-    generateRandomizedPrim(maze);
+    generateRecursiveBacktracker(maze);
     // startNodeExists = false;
     // goalNodeExists = false;
 });
-
-async function generateRandomizedPrim(grid){
+async function generateRecursiveBacktracker(grid){
     // Populate canvas with wall nodes
     for(let i = 0 ; i < HEIGHT ; i++){
         for(let j = 0 ; j < WIDTH ; j++){
@@ -21,27 +20,31 @@ async function generateRandomizedPrim(grid){
     let cell = grid[Math.floor(Math.random() * HEIGHT)][Math.floor(Math.random() * WIDTH)];
     drawUnvisitedNode(cell);
 
-    // store cell's frontier nodes in this array
-    let frontierList = [];
-    computeFrontierCells(grid,cell,frontierList,choices);
-    while(frontierList.length){
+    s = [];
+    let neighbours = computeFrontierCellsRBT(grid,cell,choices);
+    let rnd = Math.floor(Math.random () * neighbours.length);
+    s.push(neighbours[rnd]);
+    while(s.length){
         await sleep(SLEEP_VALUE);
-        // choosing a random value from frontierList
-        let rnd = Math.floor(Math.random() * frontierList.length);
-        let batch = frontierList[rnd];
-        frontierList.splice(rnd,1);
-        let inBetween = batch[0];
+        let batch = s[s.length - 1];
         let frontier = batch[1];
-        if(isNodeWall(frontier)){
-            drawUnvisitedNode(frontier);
-            drawUnvisitedNode(inBetween);
-            computeFrontierCells(grid,frontier,frontierList,choices);
+        let inBetween = batch[0];
+        drawUnvisitedNode(frontier);
+        drawUnvisitedNode(inBetween);
+        neighbours = computeFrontierCellsRBT(grid,frontier,choices);
+        if(neighbours.length){
+            rnd = Math.floor(Math.random () * neighbours.length);
+            s.push(neighbours[rnd]);
+        }else{
+            s.pop();
         }
     }
     generateStartAndGoalNode();
     enablePointerActions();
 }
-function computeFrontierCells(grid, cell, frontierList, choices){
+function computeFrontierCellsRBT(grid, cell, choices){
+    // list of current cell neighbours
+    let neighbours = [];
     // coordinates contains coordinates of the current cell
     let coordinates = getNodeCoordinates(cell);
     // checking all possible moves
@@ -61,7 +64,8 @@ function computeFrontierCells(grid, cell, frontierList, choices){
             }else if(choices[i][1] === 2){
                 inBetween = grid[coordinates[0]][coordinates[1] + 1];
             }
-            frontierList.push([inBetween, frontier]);
+            neighbours.push([inBetween, frontier]);
         }
     }
-}
+    return neighbours;
+  }

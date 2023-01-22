@@ -1,5 +1,6 @@
-async function reconstructPath(startNodeNumber, goalNodeNumber, prev){
-    constructPathReverse(startNodeNumber, goalNodeNumber, grabPrevious(goalNodeNumber, prev));
+async function reconstructPath(goalNodeNumber, prev){
+    let noPathNodes = await constructPathReverse(grabPrevious(goalNodeNumber, prev));
+    return noPathNodes;
 }
 function grabPrevious(goalNodeNumber, prev){
     let loopControl = false;
@@ -11,7 +12,7 @@ function grabPrevious(goalNodeNumber, prev){
         let node = prev[previous];
         goalToStart.push(node);
 
-        if(node == 0) loopControl = true;
+        if(node == -1) loopControl = true;
         else previous = node;
 
         if(loopControl){
@@ -20,23 +21,23 @@ function grabPrevious(goalNodeNumber, prev){
     }
     return goalToStart;
 }
-async function constructPathReverse(startNodeNumber, goalNodeNumber, goalToStart){
+async function constructPathReverse(goalToStart){
+    let noPathNodes = 0;
     for(node of goalToStart.reverse()){ //goalToStart.reverse() gives nodes sorted from start to node
-        await sleep(5);
+        await sleep(SLEEP_VALUE);
         try{
-            if(node != 0){
+            if(node != -1){
                 let n = document.getElementById('node' + (node + 1));
-                n.style.backgroundColor = RED_COLOR
-                await sleep(1);
-                n.style.backgroundColor = ORANGE_COLOR;
-                await sleep(1);
-                n.style.backgroundColor = PATH_COLOR;
-                n.style.borderColor = PATH_COLOR;
+                if(!n.classList.contains('start-node') && !n.classList.contains('goal-node')){
+                    deleteAnyNodeClass(node + 1);
+                    n.classList.add('path-node');
+                    noPathNodes ++;
+                }
             }
         }catch(err){
             loopControl = true;
         }
-        document.getElementById('node' + startNodeNumber).style.backgroundColor = START_NODE_COLOR;
-        document.getElementById('node' + goalNodeNumber).style.backgroundColor = GOAL_NODE_COLOR;
     }
+    enablePointerActions();
+    return noPathNodes;
 }

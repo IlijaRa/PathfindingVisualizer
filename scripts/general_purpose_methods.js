@@ -1,10 +1,15 @@
-// #region GENERAL_PURPOSE_METHODS
-
 // Mouse button listener
-let mouseDown = 0;
 document.onmousedown = () => {mouseDown = 1;}
 document.onmouseup = () => {mouseDown = 0;}
 
+function disablePointerActions(){
+    document.querySelector('#content_container').classList.remove('enable-div');
+    document.querySelector('#content_container').classList.add('disabled-div');
+}
+function enablePointerActions(){
+    document.querySelector('#content_container').classList.remove('disabled-div');
+    document.querySelector('#content_container').classList.add('enable-div');
+}
 // Provides sleepqueue
 const sleep = (time) => {
     return new Promise(resolve => setTimeout(resolve, time))
@@ -15,76 +20,11 @@ const randColor = () =>  {
 }
 // Returns start and goal nodes in DIV form
 function findStartAndGoalNode(){
-    let maze_container = document.querySelector('#maze_container');
     let nodes = [];
-    for(i = 0; i < HEIGHT; i++){
-        for(j = 0; j < WIDTH; j++){
-            let node = maze_container.children[i].children[j];
-            if(node.style.backgroundColor == START_NODE_COLOR){
-                nodes[0] = node;
-            }
-            if(node.style.backgroundColor == GOAL_NODE_COLOR){
-                nodes[1] = node;
-            }
-        }
-    }
     /* nodes[0] - start node , nodes[1] - end node*/
+    nodes[0] = document.querySelector('.start-node');
+    nodes[1] = document.querySelector('.goal-node');
     return nodes;
-}
-// Generates and sets position for start and end nodes
-function generateStartAndGoalNode(){ 
-    nodes = []; 
-    let startNode = document.getElementById('node' + Math.floor(Math.random() * (HEIGHT * WIDTH) + 1));
-    let goalNode = document.getElementById('node' + Math.floor(Math.random() * (HEIGHT * WIDTH) + 1));
-    startNode.style.backgroundColor = START_NODE_COLOR;
-    goalNode.style.backgroundColor = GOAL_NODE_COLOR;
-    startNodeExists = true;
-    goalNodeExists = true;
-    nodes[0] = startNode;
-    nodes[1] = goalNode;
-    return nodes;
-}
-//Enables drap&drop for start and end node
-function enableDragAndDrop(startNode, goalNode){
-    startNode.draggable = true;
-    goalNode.draggable = true;
-
-    document.querySelectorAll('.node').forEach(function(node){
-        if(node.style.backgroundColor == START_NODE_COLOR || node.style.backgroundColor == GOAL_NODE_COLOR){
-            node.addEventListener('dragstart', function(e){
-                let bgColor = e.target.style.backgroundColor;
-                if(bgColor == START_NODE_COLOR){
-                    e.dataTransfer.setData('text/plain', "startNode");
-                    e.target.style.backgroundColor = WHITE_COLOR;
-                }else{
-                    e.dataTransfer.setData('text/plain', "goalNode");
-                    e.target.style.backgroundColor = WHITE_COLOR;
-                }
-                node.removeAttribute("draggable");
-            });
-        }
-        node.addEventListener('dragenter', function(e){ e.preventDefault(); e.target.classList.add('drag-over'); });
-        node.addEventListener('dragover', function(e){ e.preventDefault(); e.target.classList.add('drag-over'); });
-        node.addEventListener('dragleave', function(e){ e.target.classList.remove('drag-over'); });
-        node.addEventListener('drop', function(e){ 
-            e.target.classList.remove('drag-over'); 
-            // get the draggable element
-            const nodeStatus = e.dataTransfer.getData('text/plain');
-            if(nodeStatus == "startNode"){
-                e.target.style.backgroundColor = START_NODE_COLOR;
-                startNode = document.getElementById(e.target.id);
-            }else{
-                e.target.style.backgroundColor = GOAL_NODE_COLOR;
-                goalNode = document.getElementById(e.target.id);
-            }
-            // e.target.draggable = true;
-            //const draggable = document.getElementById(id);
-            
-            
-            // add it to the drop target
-            // e.target.appendChild(draggable);
-        });
-    });
 }
 // Returns adjancents for every node
 function findAdjacents(maze){
@@ -117,14 +57,27 @@ function findAdjacents(maze){
             adjacentDictionary[currentNode] = neighbours;
         }
     }
-    // console.log('adjacentDictionary', adjacentDictionary);
-
     return adjacentDictionary;
+}
+// Proclaims random nodes for start and goal
+function generateStartAndGoalNode(){
+    let randomStartNumber = null;
+    let randomGoalNumber = null;
+    do{
+        randomStartNumber = Math.floor(Math.random() * (HEIGHT * WIDTH - 1) + 1);
+        randomGoalNumber = Math.floor(Math.random() * (HEIGHT * WIDTH - 1) + 1);
+    }
+    while(isNodeWall(randomStartNumber) || isNodeWall(randomGoalNumber));
+
+    drawStartNode(randomStartNumber);
+    drawGoalNode(randomGoalNumber);
+    dragStart = 0;
+    dragGoal = 0;
 }
 // Returns node coordinates 
 function getNodeCoordinates(nodeNumber){
     let maze = construct2dArray();
-    let coordinate = []
+    let coordinate = [];
 
     //nadji elegantnije resenje za pronalazenje currentNode u 2d nizu maze!!!
     for(i = 0; i < HEIGHT; i++){
@@ -137,6 +90,12 @@ function getNodeCoordinates(nodeNumber){
         }
     }
     return coordinate;
+}
+// Returns node number from coordinates 
+function getNodeNumberFromCoordinates(coordA, coordB){
+    let maze = construct2dArray();
+    let foundNumber = maze[coordA][coordB];
+    return foundNumber;
 }
 // Returns node coordinates without walls
 function getNodeCoordinatesWithoutWalls(nodeNumber){
@@ -155,31 +114,92 @@ function getNodeCoordinatesWithoutWalls(nodeNumber){
     }
     return coordinate;
 }
-// Generate walls for maze
-function generateWalls() {
-    var scheme_array = new Array(HEIGHT * WIDTH).fill(0);
-    for (let i = 0; i < HEIGHT * WIDTH; i++) {
-        let x = Math.floor((Math.random() * 5) - 1); // arbitrary formula for generating WALL_VALUE
-        if (x == -1) {
-            scheme_array[i] = -1;
-        } else {
-            scheme_array[i] = i + 1;
-        }
-
-    }
-    return scheme_array;
-}
 // Generate maze with forwarded array as a parameter
-async function generateMaze(scheme_array){
-    for(let i = 0; i < HEIGHT * WIDTH; i++){
-        if(scheme_array[i] == WALL_VALUE){
-            document.getElementById('node' + (i + 1)).style.backgroundColor = ORANGE_COLOR;
-            await sleep(5);
-            document.getElementById('node' + (i + 1)).style.backgroundColor = WALL_COLOR;
-        }else{
-            document.getElementById('node' + (i + 1)).style.backgroundColor = WHITE_COLOR;
+async function generateMaze(maze, scheme_2dArray){
+    for(let i = 0; i < HEIGHT; i++){
+        for(let j = 0; j < WIDTH; j++){
+            if(scheme_2dArray[i][j] == WALL_VALUE){
+                drawWallNode(maze[i][j]);
+            }else{
+                drawUnvisitedNode(maze[i][j]);
+            }
         }
     }
+}
+// Heuristic for calculating the distance from current node to goal node
+function heuristicFunction(a, b) {
+    if(CHOSEN_HEURISTIC == "euclidean"){
+        return a.map((x, i) => Math.abs( x - b[i] ) ** 2).reduce((sum, now) => sum + now) ** (1/2);
+    }
+    else if(CHOSEN_HEURISTIC == "manhattan"){
+        return Math.abs(a[0] - a[1]) + Math.abs(b[0] - b[1]);
+    }
+    else if(CHOSEN_HEURISTIC == "minkowski5"){
+        return a.map((x, i) => Math.abs( x - b[i] ) ** 5).reduce((sum, now) => sum + now) ** (1/5)
+    }
+    else if(CHOSEN_HEURISTIC == "cosine"){
+        var dotproduct=0;
+        var mA=0;
+        var mB=0;
+        for(i = 0; i < a.length; i++){ // here you missed the i++
+            dotproduct += (a[i] * b[i]);
+            mA += (a[i]*a[i]);
+            mB += (b[i]*b[i]);
+        }
+        mA = Math.sqrt(mA);
+        mB = Math.sqrt(mB);
+        var similarity = (dotproduct)/((mA)*(mB)) // here you needed extra brackets
+        return similarity;
+    }
+    else if(CHOSEN_HEURISTIC == "hamming"){
+        let d = 0;
+        let aNumber = getNodeNumberFromCoordinates(a[0], a[1]);
+        let bNumber = getNodeNumberFromCoordinates(b[0], b[1]);
+        let h = aNumber ^ bNumber;
+        while (h > 0) {
+            d ++;
+            h &= h - 1;
+        }
+        return d;
+    }
+    else if(CHOSEN_HEURISTIC == "chebyshev"){
+        if (a.length === 0 || a.length !== b.length) {
+            return NaN;
+        }
+        let max = Math.abs(a[0] - b[0]);
+        for (let i = 1; i < a.length; ++i) {
+            const distance = Math.abs(a[i] - b[i]);
+            if (distance > max) {
+                    max = distance;
+            }
+        }
+        return max;
+    }
+    else if(CHOSEN_HEURISTIC == "haversine"){
+        var lon1 = a[0];
+        var lat1 = a[1];
+      
+        var lon2 = b[0];
+        var lat2 = b[1];
+      
+        var R = 6371; // km
+      
+        var x1 = lat2 - lat1;
+        var dLat = toRad(x1);
+        var x2 = lon2 - lon1;
+        var dLon = toRad(x2)
+        var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+          Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
+          Math.sin(dLon / 2) * Math.sin(dLon / 2);
+        var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        var d = R * c;
+      
+        return d;
+    }
+}
+// Calculates degrees to radians
+function toRad(x) {
+    return x * Math.PI / 180;
 }
 // Node class with useful methods
 class Node{
@@ -190,11 +210,13 @@ class Node{
         this.parent = parent;
         this.visited = visited;
     }
+    
     /*Returns just the number of the node*/
     static GetNodeNumber(node_id){
         let nodeNumber = parseInt(node_id.replace('node', ''));
         return nodeNumber; 
     }
+
     /*Returns just the number of the nodes neighbours*/
     static GetNeighboursNumbers(neighbours_param){
         let neighboursNumbers = [];
@@ -204,97 +226,8 @@ class Node{
         return neighboursNumbers;
     }
 
-    get GetNode(){
-        return this.nodeId; 
-    }
-
-    get GetColor(){
-        return this.color;
-    }
-
-    get GetNeighbours(){
-        return this.neighbours;
-    }
-
-    get GetParent(){
-        return this.parent;
-    }
-
     get GetParentNumber(){
         let parentNumber = parseInt(this.parent.replace('node', ''));
         return parentNumber; 
     }
-
-    get GetVisitStatus(){
-        return this.visited;
-    }
 }
-class PriorityQueue {
-    constructor(maxSize) {
-       // Set default max size if not provided
-       if (isNaN(maxSize)) {
-          maxSize = 10;
-        }
-       this.maxSize = maxSize;
-       // Init an array that'll contain the queue values.
-       this.container = [];
-    }
-    // Helper function to display all values while developing
-    display() {
-       console.log(this.container);
-    }
-    // Checks if queue is empty
-    isEmpty() {
-       return this.container.length === 0;
-    }
-    // checks if queue is full
-    isFull() {
-       return this.container.length >= this.maxSize;
-    }
-    enqueue(nodeNumber, priority) {
-       // Check if Queue is full
-       if (this.isFull()) {
-          console.log("Queue Overflow!");
-          return;
-       }
-       let currElem = new this.Element(nodeNumber, priority);
-       let addedFlag = false;
-       // Since we want to add elements to end, we'll just push them.
-       for (let i = 0; i < this.container.length; i++) {
-          if (currElem.priority < this.container[i].priority) {
-             this.container.splice(i, 0, currElem);
-             addedFlag = true; break;
-          }
-       }
-       if (!addedFlag) {
-          this.container.push(currElem);
-       }
-    }
-    dequeue() {
-    // Check if empty
-    if (this.isEmpty()) {
-       console.log("Queue Underflow!");
-       return;
-    }
-    return this.container.pop();
- }
- peek() {
-    if (isEmpty()) {
-       console.log("Queue Underflow!");
-       return;
-    }
-    return this.container[this.container.length - 1];
- }
- clear() {
-    this.container = [];
-    }
-}
- // Create an inner class that we'll use to create new nodes in the queue
- // Each element has nodeNumber and a priority
- PriorityQueue.prototype.Element = class {
-    constructor(nodeNumber, priority) {
-       this.nodeNumber = nodeNumber;
-       this.priority = priority;
-    }
- };
-// #endregion

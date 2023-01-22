@@ -1,19 +1,22 @@
 /* --------------------DFS algorithm---------------------------*/
 document.querySelector('a#buttonDFS').addEventListener('click', function(e){
+    ClearSearchPath();
     var nodes = findStartAndGoalNode(); 
-    if(nodes.length < 2){
-        alert('You need to provide start and goal nodes!');
+    if(nodes[0] == null || nodes[1] == null){
+        showWarningAlert('You need to provide start and goal nodes!');
         return;
     }
     let startNodeNumber = Node.GetNodeNumber(nodes[0].id);
     let goalNodeNumber = Node.GetNodeNumber(nodes[1].id);
+    disablePointerActions();
     solveDfs(startNodeNumber, goalNodeNumber);
 })
 async function solveDfs(startNodeNumber, goalNodeNumber){
+    const startTimer = performance.now();
     var maze = construct2dArray();
     var adjacentsDict = findAdjacents(maze);
     let visited = new Array(HEIGHT * WIDTH).fill(false);
-    let prev = new Array(HEIGHT * WIDTH).fill(0);
+    let prev = new Array(HEIGHT * WIDTH).fill(-1);
     let stack = [];
     let solved = false;
 
@@ -23,20 +26,18 @@ async function solveDfs(startNodeNumber, goalNodeNumber){
         //Defining maze and adjacentsDict again and again enables wall changement in real time
         var maze = construct2dArray();
         var adjacentsDict = findAdjacents(maze);
-
         var currentNode = stack.pop();
-
-        visited[currentNode] = true;
-
+        
         if(currentNode == goalNodeNumber){
             solved = true;
             break;
         }
-        // change color of visited node
-        document.getElementById('node' + startNodeNumber).style.backgroundColor = START_NODE_COLOR;
-        document.getElementById('node' + currentNode).style.backgroundColor = EDGE_NODE_COLOR;
-        await sleep(1);
-        document.getElementById('node' + currentNode).style.backgroundColor = SEARCH_NODE_COLOR;
+
+        visited[currentNode] = true;
+
+        drawVisitedNodeOne(currentNode, startNodeNumber);
+        await sleep(SLEEP_VALUE);
+        
         // find adjacents of the current node
         var adj = adjacentsDict[currentNode];
         for(count = 0; count < adj.length; count++){
@@ -48,10 +49,11 @@ async function solveDfs(startNodeNumber, goalNodeNumber){
         }
     }
     if(!solved){
-        alert('Impossible to solve! I will reset it.');
-        return;
+        showErrorAlert('Impossible to solve!');
+        enablePointerActions();
+    }else if(solved){
+        const endTimer = performance.now();
+        let noPathNodes = await reconstructPath(goalNodeNumber, prev);
+        showStatisticsAlert(noPathNodes, endTimer - startTimer);
     }
-    reconstructPath(startNodeNumber, goalNodeNumber, prev);
-    return;
 }
-/* ------------------------------------------------------------*/

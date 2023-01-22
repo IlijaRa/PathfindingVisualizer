@@ -1,12 +1,18 @@
 // #region CONSTANTS
 /*WINDOW SETTINGS*/
-WIDTH = 60;
-HEIGHT = 40;
+WIDTH = 50;
+HEIGHT = 30;
 
 /*GLOBAL VARIABLES*/
+let mouseDown = 0;
+let dragStart = 0;
+let dragGoal = 0;
 var startNodeExists = false;
 var goalNodeExists = false;
 WALL_VALUE = -1;
+SLEEP_VALUE = 0;
+WEIGHT_VALUE = 2;
+CHOSEN_HEURISTIC = "euclidean";
 
 /*COLORS*/
 //from palete
