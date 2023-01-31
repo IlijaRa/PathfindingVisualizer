@@ -19,7 +19,8 @@ function constructGrid(){
                     } 
                 }
                 if(mouseDown == 1 && e.altKey){ 
-                    if(e.target.classList.contains('unvisited-node')){
+                    if(e.target.classList.contains('unvisited-node') ||
+                       e.target.classList.contains('weighted-node')){
                         drawWeightedNode(Node.GetNodeNumber(e.target.id));
                     }
                 }
@@ -53,7 +54,8 @@ function constructGrid(){
                     } 
                 }
                 if(e.altKey){
-                    if(e.target.classList.contains('unvisited-node')){
+                    if(e.target.classList.contains('unvisited-node') ||
+                        e.target.classList.contains('weighted-node')){
                         drawWeightedNode(Node.GetNodeNumber(e.target.id));
                     }
                 }
