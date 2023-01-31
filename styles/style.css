@@ -132,3 +132,7 @@ body{
 .drag-over {
     border: dashed 3px blue;
 }
+
+.slider{
+    width:100%;
+}
