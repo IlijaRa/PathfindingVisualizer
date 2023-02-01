@@ -39,7 +39,7 @@ async function solveBidirectionalBfs(startNodeNumber, goalNodeNumber){
         }
 
         visited[currentA] = true;
-        drawVisitedNodeOne(currentA, startNodeNumber);
+        drawVisitedNodeA(currentA, startNodeNumber);
 
         var adjA = adjacentsDict[currentA];
         for(count = 0; count < adjA.length; count++){
@@ -67,7 +67,7 @@ async function solveBidirectionalBfs(startNodeNumber, goalNodeNumber){
         }
 
         visited[currentB] = true;
-        drawVisitedNodeTwo(currentB, goalNodeNumber);
+        drawVisitedNodeB(currentB, goalNodeNumber);
 
         var adjB = adjacentsDict[currentB];
         for(count = 0; count < adjB.length; count++){

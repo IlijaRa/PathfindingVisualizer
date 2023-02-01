@@ -47,7 +47,12 @@ async function solveAstar(start, goal) {
     
         // Mark the current node as visited
         visitedNodes.add(currentNode);
-        drawVisitedNodeOne(currentNode, start);
+
+        if(isNodeWeighted(currentNode))
+            drawWeightedVisitedNodeA(currentNode, start);
+        else
+            drawVisitedNodeA(currentNode, start);
+
         unvisitedNodes.delete(currentNode);
 
         const index = queue.indexOf(currentNode);

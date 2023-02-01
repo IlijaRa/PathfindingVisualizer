@@ -29,8 +29,12 @@ async function constructPathReverse(goalToStart){
             if(node != -1){
                 let n = document.getElementById('node' + (node + 1));
                 if(!n.classList.contains('start-node') && !n.classList.contains('goal-node')){
-                    deleteAnyNodeClass(node + 1);
-                    n.classList.add('path-node');
+                    
+                    if(isNodeWeightedVisited(node + 1))
+                        drawWeightedPathNode(node + 1);
+                    else
+                        drawPathNode(node + 1);
+                    
                     noPathNodes ++;
                 }
             }

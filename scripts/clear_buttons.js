@@ -45,7 +45,7 @@ document.querySelector('a#buttonClearSearchPath').addEventListener('click', func
     ClearSearchPath();
 });
 function ClearSearchPath(){
-    var nodes = document.querySelectorAll("div.visited-nodeA, div.visited-nodeB, div.path-node");
+    var nodes = document.querySelectorAll("div.visited-nodeA, div.visited-nodeB, div.path-node, div.weighted-visited-nodeA, div.weighted-path-node");
     nodes.forEach(function(node){
         deleteAnyNodeClass(Node.GetNodeNumber(node.id));
         node.classList.add('unvisited-node');

@@ -41,7 +41,7 @@ async function solveDijkstra(startNodeNumber, goalNodeNumber) {
 
         // Mark the current node as visited
         visitedNodes.add(currentNode);
-        drawVisitedNodeOne(currentNode, startNodeNumber);
+        drawVisitedNodeA(currentNode, startNodeNumber);
         unvisitedNodes.delete(currentNode);
 
         const index = queue.indexOf(currentNode);
