@@ -58,8 +58,8 @@
 }
 
 .weighted-node{
-/* used only for easier searches with querySelectorAll(), using contains etc.*/
     background-image: url("../images/icons/weight.png");
+/* used only for easier searches with querySelectorAll(), using contains etc.*/
 }
 
 .weighted-node-5{

@@ -14,6 +14,7 @@ function deleteAnyNodeClass(currentNode){
     document.getElementById('node' + currentNode).classList.remove('visited-nodeB');
     document.getElementById('node' + currentNode).classList.remove('intersect-node');
     document.getElementById('node' + currentNode).classList.remove('path-node');
+    document.getElementById('node' + currentNode).innerText = "";
 }
 function drawUnvisitedNode(currentNode){
     deleteAnyNodeClass(currentNode);
@@ -37,6 +38,9 @@ function drawIntersectNode(currentNode){
 }
 function drawWeightedNode(currentNode){
     deleteAnyNodeClass(currentNode);
+    let currentDiv = document.getElementById('node' + currentNode);
+    currentDiv.classList.add('not-selectable');
+    currentDiv.innerText = WEIGHT_VALUE;
     if(WEIGHT_VALUE <= 5){
         document.getElementById('node' + currentNode).classList.add('weighted-node', 'weighted-node-5');
     }else if(WEIGHT_VALUE > 5 && WEIGHT_VALUE <= 10){
