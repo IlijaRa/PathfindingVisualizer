@@ -59,6 +59,7 @@
 
 .weighted-node{
 /* used only for easier searches with querySelectorAll(), using contains etc.*/
+    background-image: url("../images/icons/weight.png");
 }
 
 .weighted-node-5{
@@ -112,8 +113,8 @@
     animation-duration: 1s;
 }
 @keyframes visited-nodeA-effect {
-    from {background-color: rgb(74, 145, 212);}
-    to {background-color: rgb(51, 193, 228);}
+    from {background-color: rgb(163, 241, 194); border-radius: 50%;}
+    to {background-color: rgb(51, 193, 228); border-radius: 0%;}
 }
 
 .visited-nodeB{
@@ -123,8 +124,8 @@
     animation-duration: 1s;
 }
 @keyframes visited-nodeB-effect {
-    from {background-color: rgb(209, 42, 59);}
-    to {background-color: rgb(240, 128, 128);}
+    from {background-color: rgb(248, 213, 85); border-radius: 50%;}
+    to {background-color: rgb(240, 128, 128); border-radius: 0%;}
 }
 
 .intersect-node{
