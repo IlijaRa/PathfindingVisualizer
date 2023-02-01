@@ -61,7 +61,7 @@ body{
 }
 
 .description-node{
-    width: 11.111111111111111111111111111111%;
+    width: 14.26%;
     float: left;
 }
 
@@ -128,6 +128,10 @@ body{
 
 .hide {
     display: none;
+}
+
+.show {
+    display: flex;
 }
 
 .drag-over {

@@ -26,7 +26,8 @@
                         <li class="gradient"><a>Canvas size : <input class="slider" id="node-slider" type="range" min="35" max="60" value="50"></a></li>
                         <li class="gradient"><a>Speed : <input class="slider" id="speed-slider" type="range" min="0" max="500" value="250"></a></li>
                         <li class="gradient"><a>Node weight : <input id="weight-input" type="number" min="2" max="20" value="2"></a></li>
-                        <li class="gradient"><a>Heuristic : 
+                        <li class="gradient">
+                            <a>Heuristic : 
                                 <select id="select-heuristic">
                                     <option value="euclidean">Euclidean</option>
                                     <option value="manhattan">Manhattan</option>
@@ -35,6 +36,14 @@
                                     <option value="cosine">Cosine</option>
                                     <option value="chebyshev">Chebyshev</option>
                                     <option value="haversine">Haversine</option>
+                                </select>
+                            </a>
+                        </li>
+                        <li class="gradient">
+                            <a>Detail level: 
+                                <select id="select-level-detail">
+                                    <option value="hide-details">Hide</option>
+                                    <option value="show-details">Show</option>
                                 </select>
                             </a>
                         </li>
@@ -110,14 +119,6 @@
                 <img src="./images/nodes/weighted_node.png" alt="weighted_node"> <br>
                 Weighted Node
                 <!-- <span class="tooltiptext">Alt + Left mouse click</span> -->
-            </div>
-            <div class="description-node">
-                <img src="./images/nodes/weighted_visited_node.png" alt="visited_node"> <br>
-                Weighted Visited Node
-            </div>
-            <div class="description-node">
-                <img src="./images/nodes/weighted_path_node.png" alt="visited_node"> <br>
-                Weighted Path Node
             </div>
             <div class="description-node">
                 <img src="./images/nodes/unvisited_node.png" alt="unvisited_node"> <br>

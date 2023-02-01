@@ -284,3 +284,7 @@ li > a:only-child:after { content: ''; }
 #select-heuristic{
 	width: 100%;
 }
+
+#select-level-detail{
+	width: 100%;
+}

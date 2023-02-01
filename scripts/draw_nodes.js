@@ -27,11 +27,12 @@ function drawVisitedNodeA(currentNode, startNodeNumber){
 }
 function drawWeightedVisitedNodeA(currentNode, startNodeNumber){
     if(currentNode != startNodeNumber){
+        let currentElement = document.getElementById('node' + currentNode);
+        let nodeWeight = parseInt(currentElement.innerText);
         deleteAnyNodeClass(currentNode);
-        let currentDiv = document.getElementById('node' + currentNode);
-        currentDiv.classList.add('not-selectable');
-        currentDiv.innerText = WEIGHT_VALUE;
         document.getElementById('node' + currentNode).classList.add('weighted-visited-nodeA');
+        currentElement.classList.add('not-selectable');
+        currentElement.innerText = nodeWeight;
     }
 }
 function drawVisitedNodeB(currentNode, goalNodeNumber){
@@ -54,6 +55,10 @@ function drawWeightedNode(currentNode){
     }else if(WEIGHT_VALUE > 15 && WEIGHT_VALUE <= 20){
         document.getElementById('node' + currentNode).classList.add('weighted-node', 'weighted-node-20');
     }
+}
+function drawWeightedNodeWithoutDetails(currentNode){
+    deleteAnyNodeClass(currentNode);
+    document.getElementById('node' + currentNode).classList.add('weighted-node', 'weighted-node-5');
 }
 function drawStartNode(currentNode){
     if(document.getElementById('node' + currentNode).classList.contains('wall-node')){
@@ -78,11 +83,12 @@ function drawPathNode(currentNode){
     document.getElementById('node' + currentNode).classList.add('path-node');
 }
 function drawWeightedPathNode(currentNode){
+    let currentElement = document.getElementById('node' + currentNode);
+    let nodeWeight = parseInt(currentElement.innerText);
     deleteAnyNodeClass(currentNode);
-    let currentDiv = document.getElementById('node' + currentNode);
-    currentDiv.classList.add('not-selectable');
-    currentDiv.innerText = WEIGHT_VALUE;
     document.getElementById('node' + currentNode).classList.add('weighted-path-node');
+    currentElement.classList.add('not-selectable');
+    currentElement.innerText = nodeWeight;
 }
 function isNodeStart(currentNode){
     if(document.getElementById('node' + currentNode).classList.contains('start-node')){

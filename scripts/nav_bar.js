@@ -31,6 +31,45 @@ document.getElementById("weight-input").addEventListener('change', function(e){
 })
 // Setting the heuristic calculation
 document.getElementById("select-heuristic").addEventListener('change', function(e){
-    console.log('chosen heuristic: ', e.target.value);
     CHOSEN_HEURISTIC = e.target.value;
+})
+// Setting level details for canvas
+document.getElementById("select-level-detail").addEventListener('change', function(e){
+    LEVEL_DETAILS = e.target.value;
+    if(LEVEL_DETAILS == "hide-details"){
+        let weightNodes = document.querySelectorAll('.weighted-node');
+        weightNodes.forEach(function(node){
+            node.classList.remove('weighted-node-5');
+            node.classList.remove('weighted-node-10');
+            node.classList.remove('weighted-node-15');
+            node.classList.remove('weighted-node-20');
+            node.innerHTML = "";
+            // node.style.visibility = 'hidden';
+
+            node.classList.add('weighted-node-5');
+        })
+
+        let weightedVisitedNodes = document.querySelectorAll('.weighted-visited-nodeA');
+        weightedVisitedNodes.forEach(function(node){
+            node.classList.remove('weighted-visited-nodeA');
+            node.classList.add('visited-nodeA');
+            node.innerHTML = "";
+        })
+
+        let weightedPathNodes = document.querySelectorAll('.weighted-path-node');
+        weightedPathNodes.forEach(function(node){
+            node.classList.remove('weighted-path-node');
+            node.classList.add('path-node');
+            node.innerHTML = "";
+        })
+    }
+    // if(LEVEL_DETAILS == "show-details"){
+    //     let weightNodes = document.querySelectorAll('.weighted-node')
+    //     weightNodes.forEach(function(node){
+    //         node.classList.remove('weighted-node-10');
+    //         node.classList.remove('weighted-node-15');
+    //         node.classList.remove('weighted-node-20');
+    //         node.innerHTML = "";
+    //     })
+    // }
 })

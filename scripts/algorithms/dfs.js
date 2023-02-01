@@ -35,7 +35,11 @@ async function solveDfs(startNodeNumber, goalNodeNumber){
 
         visited[currentNode] = true;
 
-        drawVisitedNodeA(currentNode, startNodeNumber);
+        if(isNodeWeighted(currentNode))
+            drawWeightedVisitedNodeA(currentNode, startNodeNumber);
+        else
+            drawVisitedNodeA(currentNode, startNodeNumber);
+            
         await sleep(SLEEP_VALUE);
         
         // find adjacents of the current node
