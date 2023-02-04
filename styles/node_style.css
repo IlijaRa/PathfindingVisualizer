@@ -64,6 +64,9 @@
 .transformed-visited-node{
     /* used only for easier searches with querySelectorAll(), using contains etc.*/
 }
+.transformed-path-node{
+    /* used only for easier searches with querySelectorAll(), using contains etc.*/
+}
 
 .weighted-node-5{
     background-color: rgb(117, 235, 164);

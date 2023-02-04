@@ -57,12 +57,15 @@ document.getElementById("select-level-detail").addEventListener('change', functi
             node.children[0].classList.add('hide');
         })
 
-        // let weightedPathNodes = document.querySelectorAll('.weighted-path-node');
-        // weightedPathNodes.forEach(function(node){
-        //     node.classList.remove('weighted-path-node');
-        //     node.classList.add('path-node');
-        //     node.innerHTML = "";
-        // })
+        let weightedPathdNodes = document.querySelectorAll('.weighted-path-node');
+        weightedPathdNodes.forEach(function(node){
+            deleteAnyNodeClass(Node.GetNodeNumber(node.id));
+            
+            node.classList.add('transformed-path-node', 'path-node');
+            
+            node.children[0].classList.remove('show');
+            node.children[0].classList.add('hide');
+        })
     }
     if(LEVEL_OF_DETAILS == "show-details"){
         let weightNodes = document.querySelectorAll('.weighted-node');
@@ -90,6 +93,16 @@ document.getElementById("select-level-detail").addEventListener('change', functi
             deleteAnyNodeClass(Node.GetNodeNumber(node.id));
 
             node.classList.add('transformed-visited-node', 'weighted-visited-nodeA');
+
+            node.children[0].classList.remove('hide');
+            node.children[0].classList.add('show');
+        })
+
+        let weightedPathNodes = document.querySelectorAll('.transformed-path-node');
+        weightedPathNodes.forEach(function(node){
+            deleteAnyNodeClass(Node.GetNodeNumber(node.id));
+
+            node.classList.add('transformed-path-node', 'weighted-path-node');
 
             node.children[0].classList.remove('hide');
             node.children[0].classList.add('show');

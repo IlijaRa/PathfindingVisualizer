@@ -12,6 +12,7 @@ function deleteAnyNodeClass(currentNode){
     document.getElementById('node' + currentNode).classList.remove('visited-nodeB');
     document.getElementById('node' + currentNode).classList.remove('weighted-visited-nodeA');
     document.getElementById('node' + currentNode).classList.remove('transformed-visited-node');
+    document.getElementById('node' + currentNode).classList.remove('transformed-path-node');
     document.getElementById('node' + currentNode).classList.remove('path-node');
     document.getElementById('node' + currentNode).classList.remove('weighted-path-node');
 }
@@ -33,7 +34,7 @@ function drawWeightedVisitedNodeA(currentNode, startNodeNumber){
         deleteAnyNodeClass(currentNode);
         currentElement.innerHTML = "";
 
-        var innerDiv = document.createElement('div');
+        let innerDiv = document.createElement('div');
         innerDiv.classList.add('innerDiv', 'innerDiv' + currentNode, 'not-selectable');
         innerDiv.innerText = nodeWeight;
 
@@ -48,12 +49,6 @@ function drawWeightedVisitedNodeA(currentNode, startNodeNumber){
 
         currentElement.appendChild(innerDiv);
     }
-        // let currentElement = document.getElementById('node' + currentNode);
-        // let nodeWeight = parseInt(currentElement.innerText);
-        // deleteAnyNodeClass(currentNode);
-        // document.getElementById('node' + currentNode).classList.add('weighted-visited-nodeA');
-        // currentElement.classList.add('not-selectable');
-        // currentElement.innerText = nodeWeight;
 }
 function drawVisitedNodeB(currentNode, goalNodeNumber){
     if(currentNode != goalNodeNumber){
@@ -66,7 +61,7 @@ function drawWeightedNode(currentNode, weight_value){
     let currentDiv = document.getElementById('node' + currentNode);
     currentDiv.innerHTML = "";
 
-    var innerDiv = document.createElement('div');
+    let innerDiv = document.createElement('div');
     innerDiv.classList.add('innerDiv', 'innerDiv' + currentNode, 'not-selectable');
     innerDiv.innerText = weight_value;
 
@@ -97,6 +92,7 @@ function drawStartNode(currentNode){
     }
     deleteAnyNodeClass(currentNode);
     document.getElementById('node' + currentNode).classList.add('start-node');
+    document.getElementById('node' + currentNode).innerHTML = "";
 }
 function drawGoalNode(currentNode){
     if(document.getElementById('node' + currentNode).classList.contains('wall-node')){
@@ -104,6 +100,7 @@ function drawGoalNode(currentNode){
     }
     deleteAnyNodeClass(currentNode);
     document.getElementById('node' + currentNode).classList.add('goal-node');
+    document.getElementById('node' + currentNode).innerHTML = "";
 }
 function drawWallNode(currentNode){
     deleteAnyNodeClass(currentNode);
@@ -115,11 +112,25 @@ function drawPathNode(currentNode){
 }
 function drawWeightedPathNode(currentNode){
     let currentElement = document.getElementById('node' + currentNode);
-    let nodeWeight = parseInt(currentElement.innerText);
+    let nodeWeight = parseInt(currentElement.children[0].innerText);
+    
     deleteAnyNodeClass(currentNode);
-    document.getElementById('node' + currentNode).classList.add('weighted-path-node');
-    currentElement.classList.add('not-selectable');
-    currentElement.innerText = nodeWeight;
+    currentElement.innerHTML = "";
+
+    let innerDiv = document.createElement('div');
+    innerDiv.classList.add('innerDiv', 'innerDiv' + currentNode, 'not-selectable');
+    innerDiv.innerText = nodeWeight;
+
+    if(LEVEL_OF_DETAILS == "show-details"){
+        currentElement.classList.add('transformed-path-node', 'weighted-path-node');
+        innerDiv.classList.add('show');
+    }
+    else if (LEVEL_OF_DETAILS == "hide-details"){
+        currentElement.classList.add('transformed-path-node', 'path-node');
+        innerDiv.classList.add('hide');
+    }
+
+    currentElement.appendChild(innerDiv);
 }
 function isNodeStart(currentNode){
     if(document.getElementById('node' + currentNode).classList.contains('start-node')){
@@ -146,7 +157,7 @@ function isNodeWeighted(currentNode){
     return false;
 }
 function isNodeWeightedVisited(currentNode){
-    if(document.getElementById('node' + currentNode).classList.contains('weighted-visited-nodeA')){
+    if(document.getElementById('node' + currentNode).classList.contains('transformed-visited-node')){
         return true;
     }
     return false;
