@@ -94,6 +94,7 @@ document.addEventListener("contextmenu", function(event) {
     option1.style.marginBottom = "5px";
     option1.addEventListener("click", () => {
         ClearAllExceptStartGoal();
+        clearMenu.remove();
     });
 
     let option2 = document.createElement("div");
@@ -103,6 +104,7 @@ document.addEventListener("contextmenu", function(event) {
     option2.style.marginBottom = "5px";
     option2.addEventListener("click", () => {
         ClearWalls();
+        clearMenu.remove();
     });
 
     let option3 = document.createElement("div");
@@ -112,6 +114,7 @@ document.addEventListener("contextmenu", function(event) {
     option3.style.marginBottom = "5px";
     option3.addEventListener("click", () => {
         ClearWeights();
+        clearMenu.remove();
     });
 
     let option4 = document.createElement("div");
@@ -121,6 +124,7 @@ document.addEventListener("contextmenu", function(event) {
     option4.style.marginBottom = "5px";
     option4.addEventListener("click", () => {
         ClearSearchPath()
+        clearMenu.remove();
     });
 
     clearMenu.appendChild(option1);
