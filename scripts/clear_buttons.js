@@ -1,14 +1,4 @@
 // #region CLEAR_BUTTONS
-addEventListener('contextmenu', function(e){
-    e.preventDefault();
-    if( isNodeStart(Node.GetNodeNumber(e.target.id)) || 
-        isNodeGoal(Node.GetNodeNumber(e.target.id))){
-            return;
-    }
-    drawUnvisitedNode(Node.GetNodeNumber(e.target.id));
-    let element = this.document.getElementById(e.target.id);
-    element.innerHTML = "";
-});
 function ClearAll(){
     var nodes = document.querySelectorAll('.node');
     nodes.forEach(function(node){
