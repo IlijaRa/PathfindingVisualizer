@@ -35,41 +35,64 @@ document.getElementById("select-heuristic").addEventListener('change', function(
 })
 // Setting level details for canvas
 document.getElementById("select-level-detail").addEventListener('change', function(e){
-    LEVEL_DETAILS = e.target.value;
-    if(LEVEL_DETAILS == "hide-details"){
+    LEVEL_OF_DETAILS = e.target.value;
+    if(LEVEL_OF_DETAILS == "hide-details"){
         let weightNodes = document.querySelectorAll('.weighted-node');
         weightNodes.forEach(function(node){
-            node.classList.remove('weighted-node-5');
-            node.classList.remove('weighted-node-10');
-            node.classList.remove('weighted-node-15');
-            node.classList.remove('weighted-node-20');
-            node.innerHTML = "";
-            // node.style.visibility = 'hidden';
-
-            node.classList.add('weighted-node-5');
+            deleteAnyNodeClass(Node.GetNodeNumber(node.id));
+            
+            node.classList.add('weighted-node', 'weighted-node-5')
+            
+            node.children[0].classList.remove('show');
+            node.children[0].classList.add('hide');
         })
 
         let weightedVisitedNodes = document.querySelectorAll('.weighted-visited-nodeA');
         weightedVisitedNodes.forEach(function(node){
-            node.classList.remove('weighted-visited-nodeA');
-            node.classList.add('visited-nodeA');
-            node.innerHTML = "";
+            deleteAnyNodeClass(Node.GetNodeNumber(node.id));
+            
+            node.classList.add('transformed-visited-node', 'visited-nodeA');
+            
+            node.children[0].classList.remove('show');
+            node.children[0].classList.add('hide');
         })
 
-        let weightedPathNodes = document.querySelectorAll('.weighted-path-node');
-        weightedPathNodes.forEach(function(node){
-            node.classList.remove('weighted-path-node');
-            node.classList.add('path-node');
-            node.innerHTML = "";
+        // let weightedPathNodes = document.querySelectorAll('.weighted-path-node');
+        // weightedPathNodes.forEach(function(node){
+        //     node.classList.remove('weighted-path-node');
+        //     node.classList.add('path-node');
+        //     node.innerHTML = "";
+        // })
+    }
+    if(LEVEL_OF_DETAILS == "show-details"){
+        let weightNodes = document.querySelectorAll('.weighted-node');
+        weightNodes.forEach(function(node){
+            deleteAnyNodeClass(Node.GetNodeNumber(node.id));
+
+            let w = parseInt(node.children[0].innerText);
+
+            if(w <= 5){
+                node.classList.add('weighted-node', 'weighted-node-5');
+            }else if(w > 5 && w <= 10){
+                node.classList.add('weighted-node', 'weighted-node-10');
+            }else if(w > 10 && w <= 15){
+                node.classList.add('weighted-node', 'weighted-node-15');
+            }else if(w > 15 && w <= 20){
+                node.classList.add('weighted-node', 'weighted-node-20');
+            }
+
+            node.children[0].classList.remove('hide');
+            node.children[0].classList.add('show');
+        })
+
+        let weightedVisitedNodes = document.querySelectorAll('.transformed-visited-node');
+        weightedVisitedNodes.forEach(function(node){
+            deleteAnyNodeClass(Node.GetNodeNumber(node.id));
+
+            node.classList.add('transformed-visited-node', 'weighted-visited-nodeA');
+
+            node.children[0].classList.remove('hide');
+            node.children[0].classList.add('show');
         })
     }
-    // if(LEVEL_DETAILS == "show-details"){
-    //     let weightNodes = document.querySelectorAll('.weighted-node')
-    //     weightNodes.forEach(function(node){
-    //         node.classList.remove('weighted-node-10');
-    //         node.classList.remove('weighted-node-15');
-    //         node.classList.remove('weighted-node-20');
-    //         node.innerHTML = "";
-    //     })
-    // }
 })

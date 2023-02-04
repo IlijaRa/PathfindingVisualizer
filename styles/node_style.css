@@ -58,7 +58,11 @@
 }
 
 .weighted-node{
-/* used only for easier searches with querySelectorAll(), using contains etc.*/
+    /* used only for easier searches with querySelectorAll(), using contains etc.*/
+}
+
+.transformed-visited-node{
+    /* used only for easier searches with querySelectorAll(), using contains etc.*/
 }
 
 .weighted-node-5{

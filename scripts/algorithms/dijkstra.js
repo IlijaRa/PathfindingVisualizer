@@ -60,11 +60,11 @@ async function solveDijkstra(startNodeNumber, goalNodeNumber) {
             if(visitedNodes.has(maze[n[0]][n[1]])){
                 continue;
             }
-            // WEIGHT_VALUE adds value between 2 and 50, depending on what user entered
+            // WEIGHT_VALUE adds value between 2 and 20, depending on what user entered
             let newDistance = null;
-            if(document.getElementById('node' + maze[n[0]][n[1]]).classList.contains('weighted-node')){
-                console.log('before adding to a distance dijkstra, WEIGHT_VALUE', WEIGHT_VALUE);
-                newDistance = distances[currentNode] + WEIGHT_VALUE;
+            let currNode = document.getElementById('node' + maze[n[0]][n[1]]);
+            if(currNode.classList.contains('weighted-node')){
+                newDistance = distances[currentNode] + parseInt(currNode.children[0].innerText);//WEIGHT_VALUE; 
             }else{
                 newDistance = distances[currentNode] + 1;
             }

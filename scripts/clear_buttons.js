@@ -6,6 +6,8 @@ addEventListener('contextmenu', function(e){
             return;
     }
     drawUnvisitedNode(Node.GetNodeNumber(e.target.id));
+    let element = this.document.getElementById(e.target.id);
+    element.innerHTML = "";
 });
 function ClearAll(){
     var nodes = document.querySelectorAll('.node');
@@ -25,6 +27,7 @@ function ClearAllExceptStartGoal(){
         }
         deleteAnyNodeClass(Node.GetNodeNumber(node.id));
         node.classList.add('unvisited-node');
+        node.innerHTML = "";
     }
 }
 document.querySelector('a#buttonClearWalls').addEventListener('click', function(e){
@@ -39,6 +42,7 @@ document.querySelector('a#buttonClearWeights').addEventListener('click', functio
     nodes.forEach(function(node){
         deleteAnyNodeClass(Node.GetNodeNumber(node.id));
         node.classList.add('unvisited-node');
+        node.innerHTML = "";
     })
 });
 document.querySelector('a#buttonClearSearchPath').addEventListener('click', function(e){
@@ -49,6 +53,7 @@ function ClearSearchPath(){
     nodes.forEach(function(node){
         deleteAnyNodeClass(Node.GetNodeNumber(node.id));
         node.classList.add('unvisited-node');
+        node.innerHTML = "";
     })
 }
 // #endregion

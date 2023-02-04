@@ -150,3 +150,8 @@ body{
     -ms-user-select: none;
     user-select: none;
 }
+
+.innerDiv{
+    width: 1%;
+    height: 1%;
+}

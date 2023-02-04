@@ -13,7 +13,7 @@ WALL_VALUE = -1;
 SLEEP_VALUE = 0;
 WEIGHT_VALUE = 2;
 CHOSEN_HEURISTIC = "euclidean";
-LEVEL_DETAILS = "hide-details";
+LEVEL_OF_DETAILS = "hide-details";
 
 /*COLORS*/
 //from palete
