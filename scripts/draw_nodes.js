@@ -24,6 +24,7 @@ function drawVisitedNodeA(currentNode, startNodeNumber){
     if(currentNode != startNodeNumber){
         deleteAnyNodeClass(currentNode);
         document.getElementById('node' + currentNode).classList.add('visited-nodeA');
+        document.getElementById('node' + currentNode).innerHTML = "";
     }
 }
 function drawWeightedVisitedNodeA(currentNode, startNodeNumber){
@@ -54,6 +55,7 @@ function drawVisitedNodeB(currentNode, goalNodeNumber){
     if(currentNode != goalNodeNumber){
         deleteAnyNodeClass(currentNode);
         document.getElementById('node' + currentNode).classList.add('visited-nodeB');
+        document.getElementById('node' + currentNode).innerHTML = "";
     }
 }
 function drawWeightedNode(currentNode, weight_value){
@@ -131,6 +133,12 @@ function drawWeightedPathNode(currentNode){
     }
 
     currentElement.appendChild(innerDiv);
+}
+function isNodeUnvisited(currentNode){
+    if(document.getElementById('node' + currentNode).classList.contains('unvisited-node')){
+        return true;
+    }
+    return false;
 }
 function isNodeStart(currentNode){
     if(document.getElementById('node' + currentNode).classList.contains('start-node')){

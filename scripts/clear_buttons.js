@@ -20,21 +20,30 @@ function ClearAllExceptStartGoal(){
         node.innerHTML = "";
     }
 }
+
 document.querySelector('a#buttonClearWalls').addEventListener('click', function(e){
+    ClearWalls();
+});
+function ClearWalls(){
     var nodes = document.querySelectorAll('.wall-node');
     nodes.forEach(function(node){
         deleteAnyNodeClass(Node.GetNodeNumber(node.id));
         node.classList.add('unvisited-node');
     })
-});
+}
+
 document.querySelector('a#buttonClearWeights').addEventListener('click', function(e){
+    ClearWeights();
+});
+function ClearWeights(){
     var nodes = document.querySelectorAll('.weighted-node');
     nodes.forEach(function(node){
         deleteAnyNodeClass(Node.GetNodeNumber(node.id));
         node.classList.add('unvisited-node');
         node.innerHTML = "";
     })
-});
+}
+
 document.querySelector('a#buttonClearSearchPath').addEventListener('click', function(e){
     ClearSearchPath();
 });

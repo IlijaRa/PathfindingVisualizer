@@ -41,12 +41,6 @@ async function solveBidirectionalBfs(startNodeNumber, goalNodeNumber){
         visited[currentA] = true;
         drawVisitedNodeA(currentA, startNodeNumber);
 
-        // if(isNodeWeighted(currentA))
-        //     drawWeightedVisitedNodeA(currentA, startNodeNumber);
-        // else
-        //     drawVisitedNodeA(currentA, startNodeNumber);
-
-
         var adjA = adjacentsDict[currentA];
         for(count = 0; count < adjA.length; count++){
             var n = adjA[count];
@@ -74,11 +68,6 @@ async function solveBidirectionalBfs(startNodeNumber, goalNodeNumber){
 
         visited[currentB] = true;
         drawVisitedNodeB(currentB, goalNodeNumber);
-
-        // if(isNodeWeighted(currentB))
-        //     drawWeightedVisitedNodeA(currentB, goalNodeNumber);
-        // else
-        //     drawVisitedNodeA(currentB, goalNodeNumber);
 
         var adjB = adjacentsDict[currentB];
         for(count = 0; count < adjB.length; count++){

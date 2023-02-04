@@ -42,11 +42,6 @@ async function solveBidirectionalDfs(startNodeNumber, goalNodeNumber){
         visited[currentA] = true;
         drawVisitedNodeA(currentA, startNodeNumber);
 
-        // if(isNodeWeighted(currentA))
-        //     drawWeightedVisitedNodeA(currentA, startNodeNumber);
-        // else
-        //     drawVisitedNodeA(currentA, startNodeNumber);
-
         var adjA = adjacentsDict[currentA];
         for(count = 0; count < adjA.length; count++){
             var n = adjA[count];

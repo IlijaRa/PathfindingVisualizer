@@ -27,6 +27,10 @@ function constructGrid(){
             });
 
             node.addEventListener('click', function(e){
+                if(document.querySelector('.clear-menu') != null){
+                    document.body.removeChild(document.querySelector('.clear-menu'));
+                }
+
                 if(dragStart == 1 && !isNodeWall(Node.GetNodeNumber(e.target.id)) && !isNodeGoal(Node.GetNodeNumber(e.target.id))){
                     drawStartNode(Node.GetNodeNumber(e.target.id));
                     dragStart = 0;

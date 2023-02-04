@@ -33,11 +33,8 @@ async function solveBfs(startNodeNumber, goalNodeNumber){
             break;
         }
         visited[currentNode] = true;
-        
-        if(isNodeWeighted(currentNode))
-            drawWeightedVisitedNodeA(currentNode, startNodeNumber);
-        else
-            drawVisitedNodeA(currentNode, startNodeNumber);
+
+        drawVisitedNodeA(currentNode, startNodeNumber);
 
         await sleep(SLEEP_VALUE);
 
