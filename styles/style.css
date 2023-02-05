@@ -156,3 +156,34 @@ body{
     height: 1%;
     font-size: small;
 }
+
+footer {
+    background-color: #1E2431;
+    display: flex;
+    align-items: center;
+    height: 60px;
+  }
+  
+  .footer-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+  
+  .footer-container a {
+    color: white;
+    font-size: 30px;
+    margin: 0 10px;
+    text-decoration: none;
+  }
+
+  @media (max-width: 768px) {
+    .footer-container {
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .footer-container a {
+      margin: 10px 0;
+    }
+  }
