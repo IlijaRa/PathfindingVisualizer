@@ -12,6 +12,11 @@ function constructGrid(){
             node.setAttribute('id', 'node' + ((i * WIDTH) + (j + 1)));
 
             node.addEventListener('mouseover', function(e){
+                CloseClearMenu();
+                
+                if(mouseDown == 1 && dim1x1 == 1 && !isNodeStart(Node.GetNodeNumber(e.target.id)) && !isNodeGoal(Node.GetNodeNumber(e.target.id))){
+                    drawUnvisitedNode(Node.GetNodeNumber(e.target.id));
+                }
                 if(mouseDown == 1 && e.shiftKey){
                     if( e.target.classList.contains('unvisited-node') || 
                         e.target.classList.contains('weighted-node')){
@@ -27,10 +32,9 @@ function constructGrid(){
             });
 
             node.addEventListener('click', function(e){
-                if(document.querySelector('.clear-menu') != null){
-                    document.body.removeChild(document.querySelector('.clear-menu'));
+                if(dim1x1 == 1 && !isNodeStart(Node.GetNodeNumber(e.target.id)) && !isNodeGoal(Node.GetNodeNumber(e.target.id))){
+                    drawUnvisitedNode(Node.GetNodeNumber(e.target.id));
                 }
-
                 if(dragStart == 1 && !isNodeWall(Node.GetNodeNumber(e.target.id)) && !isNodeGoal(Node.GetNodeNumber(e.target.id))){
                     drawStartNode(Node.GetNodeNumber(e.target.id));
                     dragStart = 0;

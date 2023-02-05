@@ -16,9 +16,11 @@ function deleteAnyNodeClass(currentNode){
     document.getElementById('node' + currentNode).classList.remove('path-node');
     document.getElementById('node' + currentNode).classList.remove('weighted-path-node');
 }
+
 function drawUnvisitedNode(currentNode){
     deleteAnyNodeClass(currentNode);
     document.getElementById('node' + currentNode).classList.add('unvisited-node');
+    document.getElementById('node' + currentNode).innerHTML = "";
 }
 function drawVisitedNodeA(currentNode, startNodeNumber){
     if(currentNode != startNodeNumber){
@@ -107,6 +109,7 @@ function drawGoalNode(currentNode){
 function drawWallNode(currentNode){
     deleteAnyNodeClass(currentNode);
     document.getElementById('node' + currentNode).classList.add('wall-node');
+    document.getElementById('node' + currentNode).innerHTML = "";
 }
 function drawPathNode(currentNode){
     deleteAnyNodeClass(currentNode);

@@ -9,7 +9,8 @@ function myFunction() {
 // Setting the number of nodes in canvas
 document.getElementById("node-slider").addEventListener('input', function(e){
     var el = document.getElementById('maze_container');
-    while (el.firstChild) el.removeChild(el.firstChild);
+    el.innerHTML = "";
+    // while (el.firstChild) el.removeChild(el.firstChild);
     WIDTH = e.target.value;
     HEIGHT = Math.round(WIDTH / 1.67);
     startNodeExists = false;

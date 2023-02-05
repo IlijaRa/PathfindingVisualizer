@@ -2,11 +2,6 @@ document.addEventListener("contextmenu", function(event) {
     event.preventDefault();
 
     if(isNodeWeighted(Node.GetNodeNumber(event.target.id))){
-
-        if(document.querySelector('.clear-menu') != null){
-            document.body.removeChild(document.querySelector('.clear-menu'));
-        }
-
         disablePointerActions();
         let currentWeightElement = document.getElementById('node' + Node.GetNodeNumber(event.target.id));
         
@@ -63,16 +58,14 @@ document.addEventListener("contextmenu", function(event) {
         return;
     }
 
-    if(isNodeWall(Node.GetNodeNumber(event.target.id))){
-        drawUnvisitedNode(Node.GetNodeNumber(event.target.id));
-        let element = document.getElementById(event.target.id);
-        element.innerHTML = "";
-        return;
-    }
+    // if(isNodeWall(Node.GetNodeNumber(event.target.id))){
+    //     drawUnvisitedNode(Node.GetNodeNumber(event.target.id));
+    //     let element = document.getElementById(event.target.id);
+    //     element.innerHTML = "";
+    //     return;
+    // }
 
-    if(document.querySelector('.clear-menu') != null){
-        document.body.removeChild(document.querySelector('.clear-menu'));
-    }
+    CloseClearMenu();
 
     let clearMenu = document.createElement("div");
     clearMenu.classList.add('clear-menu');
@@ -88,51 +81,91 @@ document.addEventListener("contextmenu", function(event) {
     clearMenu.style.fontFamily = "'Open Sans', sans-serif";
 
     let option1 = document.createElement("div");
-    option1.innerHTML = "Clear All Except Start&Goal";
+    if(dim1x1 == 0)
+        option1.innerHTML = "Clear Brush - Activate";
+    else if (dim1x1 == 1){
+        option1.innerHTML = "Clear Brush - Deactivate";
+    }
     option1.style.cursor = "pointer";
     option1.style.padding = "5px";
     option1.style.marginBottom = "5px";
     option1.addEventListener("click", () => {
-        ClearAllExceptStartGoal();
+        if(dim1x1 == 0){
+            dim1x1 = 1;
+        }else{
+            dim1x1 = 0;
+        }
         clearMenu.remove();
     });
 
     let option2 = document.createElement("div");
-    option2.innerHTML = "Clear Walls";
+    option2.innerHTML = "Clear All Except Start&Goal";
     option2.style.cursor = "pointer";
     option2.style.padding = "5px";
     option2.style.marginBottom = "5px";
     option2.addEventListener("click", () => {
-        ClearWalls();
+        ClearAllExceptStartGoal();
         clearMenu.remove();
     });
 
     let option3 = document.createElement("div");
-    option3.innerHTML = "Clear Weights";
+    option3.innerHTML = "Clear Walls";
     option3.style.cursor = "pointer";
     option3.style.padding = "5px";
     option3.style.marginBottom = "5px";
     option3.addEventListener("click", () => {
-        ClearWeights();
+        ClearWalls();
         clearMenu.remove();
     });
 
     let option4 = document.createElement("div");
-    option4.innerHTML = "Clear Search&Path";
+    option4.innerHTML = "Clear Weights";
     option4.style.cursor = "pointer";
     option4.style.padding = "5px";
     option4.style.marginBottom = "5px";
     option4.addEventListener("click", () => {
+        ClearWeights();
+        clearMenu.remove();
+    });
+
+    let option5 = document.createElement("div");
+    option5.innerHTML = "Clear Search&Path";
+    option5.style.cursor = "pointer";
+    option5.style.padding = "5px";
+    option5.style.marginBottom = "5px";
+    option5.addEventListener("click", () => {
         ClearSearchPath()
         clearMenu.remove();
+    });
+
+    let option6 = document.createElement("div");
+    option6.innerHTML = "Refresh";
+    option6.style.cursor = "pointer";
+    option6.style.padding = "5px";
+    option6.style.marginBottom = "5px";
+    option6.addEventListener("click", () => {
+        var el = document.getElementById('maze_container');
+        el.innerHTML = "";
+        // while (el.firstChild) el.removeChild(el.firstChild);
+        startNodeExists = false;
+        goalNodeExists = false;
+        constructGrid();
     });
 
     clearMenu.appendChild(option1);
     clearMenu.appendChild(option2);
     clearMenu.appendChild(option3);
     clearMenu.appendChild(option4);
+    clearMenu.appendChild(option5);
+    clearMenu.appendChild(option6);
 
     document.body.appendChild(clearMenu);
 
     return;
   });
+
+function CloseClearMenu(){
+    if(document.querySelector('.clear-menu') != null){
+        document.body.removeChild(document.querySelector('.clear-menu'));
+    }
+}
