@@ -3,17 +3,37 @@
 <head>
     <!-- CSS -->
     <link rel="stylesheet" href="styles/style.css" />
-    <!-- <link rel="stylesheet" href="styles/modal.css" /> -->
     <link rel="stylesheet" href="styles/node_style.css" />
     <link rel="stylesheet" href="styles/nav_bar.css" />
-    <link rel="stylesheet" href="styles/set_environment.css" />
+    <!-- <link rel="stylesheet" href="styles/set_environment.css" /> -->
     <link rel="stylesheet" href="styles/alert.css" />
+    <link rel="stylesheet" href="styles/tutorial.css" />
     <link rel="icon" href="./images/favicon.png">
+
     <!-- Load an icon library to show a hamburger menu (bars) on small screens -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
 <body onload="constructGrid()">
+    <div id="popup">
+        <div class="popup-content-header">
+            What is a pathfinding algorithm?
+        </div>
+        <div id="popup-content" class="popup-content-body">
+            <p> At its core, a pathfinding method searches a graph by starting at one vertex and exploring adjacent nodes until the 
+                destination node is reached, generally with the intent of finding the cheapest route. Although graph searching methods 
+                such as a breadth-first search would find a route if given enough time, other methods, which "explore" the graph, would 
+                tend to reach the destination sooner. An analogy would be a person walking across a room; rather than examining every 
+                possible route in advance, the person would generally walk in the direction of the destination and only deviate from the 
+                path to avoid an obstruction, and make deviations as minor as possible.</p>
+                <img src="./images/tutorial/location2.png"/>
+        </div>
+        <div id="popup-content-footer" class="popup-content-footer">
+            <button id="close" class="circle tutorial-button">Close</button>
+            <button id="backward" class="circle tutorial-button">Backward</button>
+            <button id="forward" class="circle tutorial-button">Forward</button>
+        </div>
+    </div>
     <div id="content_container">
         <nav id="nav-bar-container" class="gradient not-selectable">
             <div id="logo"><b>P</b>ath<b>F</b>inding <b>V</b>isualizer</div>
@@ -137,6 +157,7 @@
     <script src="./scripts/grid_construction.js"></script>
     <script src="./scripts/nav_bar.js"></script>
     <script src="./scripts/reconstructPath.js"></script>
+    <script src="./scripts/tutorial.js"></script>
     <!-- Algorithms -->
     <script src="./scripts/algorithms/a_star.js"></script>
     <script src="./scripts/algorithms/bfs.js"></script>

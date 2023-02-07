@@ -1,0 +1,99 @@
+@import url(https://fonts.googleapis.com/css?family=Open+Sans);
+
+#popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 60%;
+    height: 60%;
+    transform: translate(-50%, -50%);
+    background-color: #1E2431;
+    padding: 20px;
+    box-shadow: 0 0 10px #ccc;
+    display: none;
+    color: white;
+    font-family: 'Open Sans', sans-serif;
+  }
+
+.popup-content-header{
+    text-align: center;
+    height: 10%;
+    /* font-size: xx-large; */
+}
+
+.popup-content-body{
+    font-size: large;
+    text-align: center;
+}
+
+.popup-content-body img{
+    width: 20%;
+    height: auto;
+}
+
+.popup-content-footer{
+    padding: 0%;
+    height: 20%;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    /* padding-bottom: 5%; */
+    /* text-align: center; */
+}
+
+#close{
+    float: left;
+}
+
+#forward{
+    float: right;
+}
+
+#backward{
+    float: right;
+}
+
+@media only screen and (min-width: 100px) {
+    .popup-content-header  {
+      font-size: medium;
+    }
+    .popup-content-body  {
+        font-size: x-small;
+    }
+    .tutorial-button{
+        font-size: x-small;
+    }
+  }
+  @media only screen and (min-width: 800px) {
+    .popup-content-header  {
+      font-size: large;
+    }
+    .popup-content-body  {
+        font-size: small;
+    }
+    .tutorial-button{
+        font-size: small;
+    }
+  }
+  @media only screen and (min-width: 1000px) {
+    .popup-content-header  {
+      font-size: x-large;
+    }
+    .popup-content-body  {
+        font-size: medium;
+    }
+    .tutorial-button{
+        font-size: medium;
+    }
+  }
+@media only screen and (min-width: 1200px) {
+    .popup-content-header {
+        font-size: xx-large;
+    }
+    .popup-content-body  {
+        font-size: large;
+    }
+    .tutorial-button{
+        font-size: large;
+    }
+  }
