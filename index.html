@@ -16,22 +16,30 @@
 
 <body onload="constructGrid()">
     <div id="popup">
-        <div class="popup-content-header">
-            What is a pathfinding algorithm?
+        <div class="popup-content-close">
+            <button id="button-close" class="button-close">X</button>
         </div>
-        <div id="popup-content" class="popup-content-body">
-            <p> At its core, a pathfinding method searches a graph by starting at one vertex and exploring adjacent nodes until the 
-                destination node is reached, generally with the intent of finding the cheapest route. Although graph searching methods 
-                such as a breadth-first search would find a route if given enough time, other methods, which "explore" the graph, would 
-                tend to reach the destination sooner. An analogy would be a person walking across a room; rather than examining every 
-                possible route in advance, the person would generally walk in the direction of the destination and only deviate from the 
-                path to avoid an obstruction, and make deviations as minor as possible.</p>
-                <img src="./images/tutorial/location2.png"/>
-        </div>
-        <div id="popup-content-footer" class="popup-content-footer">
-            <button id="close" class="circle tutorial-button">Close</button>
-            <button id="backward" class="circle tutorial-button">Backward</button>
-            <button id="forward" class="circle tutorial-button">Forward</button>
+        <div id="popup-content-body" class="popup-content-body">
+            <div class="popup-content-left-arrow-div">
+                <button id="left-arrow-button">Prev</button>
+            </div>
+            <div id="popup-content-center" class="popup-content-center">
+                <div class="popup-content-header">
+                    What is a pathfinding algorithm?
+                </div>
+                <div id="popup-content-text">
+                    <p> At its core, a pathfinding method searches a graph by starting at one vertex and exploring adjacent nodes until the 
+                        destination node is reached, generally with the intent of finding the cheapest route. Although graph searching methods 
+                        such as a breadth-first search would find a route if given enough time, other methods, which "explore" the graph, would 
+                        tend to reach the destination sooner. An analogy would be a person walking across a room; rather than examining every 
+                        possible route in advance, the person would generally walk in the direction of the destination and only deviate from the 
+                        path to avoid an obstruction, and make deviations as minor as possible.</p>
+                        <img src="./images/tutorial/location2.png"/>
+                </div>
+            </div>
+            <div class="popup-content-right-arrow-div">
+                <button id="right-arrow-button">Next</button>
+            </div>
         </div>
     </div>
     <div id="content_container">
@@ -98,7 +106,7 @@
                         <li class="gradient"><a id="buttonRecursiveBacktracker">Recursive Backtracker</a></li>
                     </ul>
                 </li>
-                <li><a href="tutorial.html">Tutorial</a></li>
+                <li><a id="a-tutorial">Tutorial</a></li>
             </ul>
         </nav>
 
