@@ -37,11 +37,15 @@ function constructGrid(){
                 }
                 if(dragStart == 1 && !isNodeWall(Node.GetNodeNumber(e.target.id)) && !isNodeGoal(Node.GetNodeNumber(e.target.id))){
                     drawStartNode(Node.GetNodeNumber(e.target.id));
+                    if(isAlgorithmFinished == 1)
+                        solveBfsRealTime();
                     dragStart = 0;
                     return;
                 }
                 if(dragGoal == 1 && !isNodeWall(Node.GetNodeNumber(e.target.id)) && !isNodeStart(Node.GetNodeNumber(e.target.id))){
                     drawGoalNode(Node.GetNodeNumber(e.target.id));
+                    if(isAlgorithmFinished == 1)
+                        solveBfsRealTime();
                     dragGoal = 0;
                     return;
                 }

@@ -149,6 +149,7 @@ document.addEventListener("contextmenu", function(event) {
         // while (el.firstChild) el.removeChild(el.firstChild);
         startNodeExists = false;
         goalNodeExists = false;
+        isAlgorithmFinished = 0;
         constructGrid();
     });
 

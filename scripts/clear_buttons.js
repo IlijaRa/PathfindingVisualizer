@@ -4,6 +4,7 @@ function ClearAll(){
         deleteAnyNodeClass(Node.GetNodeNumber(node.id));
         node.classList.add('unvisited-node');
     })
+    isAlgorithmFinished = 0;
 }
 function ClearAllExceptStartGoal(){
     var nodes = document.querySelectorAll('.node');
@@ -15,6 +16,7 @@ function ClearAllExceptStartGoal(){
         node.classList.add('unvisited-node');
         node.innerHTML = "";
     }
+    isAlgorithmFinished = 0;
 }
 function ClearWalls(){
     var nodes = document.querySelectorAll('.wall-node');
@@ -38,4 +40,5 @@ function ClearSearchPath(){
         node.classList.add('unvisited-node');
         node.innerHTML = "";
     })
+    isAlgorithmFinished = 0;
 }

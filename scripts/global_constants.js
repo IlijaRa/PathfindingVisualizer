@@ -4,13 +4,23 @@ WIDTH = 50;
 HEIGHT = 30;
 
 /*GLOBAL VARIABLES*/
+var dim1x1 = 0;
+var dim3x3 = 0;
 let mouseDown = 0;
 let dragStart = 0;
 let dragGoal = 0;
-var dim1x1 = 0;
-var dim3x3 = 0;
+let activatedBfs = 0;
+let activatedDfs = 0;
+let activatedBidirectionalBfs = 0;
+let activatedBidirectionalDfs = 0;
+let activatedDijkstra = 0;
+let activatedGreedyBfs = 0;
+let activatedAStar = 0;
+let isAlgorithmFinished = 0;
 var startNodeExists = false;
 var goalNodeExists = false;
+
+
 WALL_VALUE = -1;
 SLEEP_VALUE = 0;
 WEIGHT_VALUE = 2;
@@ -39,3 +49,14 @@ INTERSECT_NODE_COLOR = 'rgb(245, 193, 0)';
 WEIGHTED_NODE_COLOR = 'rgb(117, 235, 164)';
 BORDER_COLOR = 'rgb(119, 120, 122)';
 // #endregion
+
+function ClearAlgorithmFlagVariables(){
+    isAlgorithmFinished = 0;
+    activatedBfs = 0;
+    activatedDfs = 0;
+    activatedBidirectionalBfs = 0;
+    activatedBidirectionalDfs = 0;
+    activatedDijkstra = 0;
+    activatedGreedyBfs = 0;
+    activatedAStar = 0;
+}
