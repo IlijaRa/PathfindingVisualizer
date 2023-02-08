@@ -16,18 +16,34 @@ function deleteAnyNodeClass(currentNode){
     document.getElementById('node' + currentNode).classList.remove('path-node');
     document.getElementById('node' + currentNode).classList.remove('weighted-path-node');
 }
-
 function drawUnvisitedNode(currentNode){
     deleteAnyNodeClass(currentNode);
     document.getElementById('node' + currentNode).classList.add('unvisited-node');
     document.getElementById('node' + currentNode).innerHTML = "";
 }
 function drawVisitedNodeA(currentNode, startNodeNumber){
-    if(currentNode != startNodeNumber){
-        deleteAnyNodeClass(currentNode);
-        document.getElementById('node' + currentNode).classList.add('visited-nodeA');
-        document.getElementById('node' + currentNode).innerHTML = "";
+    if(currentNode == startNodeNumber){
+        return;
     }
+
+    let currentElement = document.getElementById('node' + currentNode);
+    deleteAnyNodeClass(currentNode);
+    currentElement.innerHTML = "";
+
+    currentElement.classList.add('visited-nodeA');
+
+    let innerDiv = document.createElement('div');
+    innerDiv.classList.add('innerDiv', 'innerDiv' + currentNode, 'not-selectable');
+    innerDiv.innerText = "1";
+
+    if(LEVEL_OF_DETAILS == "show-details"){
+        innerDiv.classList.add('show');
+    }
+    else if (LEVEL_OF_DETAILS == "hide-details"){
+        innerDiv.classList.add('hide');
+    }
+
+    currentElement.appendChild(innerDiv);
 }
 function drawWeightedVisitedNodeA(currentNode, startNodeNumber){
     if(currentNode != startNodeNumber){
@@ -54,11 +70,28 @@ function drawWeightedVisitedNodeA(currentNode, startNodeNumber){
     }
 }
 function drawVisitedNodeB(currentNode, goalNodeNumber){
-    if(currentNode != goalNodeNumber){
-        deleteAnyNodeClass(currentNode);
-        document.getElementById('node' + currentNode).classList.add('visited-nodeB');
-        document.getElementById('node' + currentNode).innerHTML = "";
+    if(currentNode == goalNodeNumber){
+        return;
     }
+
+    let currentElement = document.getElementById('node' + currentNode);
+    deleteAnyNodeClass(currentNode);
+    currentElement.innerHTML = "";
+
+    currentElement.classList.add('visited-nodeB');
+
+    let innerDiv = document.createElement('div');
+    innerDiv.classList.add('innerDiv', 'innerDiv' + currentNode, 'not-selectable');
+    innerDiv.innerText = "1";
+
+    if(LEVEL_OF_DETAILS == "show-details"){
+        innerDiv.classList.add('show');
+    }
+    else if (LEVEL_OF_DETAILS == "hide-details"){
+        innerDiv.classList.add('hide');
+    }
+
+    currentElement.appendChild(innerDiv);
 }
 function drawWeightedNode(currentNode, weight_value){
     deleteAnyNodeClass(currentNode);
@@ -107,13 +140,48 @@ function drawGoalNode(currentNode){
     document.getElementById('node' + currentNode).innerHTML = "";
 }
 function drawWallNode(currentNode){
+    let currentElement = document.getElementById('node' + currentNode);
     deleteAnyNodeClass(currentNode);
-    document.getElementById('node' + currentNode).classList.add('wall-node');
-    document.getElementById('node' + currentNode).innerHTML = "";
+    currentElement.innerHTML = "";
+
+    currentElement.classList.add('wall-node');
+
+    let innerDiv = document.createElement('div');
+    innerDiv.classList.add('innerDiv', 'innerDiv' + currentNode, 'not-selectable');
+    innerDiv.innerHTML = "&#8734";
+    innerDiv.style.color = "#fff";
+
+    if(LEVEL_OF_DETAILS == "show-details"){
+        innerDiv.classList.add('show');
+    }
+    else if (LEVEL_OF_DETAILS == "hide-details"){
+        innerDiv.classList.add('hide');
+    }
+
+    currentElement.appendChild(innerDiv);
 }
 function drawPathNode(currentNode){
+    // deleteAnyNodeClass(currentNode);
+    // document.getElementById('node' + currentNode).classList.add('path-node');
+
+    let currentElement = document.getElementById('node' + currentNode);
     deleteAnyNodeClass(currentNode);
-    document.getElementById('node' + currentNode).classList.add('path-node');
+    currentElement.innerHTML = "";
+
+    currentElement.classList.add('path-node');
+
+    let innerDiv = document.createElement('div');
+    innerDiv.classList.add('innerDiv', 'innerDiv' + currentNode, 'not-selectable');
+    innerDiv.innerText = "1";
+
+    if(LEVEL_OF_DETAILS == "show-details"){
+        innerDiv.classList.add('show');
+    }
+    else if (LEVEL_OF_DETAILS == "hide-details"){
+        innerDiv.classList.add('hide');
+    }
+
+    currentElement.appendChild(innerDiv);
 }
 function drawWeightedPathNode(currentNode){
     let currentElement = document.getElementById('node' + currentNode);

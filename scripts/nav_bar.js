@@ -38,6 +38,30 @@ document.getElementById("select-heuristic").addEventListener('change', function(
 document.getElementById("select-level-detail").addEventListener('change', function(e){
     LEVEL_OF_DETAILS = e.target.value;
     if(LEVEL_OF_DETAILS == "hide-details"){
+        let wallNodes = document.querySelectorAll('.wall-node');
+        wallNodes.forEach(function(node){          
+            node.children[0].classList.remove('show');
+            node.children[0].classList.add('hide');
+        });
+
+        let visitedNodesA = document.querySelectorAll('.visited-nodeA');
+        visitedNodesA.forEach(function(node){          
+            node.children[0].classList.remove('show');
+            node.children[0].classList.add('hide');
+        });
+
+        let visitedNodesB = document.querySelectorAll('.visited-nodeB');
+        visitedNodesB.forEach(function(node){          
+            node.children[0].classList.remove('show');
+            node.children[0].classList.add('hide');
+        });
+
+        let pathNodes = document.querySelectorAll('.path-node');
+        pathNodes.forEach(function(node){          
+            node.children[0].classList.remove('show');
+            node.children[0].classList.add('hide');
+        });
+
         let weightNodes = document.querySelectorAll('.weighted-node');
         weightNodes.forEach(function(node){
             deleteAnyNodeClass(Node.GetNodeNumber(node.id));
@@ -46,7 +70,7 @@ document.getElementById("select-level-detail").addEventListener('change', functi
             
             node.children[0].classList.remove('show');
             node.children[0].classList.add('hide');
-        })
+        });
 
         let weightedVisitedNodes = document.querySelectorAll('.weighted-visited-nodeA');
         weightedVisitedNodes.forEach(function(node){
@@ -56,7 +80,7 @@ document.getElementById("select-level-detail").addEventListener('change', functi
             
             node.children[0].classList.remove('show');
             node.children[0].classList.add('hide');
-        })
+        });
 
         let weightedPathdNodes = document.querySelectorAll('.weighted-path-node');
         weightedPathdNodes.forEach(function(node){
@@ -66,9 +90,33 @@ document.getElementById("select-level-detail").addEventListener('change', functi
             
             node.children[0].classList.remove('show');
             node.children[0].classList.add('hide');
-        })
+        });
     }
     if(LEVEL_OF_DETAILS == "show-details"){
+        let wallNodes = document.querySelectorAll('.wall-node');
+        wallNodes.forEach(function(node){          
+            node.children[0].classList.remove('hide');
+            node.children[0].classList.add('show');
+        });
+
+        let visitedNodesA = document.querySelectorAll('.visited-nodeA');
+        visitedNodesA.forEach(function(node){          
+            node.children[0].classList.remove('hide');
+            node.children[0].classList.add('show');
+        });
+
+        let visitedNodesB = document.querySelectorAll('.visited-nodeB');
+        visitedNodesB.forEach(function(node){          
+            node.children[0].classList.remove('hide');
+            node.children[0].classList.add('show');
+        });
+
+        let pathNodes = document.querySelectorAll('.path-node');
+        pathNodes.forEach(function(node){          
+            node.children[0].classList.remove('hide');
+            node.children[0].classList.add('show');
+        });
+
         let weightNodes = document.querySelectorAll('.weighted-node');
         weightNodes.forEach(function(node){
             deleteAnyNodeClass(Node.GetNodeNumber(node.id));
@@ -87,7 +135,7 @@ document.getElementById("select-level-detail").addEventListener('change', functi
 
             node.children[0].classList.remove('hide');
             node.children[0].classList.add('show');
-        })
+        });
 
         let weightedVisitedNodes = document.querySelectorAll('.transformed-visited-node');
         weightedVisitedNodes.forEach(function(node){
@@ -97,7 +145,7 @@ document.getElementById("select-level-detail").addEventListener('change', functi
 
             node.children[0].classList.remove('hide');
             node.children[0].classList.add('show');
-        })
+        });
 
         let weightedPathNodes = document.querySelectorAll('.transformed-path-node');
         weightedPathNodes.forEach(function(node){
@@ -107,6 +155,6 @@ document.getElementById("select-level-detail").addEventListener('change', functi
 
             node.children[0].classList.remove('hide');
             node.children[0].classList.add('show');
-        })
+        });
     }
 })
