@@ -16,7 +16,7 @@ async function greedyBestFirstSearch(start, goal) {
     var maze = construct2dArray();
     var adjacentsDict = findAdjacents(maze);
     var solved = false;
-    let queue = []
+    let queue = [];
     var prev = new Array(HEIGHT * WIDTH).fill(-1);
     const unvisitedNodes = new Set();
     const visitedNodes = new Set();
@@ -31,6 +31,7 @@ async function greedyBestFirstSearch(start, goal) {
 
     // While there are unvisited nodes
     while (queue.length > 0) {
+        queue = queue.filter((item, index) => {return queue.indexOf(item) === index;});
         await sleep(SLEEP_VALUE);
 
         // Select the unvisited node with the smallest distance + heuristic distance

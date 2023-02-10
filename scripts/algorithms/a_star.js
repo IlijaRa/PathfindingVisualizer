@@ -16,7 +16,7 @@ async function solveAstar(start, goal) {
     var maze = construct2dArray();
     var adjacentsDict = findAdjacents(maze);
     var solved = false;
-    let queue = []
+    let queue = [];
     var prev = new Array(HEIGHT * WIDTH).fill(-1);
     const unvisitedNodes = new Set();
     const visitedNodes = new Set();
