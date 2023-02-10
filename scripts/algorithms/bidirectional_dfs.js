@@ -1,11 +1,13 @@
 /* ---------------Bidirectional BFS algorithm------------------*/
 document.querySelector('a#buttonBD_DFS').addEventListener('click', function(e){
-    ClearSearchPath();
     var nodes = findStartAndGoalNode(); 
     if(nodes[0] == null || nodes[1] == null){
         showWarningToast('You need to provide start and goal nodes!');
         return;
     }
+    ClearSearchPath();
+    if(document.querySelectorAll('.weighted-node').length != 0)
+        showWarningToast('Bidirectional DFS does not observe weighted nodes!');
     let startNodeNumber = Node.GetNodeNumber(nodes[0].id);
     let goalNodeNumber = Node.GetNodeNumber(nodes[1].id);
     disablePointerActions();
