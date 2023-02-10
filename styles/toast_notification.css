@@ -1,0 +1,196 @@
+@import url(https://fonts.googleapis.com/css?family=Open+Sans);
+
+#toastBox{
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    display: flex;
+    align-items: flex-end;
+    flex-direction: column;
+    overflow: hidden;
+    padding: 20px;
+    font-family: 'Open Sans', sans-serif;
+    z-index: 1;
+}
+
+/* SUCCESS */
+.toast.success{
+    width:400px;
+    height: 80px;
+    font-size: 13px;
+    background-color: #fff;
+    font-weight: 500;
+    margin: 15px 0;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    position: relative;
+    transform: translateX(100%);
+    animation: moveleft 0.5s linear forwards;
+}
+@keyframes moveleft{
+    100%{
+        transform: translateX(0%);
+    }
+}
+
+.toast.success i{
+    margin: 0 20px;
+    font-size: 35px;
+    color: green;
+}
+
+.toast.success::after{
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 5px;
+    background: green;
+    animation: anim 5s linear forwards;
+}
+@keyframes anim{
+    100%{
+        width: 0px;
+    }
+}
+
+/* ERROR */
+.toast.error{
+    width:400px;
+    height: 80px;
+    font-size: 13px;
+    background-color: #fff;
+    font-weight: 500;
+    margin: 15px 0;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    position: relative;
+    transform: translateX(100%);
+    animation: moveleft 0.5s linear forwards;
+}
+@keyframes moveleft{
+    100%{
+        transform: translateX(0%);
+    }
+}
+
+.toast.error i{
+    margin: 0 20px;
+    font-size: 35px;
+    color: red;
+}
+
+.toast.error::after{
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 5px;
+    background: red;
+    animation: anim 5s linear forwards;
+}
+@keyframes anim{
+    100%{
+        width: 0px;
+    }
+}
+
+/* WARNING */
+.toast.warning{
+    width:400px;
+    height: 80px;
+    font-size: 13px;
+    background-color: #fff;
+    font-weight: 500;
+    margin: 15px 0;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    position: relative;
+    transform: translateX(100%);
+    animation: moveleft 0.5s linear forwards;
+}
+@keyframes moveleft{
+    100%{
+        transform: translateX(0%);
+    }
+}
+
+.toast.warning i{
+    margin: 0 20px;
+    font-size: 35px;
+    color: orange;
+}
+
+.toast.warning::after{
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 5px;
+    background: orange;
+    animation: anim 5s linear forwards;
+}
+@keyframes anim{
+    100%{
+        width: 0px;
+    }
+}
+
+/* INFO */
+.toast.info{
+    width:400px;
+    height: 80px;
+    font-size: 13px;
+    background-color: #fff;
+    font-weight: 500;
+    margin: 15px 0;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    position: relative;
+    transform: translateX(100%);
+    animation: moveleft 0.5s linear forwards;
+}
+@keyframes moveleft{
+    100%{
+        transform: translateX(0%);
+    }
+}
+
+.toast.info i{
+    margin: 0 20px;
+    font-size: 35px;
+    color: rgb(74, 145, 212);
+}
+
+.toast.info::after{
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 5px;
+    background: rgb(74, 145, 212);
+}
+
+.closebtn {
+    margin-left: 15px;
+    color: black;
+    font-weight: bold;
+    float: right;
+    font-size: 22px;
+    line-height: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+  
+/* When moving the mouse over the close button */
+/* .closebtn:hover {
+    color: black;
+} */

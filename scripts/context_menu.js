@@ -14,7 +14,7 @@ document.addEventListener("contextmenu", function(event) {
         input.addEventListener("keydown", function(e) {
             if (e.key === "Enter") {
                 if(parseInt(input.value) < 2 || parseInt(input.value) > 20){
-                    showWarningAlert('Weight value need to be between 2 and 20!');
+                    showWarningToast('Weight value need to be between 2 and 20!');
                     input.value = 2;
                     return;
                 }

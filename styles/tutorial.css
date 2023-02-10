@@ -14,6 +14,7 @@
     display: none;
     color: white;
     font-family: 'Open Sans', sans-serif;
+    z-index: 100;
   }
 
 .popup-content-close{

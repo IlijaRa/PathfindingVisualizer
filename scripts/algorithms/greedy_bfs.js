@@ -3,7 +3,7 @@ document.querySelector('a#buttonGreedy_BFS').addEventListener('click', function(
     ClearSearchPath();
     var nodes = findStartAndGoalNode(); 
     if(nodes[0] == null || nodes[1] == null){
-        showWarningAlert('You need to provide start and goal nodes!');
+        showWarningToast('You need to provide start and goal nodes!');
         return;
     }
     let startNodeNumber = Node.GetNodeNumber(nodes[0].id);
@@ -73,11 +73,12 @@ async function greedyBestFirstSearch(start, goal) {
     }
 
     if(!solved){
-        showErrorAlert('Impossible to solve!');
+        showErrorToast('Impossible to solve!');
         enablePointerActions();
     }else if (solved){
         const endTimer = performance.now();
         let noPathNodes = await reconstructPath(goal, prev);
-        showStatisticsAlert(noPathNodes, endTimer - startTimer);
+        showSuccessToast('Algorithm is successfully executed.');
+        showInfoToast('Greedy BFS', noPathNodes, endTimer - startTimer);
     }
 }

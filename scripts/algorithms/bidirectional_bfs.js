@@ -3,7 +3,7 @@ document.querySelector('a#buttonBD_BFS').addEventListener('click', function(e){
     ClearSearchPath();
     var nodes = findStartAndGoalNode(); 
     if(nodes[0] == null || nodes[1] == null){
-        showWarningAlert('You need to provide start and goal nodes!');
+        showWarningToast('You need to provide start and goal nodes!');
         return;
     }
     let startNodeNumber = Node.GetNodeNumber(nodes[0].id);
@@ -93,7 +93,7 @@ async function solveBidirectionalBfs(startNodeNumber, goalNodeNumber){
     }
     
     if(!solved){
-        showErrorAlert('Impossible to solve!');
+        showErrorToast('Impossible to solve!');
         enablePointerActions();
     }else if(solved){
         const endTimer = performance.now();
@@ -101,6 +101,7 @@ async function solveBidirectionalBfs(startNodeNumber, goalNodeNumber){
         noPathNodes += await reconstructPath(intersectNodeNumber, prevB);
         // intersectNodeNumber is stored in both prevA and prevB, because of that noPathNodes increments two times instead of once
         noPathNodes -= 1; 
-        showStatisticsAlert(noPathNodes, endTimer - startTimer);
+        showSuccessToast('Algorithm is successfully executed.');
+        showInfoToast('Bidirectional BFS', noPathNodes, endTimer - startTimer);
     }
 }

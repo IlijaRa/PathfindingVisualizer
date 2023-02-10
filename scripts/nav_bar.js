@@ -24,7 +24,7 @@ document.getElementById("speed-slider").addEventListener('input', function(e){
 // Setting the weight of weighted nodes in canvas
 document.getElementById("weight-input").addEventListener('change', function(e){
     if(parseInt(e.target.value) < 2 || parseInt(e.target.value) > 20){
-        showWarningAlert('Weight value need to be between 2 and 20!');
+        showWarningToast('Weight value need to be between 2 and 20!');
         e.target.value = 2;
         return;
     }

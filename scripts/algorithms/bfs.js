@@ -5,7 +5,7 @@ document.querySelector('a#buttonBFS').addEventListener('click', function(e){
     activatedBfs = 1;
     var nodes = findStartAndGoalNode(); 
     if(nodes[0] == null || nodes[1] == null){
-        showWarningAlert('You need to provide start and goal nodes!');
+        showWarningToast('You need to provide start and goal nodes!');
         return;
     }
     let startNodeNumber = Node.GetNodeNumber(nodes[0].id);
@@ -50,13 +50,14 @@ async function solveBfs(startNodeNumber, goalNodeNumber){
     }
     
     if(!solved){
-        showErrorAlert('Impossible to solve!');
+        showErrorToast('Impossible to solve!');
         enablePointerActions();
     }else if(solved){
         const endTimer = performance.now();
         console.log('prev:', prev);
         let noPathNodes = await reconstructPath(goalNodeNumber, prev);
-        showStatisticsAlert(noPathNodes, endTimer - startTimer);
+        showSuccessToast('Algorithm is successfully executed.');
+        showInfoToast('BFS', noPathNodes, endTimer - startTimer);
         isAlgorithmFinished = 1;
     }
 }
@@ -67,7 +68,7 @@ async function solveBfsRealTime(){
     isAlgorithmFinished = 1;
     var nodes = findStartAndGoalNode(); 
     if(nodes[0] == null || nodes[1] == null){
-        showWarningAlert('You need to provide start and goal nodes!');
+        showWarningToast('You need to provide start and goal nodes!');
         return;
     }
     let startNodeNumber = Node.GetNodeNumber(nodes[0].id);
@@ -104,7 +105,7 @@ async function solveBfsRealTime(){
     }
     
     if(!solved){
-        showErrorAlert('Impossible to solve!');
+        showErrorToast('Impossible to solve!');
         enablePointerActions();
     }else if(solved){
         reconstructPathRealTime(goalNodeNumber, prev);

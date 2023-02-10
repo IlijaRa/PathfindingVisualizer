@@ -5,13 +5,13 @@
     <link rel="stylesheet" href="styles/style.css" />
     <link rel="stylesheet" href="styles/node_style.css" />
     <link rel="stylesheet" href="styles/nav_bar.css" />
-    <!-- <link rel="stylesheet" href="styles/set_environment.css" /> -->
-    <link rel="stylesheet" href="styles/alert.css" />
+    <link rel="stylesheet" href="styles/toast_notification.css" />
     <link rel="stylesheet" href="styles/tutorial.css" />
     <link rel="icon" href="./images/favicon.png">
 
     <!-- Load an icon library to show a hamburger menu (bars) on small screens -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://kit.fontawesome.com/c4254e24a8.js" crossorigin="anonymous"></script>
 </head>
 
 <body onload="constructGrid()">
@@ -49,34 +49,6 @@
             <label for="drop" class="toggle">Menu</label>
             <input type="checkbox" id="drop" />
             <ul class="menu">
-                <li><a href="#" id="settings">Settings</a>
-                    <ul>
-                        <li class="gradient"><a>Canvas size : <input class="slider" id="node-slider" type="range" min="35" max="60" value="50"></a></li>
-                        <li class="gradient"><a>Speed : <input class="slider" id="speed-slider" type="range" min="0" max="500" value="250"></a></li>
-                        <li class="gradient"><a>Node weight : <input id="weight-input" type="number" min="2" max="20" value="2"></a></li>
-                        <li class="gradient">
-                            <a>Heuristic : 
-                                <select id="select-heuristic">
-                                    <option value="euclidean">Euclidean</option>
-                                    <option value="manhattan">Manhattan</option>
-                                    <option value="hamming">Hamming</option>
-                                    <option value="minkowski5">Minkowski(p = 5)</option>
-                                    <option value="cosine">Cosine</option>
-                                    <option value="chebyshev">Chebyshev</option>
-                                    <option value="haversine">Haversine</option>
-                                </select>
-                            </a>
-                        </li>
-                        <li class="gradient">
-                            <a>Level of details: 
-                                <select id="select-level-detail">
-                                    <option value="hide-details">Low</option>
-                                    <option value="show-details">High</option>
-                                </select>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
                 <li><a href="#">Maze generators</a>
                     <ul>
                         <li class="gradient"><a href="#">Static shapes</a>
@@ -106,10 +78,37 @@
                         <!-- <li class="gradient"><a id="buttonRecursiveBFS">Recursive BFS</a></li> -->
                     </ul>
                 </li>
+                <li><a id="settings" href="#">Settings</a>
+                    <ul>
+                        <li class="gradient"><a>Canvas size : <input class="slider" id="node-slider" type="range" min="35" max="60" value="50"></a></li>
+                        <li class="gradient"><a>Speed : <input class="slider" id="speed-slider" type="range" min="0" max="500" value="250"></a></li>
+                        <li class="gradient"><a>Node weight : <input id="weight-input" type="number" min="2" max="20" value="2"></a></li>
+                        <li class="gradient">
+                            <a>Heuristic : 
+                                <select id="select-heuristic">
+                                    <option value="euclidean">Euclidean</option>
+                                    <option value="manhattan">Manhattan</option>
+                                    <option value="hamming">Hamming</option>
+                                    <option value="minkowski5">Minkowski(p = 5)</option>
+                                    <option value="cosine">Cosine</option>
+                                    <option value="chebyshev">Chebyshev</option>
+                                    <option value="haversine">Haversine</option>
+                                </select>
+                            </a>
+                        </li>
+                        <li class="gradient">
+                            <a>Level of details: 
+                                <select id="select-level-detail">
+                                    <option value="hide-details">Low</option>
+                                    <option value="show-details">High</option>
+                                </select>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
                 <li><a id="a-tutorial">Tutorial</a></li>
             </ul>
         </nav>
-
         <div id="description_container" class="description_container not-selectable">
             <div class="description-node">
                 <img src="./images/nodes/start_node.png" alt="start_node"> <br>
@@ -144,7 +143,7 @@
                 Unvisited Node
             </div>
         </div>
-        <div class="insert-alert"> </div>
+        <div id="toastBox"></div>
         <div id="maze_container" class="maze_container"></div>
         <footer>
             <div class="footer-container">
@@ -156,7 +155,6 @@
     </div>
     <!-- JS -->
     <!-- General stuff -->
-    <script src="./scripts/alert.js"></script>
     <script src="./scripts/clear_buttons.js"></script>
     <script src="./scripts/context_menu.js"></script>
     <script src="./scripts/draw_nodes.js"></script>
@@ -165,6 +163,7 @@
     <script src="./scripts/grid_construction.js"></script>
     <script src="./scripts/nav_bar.js"></script>
     <script src="./scripts/reconstructPath.js"></script>
+    <script src="./scripts/toast_notification.js"></script>
     <script src="./scripts/tutorial.js"></script>
     <!-- Algorithms -->
     <script src="./scripts/algorithms/a_star.js"></script>
