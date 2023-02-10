@@ -55,7 +55,7 @@ p {
 
 nav { 
 	/* background-color: #254441; */
-  font-family: 'Open Sans', sans-serif;
+  	font-family: 'Open Sans', sans-serif;
 	font-size:22px;
 	line-height: 32px;
 	color: #ffffff;
@@ -96,6 +96,7 @@ nav ul {
 nav ul li {
 	margin: 0px;
 	display:inline-block;
+	z-index: 95;
 	/* float: left; */
 	/* background-color: #254441; */
 	}
@@ -107,6 +108,7 @@ nav a {
 	color:#FFF;
 	font-size:17px;
 	text-decoration:none;
+	z-index: 95;
 }
 
 
