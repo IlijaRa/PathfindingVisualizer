@@ -120,10 +120,10 @@
     background-color: rgb(126, 213, 242);
     border-color: rgb(180, 229, 245);
     animation-name: visited-nodeA-effect;
-    animation-duration: 2s;
+    animation-duration: 1s;
 }
 @keyframes visited-nodeA-effect {
-    from {background-color: rgb(27, 229, 212);}
+    from {background-color: rgb(7, 248, 228);}
     to {background-color: rgb(126, 213, 242);}
 }
 

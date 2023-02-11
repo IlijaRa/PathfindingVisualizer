@@ -7,12 +7,17 @@ function myFunction() {
     }
 }
 // Setting the number of nodes in canvas
-document.getElementById("node-slider").addEventListener('input', function(e){
+document.getElementById("canvas-size-input").addEventListener('change', function(e){
+    if(parseInt(e.target.value) < 5 || parseInt(e.target.value) > 60){
+        showWarningToast('Canvas size width need to be between 5 and 60!');
+        return;
+    }
     var el = document.getElementById('maze_container');
     el.innerHTML = "";
+    isAlgorithmFinished = 0;
     // while (el.firstChild) el.removeChild(el.firstChild);
     WIDTH = e.target.value;
-    HEIGHT = Math.round(WIDTH / 1.67);
+    HEIGHT = Math.round(WIDTH * 0.67);
     startNodeExists = false;
     goalNodeExists = false;
     constructGrid();

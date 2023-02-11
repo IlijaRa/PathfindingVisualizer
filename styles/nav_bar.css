@@ -274,10 +274,13 @@ li > a:only-child:after { content: ''; }
 }
 
 /* menu settings */
-#node-slider{
+#canvas-size-input{
+	width: 100%;
+}
+/* #node-slider{
 	background-color: #FFF;
 	color: #FFF;
-}
+} */
 
 #weight-input{
 	width: 100%;
