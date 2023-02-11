@@ -11,6 +11,7 @@
     -ms-transform: scale(1.3);
     -webkit-transform: scale(1.3);
     transform: scale(1.3);
+    z-index: 91;
 }
 
 .unvisited-node{
@@ -26,7 +27,7 @@
 
 .start-node{
     background-color: rgb(74, 145, 212);
-    border-color: rgb(119, 120, 122);
+    border-color: rgb(74, 145, 212);
     animation-name: start-node-effect;
     animation-duration: 1s;
 }
@@ -37,7 +38,7 @@
 
 .goal-node{
     background-color: rgb(209, 42, 59);
-    border-color: rgb(119, 120, 122);
+    border-color: rgb(209, 42, 59);
     animation-name: goal-node-effect;
     animation-duration: 1s;
 }
@@ -114,17 +115,30 @@
 }
 
 .visited-nodeA{
-    background-color: rgb(51, 193, 228);
-    border-color: rgb(157, 216, 235);
+    background-color: rgb(126, 213, 242);
+    border-color: rgb(180, 229, 245);
     animation-name: visited-nodeA-effect;
-    animation-duration: 1s;
+    animation-duration: 2s;
 }
 @keyframes visited-nodeA-effect {
-    from {background-color: rgb(74, 145, 212);}
-    to {background-color: rgb(51, 193, 228);}
+    from {background-color: rgb(27, 229, 212);}
+    to {background-color: rgb(126, 213, 242);}
 }
 
 .weighted-visited-nodeA{
+    box-shadow: 0px 0px 0px 2px #1E2431;
+    background-color: rgb(17, 193, 237);
+    border-color: #1E2431;
+    animation-name: weighted-visited-nodeA;
+    animation-duration: 1s;
+    z-index: 90;
+}
+@keyframes weighted-visited-nodeA {
+    from {background-color: rgb(32, 131, 223);}
+    to {background-color: rgb(17, 193, 237);}
+}
+
+/* .weighted-visited-nodeA{
     background-color: rgb(186, 153, 226);
     border-color: rgb(209, 187, 235);
     animation-name: weighted-visited-nodeA-effect;
@@ -133,7 +147,7 @@
 @keyframes weighted-visited-nodeA-effect {
     from {background-color: rgb(152, 103, 212);}
     to {background-color: rgb(186, 153, 226);}
-}
+} */
 
 .visited-nodeB{
     background-color: rgb(240, 128, 128);
@@ -147,17 +161,29 @@
 }
 
 .path-node{
-    background-color: rgb(245, 193, 0);
-    border-color: rgb(248, 213, 85);
+    background-color: rgb(246, 208, 72);
+    border-color: rgb(233, 220, 171);
     animation-name: path-node-effect;
     animation-duration: 1s;
 }
 @keyframes path-node-effect {
     from {background-color: rgb(240, 102, 40);}
-    to {background-color: rgb(245, 193, 0);}
+    to {background-color: rgb(246, 208, 72);}
 }
 
 .weighted-path-node{
+    box-shadow: 0px 0px 0px 2px #1E2431;
+    background-color: rgb(245, 193, 0);
+    border-color: #1E2431;
+    animation-name: weighted-path-node-effect;
+    animation-duration: 1s;
+    z-index: 90;
+}
+@keyframes weighted-path-node-effect {
+    from {background-color: rgb(240, 102, 40);}
+    to {background-color: rgb(245, 193, 0);}
+}
+/* .weighted-path-node{
     background-color: rgb(233, 138, 94);
     border-color: rgb(245, 173, 139);
     animation-name: weighted-path-node-effect;
@@ -166,4 +192,4 @@
 @keyframes weighted-path-node-effect {
     from {background-color: rgb(240, 102, 40);}
     to {background-color: rgb(233, 138, 94);}
-}
+} */
