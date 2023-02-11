@@ -5,10 +5,16 @@ document.querySelector('a#buttonBFS').addEventListener('click', function(e){
         showWarningToast('You need to provide start and goal nodes!');
         return;
     }
-    ClearSearchPath();
-    ClearAlgorithmFlagVariables();
     if(document.querySelectorAll('.weighted-node').length != 0)
         showWarningToast('BFS does not observe weighted nodes!');
+
+    ClearSearchPath();
+    ClearAlgorithmFlagVariables();
+    var weightedNodes = document.querySelectorAll('.weighted-node');
+    weightedNodes.forEach(function(node){
+        hiddenWeightedNodes.push([Node.GetNodeNumber(node.id), parseInt(node.children[0].innerText)]);
+        drawUnvisitedNode(Node.GetNodeNumber(node.id));
+    })
     activatedBfs = 1;
     let startNodeNumber = Node.GetNodeNumber(nodes[0].id);
     let goalNodeNumber = Node.GetNodeNumber(nodes[1].id);
@@ -66,13 +72,21 @@ async function solveBfs(startNodeNumber, goalNodeNumber){
 
 // For realtime 
 async function solveBfsRealTime(){
-    ClearSearchPath();
-    isAlgorithmFinished = 1;
     var nodes = findStartAndGoalNode(); 
     if(nodes[0] == null || nodes[1] == null){
         showWarningToast('You need to provide start and goal nodes!');
         return;
     }
+    if(document.querySelectorAll('.weighted-node').length != 0)
+        showWarningToast('Bidirectional DFS does not observe weighted nodes!');
+    
+    ClearSearchPathRealTime();
+    // var weightedNodes = document.querySelectorAll('.weighted-node');
+    // weightedNodes.forEach(function(node){
+    //     hiddenWeightedNodes.push([Node.GetNodeNumber(node.id), parseInt(node.children[0].innerText)]);
+    //     drawUnvisitedNode(Node.GetNodeNumber(node.id));
+    // })
+    isAlgorithmFinished = 1;
     let startNodeNumber = Node.GetNodeNumber(nodes[0].id);
     let goalNodeNumber = Node.GetNodeNumber(nodes[1].id);
 

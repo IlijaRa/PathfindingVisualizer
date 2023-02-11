@@ -19,7 +19,7 @@ let activatedAStar = 0;
 let isAlgorithmFinished = 0;
 var startNodeExists = false;
 var goalNodeExists = false;
-
+var hiddenWeightedNodes = [];
 
 WALL_VALUE = -1;
 SLEEP_VALUE = 0;
