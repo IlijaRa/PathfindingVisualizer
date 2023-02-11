@@ -11,7 +11,7 @@
     -ms-transform: scale(1.3);
     -webkit-transform: scale(1.3);
     transform: scale(1.3);
-    z-index: 91;
+    z-index: 94;
 }
 
 .unvisited-node{
@@ -30,6 +30,7 @@
     border-color: rgb(74, 145, 212);
     animation-name: start-node-effect;
     animation-duration: 1s;
+    /* z-index: 94; */
 }
 @keyframes start-node-effect {
     from {background-color: rgb(49, 96, 141);}
@@ -41,6 +42,7 @@
     border-color: rgb(209, 42, 59);
     animation-name: goal-node-effect;
     animation-duration: 1s;
+    /* z-index: 94; */
 }
 @keyframes goal-node-effect {
     from {background-color: rgb(139, 28, 39);}

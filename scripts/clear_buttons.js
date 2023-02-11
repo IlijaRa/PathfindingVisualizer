@@ -34,11 +34,19 @@ function ClearWeights(){
     })
 }
 function ClearSearchPath(){
-    var nodes = document.querySelectorAll("div.visited-nodeA, div.visited-nodeB, div.path-node, div.weighted-visited-nodeA, div.weighted-path-node");
-    nodes.forEach(function(node){
+    var visitedNodes = document.querySelectorAll("div.visited-nodeA, div.visited-nodeB, div.path-node");
+    var weightedVisitedNodes = document.querySelectorAll("div.weighted-visited-nodeA");
+    var weightedPathNodes = document.querySelectorAll("div.weighted-path-node");
+    visitedNodes.forEach(function(node){
         deleteAnyNodeClass(Node.GetNodeNumber(node.id));
         node.classList.add('unvisited-node');
         node.innerHTML = "";
+    })
+    weightedVisitedNodes.forEach(function(node){
+        drawWeightedNode(Node.GetNodeNumber(node.id), parseInt(node.children[0].innerText));
+    })
+    weightedPathNodes.forEach(function(node){
+        drawWeightedNode(Node.GetNodeNumber(node.id), parseInt(node.children[0].innerText));
     })
     isAlgorithmFinished = 0;
 }

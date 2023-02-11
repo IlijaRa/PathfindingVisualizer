@@ -193,7 +193,6 @@ function drawWeightedPathNode(currentNode){
     let innerDiv = document.createElement('div');
     innerDiv.classList.add('innerDiv', 'innerDiv' + currentNode, 'not-selectable');
     innerDiv.innerText = nodeWeight;
-    // innerDiv.style.border = "2px solid #1E2431";
 
     if(LEVEL_OF_DETAILS == "show-details"){
         currentElement.classList.add('transformed-path-node', 'weighted-path-node');

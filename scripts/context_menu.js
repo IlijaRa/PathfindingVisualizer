@@ -47,13 +47,16 @@ document.addEventListener("contextmenu", function(event) {
         weightEntranceMenu.style.padding = "10px";
         weightEntranceMenu.style.borderRadius = "5px";
         weightEntranceMenu.style.backgroundColor = "#1E2431";
+        weightEntranceMenu.style.zIndex = "95";
+        weightEntranceMenu.style.top = event.clientY + "px";
+        weightEntranceMenu.style.left = event.clientX + "px";
+        weightEntranceMenu.style.position = "absolute";
+
         weightEntranceMenu.appendChild(input);
         weightEntranceMenu.appendChild(closeButton);
         document.body.appendChild(weightEntranceMenu);
     
-        weightEntranceMenu.style.top = event.clientY + "px";
-        weightEntranceMenu.style.left = event.clientX + "px";
-        weightEntranceMenu.style.position = "absolute";
+        
 
         return;
     }
@@ -79,6 +82,7 @@ document.addEventListener("contextmenu", function(event) {
     clearMenu.style.backgroundColor = "#1E2431";
     clearMenu.style.color = "white";
     clearMenu.style.fontFamily = "'Open Sans', sans-serif";
+    clearMenu.style.zIndex = "95";
 
     let option1 = document.createElement("div");
     if(dim1x1 == 0)
