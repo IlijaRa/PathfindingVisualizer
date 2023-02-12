@@ -1,11 +1,12 @@
 /* --------------------A* algorithm---------------------------*/
 document.querySelector('a#buttonA_star').addEventListener('click', function(e){
-    ClearSearchPath();
     var nodes = findStartAndGoalNode(); 
     if(nodes[0] == null || nodes[1] == null){
         showWarningToast('You need to provide start and goal nodes!');
         return;
     }
+    ClearSearchPath();
+    isAlgorithmFinished = 0;
     ACTIVE_ALGORITHM = "A* - Astar";
     let startNodeNumber = Node.GetNodeNumber(nodes[0].id);
     let goalNodeNumber = Node.GetNodeNumber(nodes[1].id);
