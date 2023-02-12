@@ -60,10 +60,6 @@ function ClearSearchPath(){
     isAlgorithmFinished = 0;
 }
 
-// function showHiddenWeights(){
-    
-// }
-
 function ClearSearchPathRealTime(){
     var weightedVisitedNodes = document.querySelectorAll("div.weighted-visited-nodeA, div.transformed-visited-node");
     weightedVisitedNodes.forEach(function(node){
