@@ -16,6 +16,6 @@ function solveAlgorithmRealTime(algorithmName){
         case "Dijkstra":
             solveDijkstraRealTime(); break;
         case "Greedy BFS":
-            break;
+            solveGreedyBFSRealTime(); break;
     }
 }
