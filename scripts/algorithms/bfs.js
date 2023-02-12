@@ -8,14 +8,14 @@ document.querySelector('a#buttonBFS').addEventListener('click', function(e){
     if(document.querySelectorAll('.weighted-node').length != 0)
         showWarningToast('BFS does not observe weighted nodes!');
 
-    ClearSearchPath();
-    ClearAlgorithmFlagVariables();
+    ClearSearchPathRealTime();
+    isAlgorithmFinished = 0;
+    ACTIVE_ALGORITHM = "BFS";
     var weightedNodes = document.querySelectorAll('.weighted-node');
     weightedNodes.forEach(function(node){
         hiddenWeightedNodes.push([Node.GetNodeNumber(node.id), parseInt(node.children[0].innerText)]);
         drawUnvisitedNode(Node.GetNodeNumber(node.id));
     })
-    activatedBfs = 1;
     let startNodeNumber = Node.GetNodeNumber(nodes[0].id);
     let goalNodeNumber = Node.GetNodeNumber(nodes[1].id);
     disablePointerActions();
@@ -24,7 +24,6 @@ document.querySelector('a#buttonBFS').addEventListener('click', function(e){
 async function solveBfs(startNodeNumber, goalNodeNumber){
     const startTimer = performance.now();
     var maze = construct2dArray();
-    console.log('maze: ', maze);
     var adjacentsDict = findAdjacents(maze);
     let visited = new Array(HEIGHT * WIDTH).fill(false);
     let prev = new Array(HEIGHT * WIDTH).fill(-1);
@@ -62,10 +61,9 @@ async function solveBfs(startNodeNumber, goalNodeNumber){
         enablePointerActions();
     }else if(solved){
         const endTimer = performance.now();
-        console.log('prev:', prev);
         let noPathNodes = await reconstructPath(goalNodeNumber, prev);
         showSuccessToast('Algorithm is successfully executed.');
-        showInfoToast('BFS', noPathNodes, endTimer - startTimer);
+        showInfoToast(ACTIVE_ALGORITHM, noPathNodes, endTimer - startTimer);
         isAlgorithmFinished = 1;
     }
 }
@@ -78,15 +76,9 @@ async function solveBfsRealTime(){
         return;
     }
     if(document.querySelectorAll('.weighted-node').length != 0)
-        showWarningToast('Bidirectional DFS does not observe weighted nodes!');
+        showWarningToast('BFS does not observe weighted nodes!');
     
     ClearSearchPathRealTime();
-    // var weightedNodes = document.querySelectorAll('.weighted-node');
-    // weightedNodes.forEach(function(node){
-    //     hiddenWeightedNodes.push([Node.GetNodeNumber(node.id), parseInt(node.children[0].innerText)]);
-    //     drawUnvisitedNode(Node.GetNodeNumber(node.id));
-    // })
-    isAlgorithmFinished = 1;
     let startNodeNumber = Node.GetNodeNumber(nodes[0].id);
     let goalNodeNumber = Node.GetNodeNumber(nodes[1].id);
 

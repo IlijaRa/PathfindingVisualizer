@@ -9,6 +9,7 @@ document.querySelector('a#buttonBD_BFS').addEventListener('click', function(e){
         showWarningToast('Bidirectional BFS does not observe weighted nodes!');
     
     ClearSearchPath();
+    ACTIVE_ALGORITHM = "Bidirectional BFS";
     var weightedNodes = document.querySelectorAll('.weighted-node');
     weightedNodes.forEach(function(node){
         hiddenWeightedNodes.push([Node.GetNodeNumber(node.id), parseInt(node.children[0].innerText)]);
@@ -110,6 +111,6 @@ async function solveBidirectionalBfs(startNodeNumber, goalNodeNumber){
         // intersectNodeNumber is stored in both prevA and prevB, because of that noPathNodes increments two times instead of once
         noPathNodes -= 1; 
         showSuccessToast('Algorithm is successfully executed.');
-        showInfoToast('Bidirectional BFS', noPathNodes, endTimer - startTimer);
+        showInfoToast(ACTIVE_ALGORITHM, noPathNodes, endTimer - startTimer);
     }
 }

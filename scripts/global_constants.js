@@ -26,7 +26,7 @@ SLEEP_VALUE = 0;
 WEIGHT_VALUE = 2;
 CHOSEN_HEURISTIC = "euclidean";
 LEVEL_OF_DETAILS = "hide-details";
-
+ACTIVE_ALGORITHM = "";
 /*COLORS*/
 //from palete
 WHITE_COLOR = 'rgb(255, 255, 255)';
@@ -49,14 +49,3 @@ INTERSECT_NODE_COLOR = 'rgb(245, 193, 0)';
 WEIGHTED_NODE_COLOR = 'rgb(117, 235, 164)';
 BORDER_COLOR = 'rgb(119, 120, 122)';
 // #endregion
-
-function ClearAlgorithmFlagVariables(){
-    isAlgorithmFinished = 0;
-    activatedBfs = 0;
-    activatedDfs = 0;
-    activatedBidirectionalBfs = 0;
-    activatedBidirectionalDfs = 0;
-    activatedDijkstra = 0;
-    activatedGreedyBfs = 0;
-    activatedAStar = 0;
-}

@@ -37,41 +37,46 @@ function ClearWeights(){
     hiddenWeightedNodes.length = 0;
 }
 function ClearSearchPath(){
+    var weightedVisitedNodes = document.querySelectorAll("div.weighted-visited-nodeA, div.transformed-visited-node");
+    weightedVisitedNodes.forEach(function(node){
+        drawWeightedNode(Node.GetNodeNumber(node.id), parseInt(node.children[0].innerText));
+    })
+    var weightedPathNodes = document.querySelectorAll("div.weighted-path-node, div.transformed-path-node");
+    weightedPathNodes.forEach(function(node){
+        drawWeightedNode(Node.GetNodeNumber(node.id), parseInt(node.children[0].innerText));
+    })
     var visitedNodes = document.querySelectorAll("div.visited-nodeA, div.visited-nodeB, div.path-node");
-    var weightedVisitedNodes = document.querySelectorAll("div.weighted-visited-nodeA");
-    var weightedPathNodes = document.querySelectorAll("div.weighted-path-node");
     visitedNodes.forEach(function(node){
         deleteAnyNodeClass(Node.GetNodeNumber(node.id));
         node.classList.add('unvisited-node');
         node.innerHTML = "";
     })
-    weightedVisitedNodes.forEach(function(node){
-        drawWeightedNode(Node.GetNodeNumber(node.id), parseInt(node.children[0].innerText));
-    })
-    weightedPathNodes.forEach(function(node){
-        drawWeightedNode(Node.GetNodeNumber(node.id), parseInt(node.children[0].innerText));
-    })
     hiddenWeightedNodes.forEach(function(node){
-        drawWeightedNode(node[0], node[1]);
+        let currentNode = document.getElementById('node' + node[0]);
+        if(!currentNode.classList.contains('start-node') && !currentNode.classList.contains('goal-node'))
+            drawWeightedNode(node[0], node[1]);
     })
     hiddenWeightedNodes.length = 0;
     isAlgorithmFinished = 0;
 }
 
+// function showHiddenWeights(){
+    
+// }
+
 function ClearSearchPathRealTime(){
+    var weightedVisitedNodes = document.querySelectorAll("div.weighted-visited-nodeA, div.transformed-visited-node");
+    weightedVisitedNodes.forEach(function(node){
+        drawWeightedNode(Node.GetNodeNumber(node.id), parseInt(node.children[0].innerText));
+    })
+    var weightedPathNodes = document.querySelectorAll("div.weighted-path-node, div.transformed-path-node");
+    weightedPathNodes.forEach(function(node){
+        drawWeightedNode(Node.GetNodeNumber(node.id), parseInt(node.children[0].innerText));
+    })
     var visitedNodes = document.querySelectorAll("div.visited-nodeA, div.visited-nodeB, div.path-node");
-    var weightedVisitedNodes = document.querySelectorAll("div.weighted-visited-nodeA");
-    var weightedPathNodes = document.querySelectorAll("div.weighted-path-node");
     visitedNodes.forEach(function(node){
         deleteAnyNodeClass(Node.GetNodeNumber(node.id));
         node.classList.add('unvisited-node');
         node.innerHTML = "";
     })
-    weightedVisitedNodes.forEach(function(node){
-        drawWeightedNode(Node.GetNodeNumber(node.id), parseInt(node.children[0].innerText));
-    })
-    weightedPathNodes.forEach(function(node){
-        drawWeightedNode(Node.GetNodeNumber(node.id), parseInt(node.children[0].innerText));
-    })
-    isAlgorithmFinished = 0;
 }

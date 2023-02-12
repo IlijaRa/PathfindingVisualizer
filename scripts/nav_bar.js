@@ -17,7 +17,7 @@ document.getElementById("canvas-size-input").addEventListener('change', function
     isAlgorithmFinished = 0;
     // while (el.firstChild) el.removeChild(el.firstChild);
     WIDTH = e.target.value;
-    HEIGHT = Math.round(WIDTH * 0.67);
+    HEIGHT = Math.round(WIDTH / 1.67);
     startNodeExists = false;
     goalNodeExists = false;
     constructGrid();

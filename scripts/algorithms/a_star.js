@@ -6,6 +6,7 @@ document.querySelector('a#buttonA_star').addEventListener('click', function(e){
         showWarningToast('You need to provide start and goal nodes!');
         return;
     }
+    ACTIVE_ALGORITHM = "A* - Astar";
     let startNodeNumber = Node.GetNodeNumber(nodes[0].id);
     let goalNodeNumber = Node.GetNodeNumber(nodes[1].id);
     disablePointerActions();
@@ -94,6 +95,6 @@ async function solveAstar(start, goal) {
         const endTimer = performance.now();
         let noPathNodes = await reconstructPath(goal, prev);
         showSuccessToast('Algorithm is successfully executed.');
-        showInfoToast('A* - Astar', noPathNodes, endTimer - startTimer);
+        showInfoToast(ACTIVE_ALGORITHM, noPathNodes, endTimer - startTimer);
     }
 }

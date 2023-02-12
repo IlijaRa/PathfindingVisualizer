@@ -6,6 +6,7 @@ document.querySelector('a#buttonDijkstra').addEventListener('click', function(e)
         showWarningToast('You need to provide start and goal nodes!');
         return;
     }
+    ACTIVE_ALGORITHM = "Dijkstra";
     let startNodeNumber = Node.GetNodeNumber(nodes[0].id);
     let goalNodeNumber = Node.GetNodeNumber(nodes[1].id);
     disablePointerActions();
@@ -87,6 +88,6 @@ async function solveDijkstra(startNodeNumber, goalNodeNumber) {
         const endTimer = performance.now();
         let noPathNodes = await reconstructPath(goalNodeNumber, prev);
         showSuccessToast('Algorithm is successfully executed.');
-        showInfoToast('Dijkstra', noPathNodes, endTimer - startTimer);
+        showInfoToast(ACTIVE_ALGORITHM, noPathNodes, endTimer - startTimer);
     }
 }
