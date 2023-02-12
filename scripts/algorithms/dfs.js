@@ -71,15 +71,15 @@ async function solveDfs(startNodeNumber, goalNodeNumber){
     }
 }
 
-//for realtime
-async function solveDfsRealTime(){
+//For realtime
+function solveDfsRealTime(){
     var nodes = findStartAndGoalNode(); 
     if(nodes[0] == null || nodes[1] == null){
         showWarningToast('You need to provide start and goal nodes!');
         return;
     }
     if(document.querySelectorAll('.weighted-node').length != 0)
-        showWarningToast('Bidirectional DFS does not observe weighted nodes!');
+        showWarningToast('DFS does not observe weighted nodes!');
     
     ClearSearchPathRealTime();
     let startNodeNumber = Node.GetNodeNumber(nodes[0].id);

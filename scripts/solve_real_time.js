@@ -4,15 +4,13 @@ function solveAlgorithmRealTime(algorithmName){
     
     switch(algorithmName){
         case "A* - Astar":
-            break;
+            solveAstarRealTime(); break;
         case "BFS":
-            solveBfsRealTime();
-            break;
+            solveBfsRealTime(); break;
         case "DFS":
-            solveDfsRealTime();
-            break;
+            solveDfsRealTime(); break;
         case "Bidirectional BFS":
-            break;
+            solveBidirectionalBfsRealTime(); break;
         case "Bidirectional DFS":
             break;
         case "Dijkstra":

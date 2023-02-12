@@ -69,7 +69,7 @@ async function solveBfs(startNodeNumber, goalNodeNumber){
 }
 
 // For realtime 
-async function solveBfsRealTime(){
+function solveBfsRealTime(){
     var nodes = findStartAndGoalNode(); 
     if(nodes[0] == null || nodes[1] == null){
         showWarningToast('You need to provide start and goal nodes!');
