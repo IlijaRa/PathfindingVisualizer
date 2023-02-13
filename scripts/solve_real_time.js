@@ -12,7 +12,7 @@ function solveAlgorithmRealTime(algorithmName){
         case "Bidirect. BFS":
             solveBidirectionalBfsRealTime(); break;
         case "Bidirect. DFS":
-            break;
+            solveBidirectionalDfsRealTime(); break;
         case "Dijkstra":
             solveDijkstraRealTime(); break;
         case "Greedy BFS":
