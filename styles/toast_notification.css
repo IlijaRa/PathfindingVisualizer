@@ -134,7 +134,7 @@
     width: 100%;
     height: 5px;
     background: orange;
-    animation: anim 5s linear forwards;
+    animation: anim 10s linear forwards;
 }
 @keyframes anim{
     100%{

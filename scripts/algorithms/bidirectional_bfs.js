@@ -6,11 +6,11 @@ document.querySelector('a#buttonBD_BFS').addEventListener('click', function(e){
         return;
     }
     if(document.querySelectorAll('.weighted-node').length != 0)
-        showWarningToast('Bidirectional BFS does not observe weighted nodes!');
+        showWarningToast('Bidirectional BFS does not observe weighted nodes! Click "Clear Search&Path" in order to show them again.');
     
     ClearSearchPathRealTime();
     isAlgorithmFinished = 0;
-    ACTIVE_ALGORITHM = "Bidirectional BFS";
+    ACTIVE_ALGORITHM = "Bidirect. BFS";
     var weightedNodes = document.querySelectorAll('.weighted-node');
     weightedNodes.forEach(function(node){
         hiddenWeightedNodes.push([Node.GetNodeNumber(node.id), parseInt(node.children[0].innerText)]);
@@ -125,7 +125,7 @@ function solveBidirectionalBfsRealTime(){
         return;
     }
     if(document.querySelectorAll('.weighted-node').length != 0)
-        showWarningToast('Bidirectional BFS does not observe weighted nodes!');
+        showWarningToast('Bidirectional BFS does not observe weighted nodes! Click "Clear Search&Path" in order to show them again.');
     
     ClearSearchPathRealTime();
     let startNodeNumber = Node.GetNodeNumber(nodes[0].id);

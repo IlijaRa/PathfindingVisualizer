@@ -6,7 +6,7 @@ document.querySelector('a#buttonBFS').addEventListener('click', function(e){
         return;
     }
     if(document.querySelectorAll('.weighted-node').length != 0)
-        showWarningToast('BFS does not observe weighted nodes!');
+        showWarningToast('BFS does not observe weighted nodes! Click "Clear Search&Path" in order to show them again.');
 
     ClearSearchPathRealTime();
     isAlgorithmFinished = 0;
@@ -76,7 +76,7 @@ function solveBfsRealTime(){
         return;
     }
     if(document.querySelectorAll('.weighted-node').length != 0)
-        showWarningToast('BFS does not observe weighted nodes!');
+        showWarningToast('BFS does not observe weighted nodes! Click "Clear Search&Path" in order to show them again.');
     
     ClearSearchPathRealTime();
     let startNodeNumber = Node.GetNodeNumber(nodes[0].id);

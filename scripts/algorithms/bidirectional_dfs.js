@@ -6,10 +6,10 @@ document.querySelector('a#buttonBD_DFS').addEventListener('click', function(e){
         return;
     }
     if(document.querySelectorAll('.weighted-node').length != 0)
-        showWarningToast('Bidirectional DFS does not observe weighted nodes!');
+        showWarningToast('Bidirectional DFS does not observe weighted nodes! Click "Clear Search&Path" in order to show them again.');
     
     ClearSearchPath();
-    ACTIVE_ALGORITHM = "Bidirectional DFS";
+    ACTIVE_ALGORITHM = "Bidirect. DFS";
     var weightedNodes = document.querySelectorAll('.weighted-node');
     weightedNodes.forEach(function(node){
         hiddenWeightedNodes.push([Node.GetNodeNumber(node.id), parseInt(node.children[0].innerText)]);

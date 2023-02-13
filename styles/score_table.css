@@ -1,0 +1,142 @@
+@import url(https://fonts.googleapis.com/css?family=Open+Sans);
+
+#score-table {
+    position: fixed;
+    margin: 0;
+    top: 50%;
+    left: 50%;
+    width: 60%;
+    height: 60%;
+    transform: translate(-50%, -50%);
+    background-color: #1E2431;
+    padding: 20px;
+    box-shadow: 0 0 10px #ccc;
+    display: none;
+    color: white;
+    font-family: 'Open Sans', sans-serif;
+    z-index: 100;
+  }
+
+#button-close-scores{
+    height: 100%;
+    float: right;
+    text-align: center;
+}
+
+.score-table-content-body{
+    height: 95%;
+    margin: auto;
+}
+
+.score-table-content-header{
+    text-align: center;
+    height: 10%;
+}
+
+.score-table-content-scores{
+    text-align: center;
+    height: 75%;
+    width: 100%;
+    overflow-y: scroll;
+    box-sizing: content-box;
+    /* overflow: auto; */
+    /* background-color: rgb(157, 209, 211); */
+}
+
+.score-table-row{
+    width: 100%;
+    height: 10%;
+    float: left;
+}
+
+.scores-col{
+    width: 11.111111111111%;
+    border-color: white;
+    border-width: 2px;
+    float: left;
+    text-align: center;
+    padding: 0;
+}
+
+.main-col{
+    /* background-color: #228098; */
+}
+
+.alg-name-col{
+    background-color: #A3F1C2;
+    color: rgb(30, 36, 49);
+}
+
+.path-legth-col{
+    background-color: rgb(246, 208, 72);
+    color: rgb(30, 36, 49);
+}
+
+.searched-nodes-col{
+    background-color: rgb(126, 213, 242);
+    color: rgb(30, 36, 49);
+}
+
+.execution-time-col{
+    background-color: #F5AAAA;
+    color: rgb(30, 36, 49);
+}
+
+.canvas-width-col{
+    background-color: #5BB17D;
+    color: rgb(30, 36, 49);
+}
+
+.execution-speed-col{
+    background-color: #BA99E2;
+    color: rgb(30, 36, 49);
+}
+
+.heuristic-col{
+    background-color: #E4A228;
+    color: rgb(30, 36, 49);
+}
+
+.details-level-col{
+    background-color: #448BE5;
+    color: rgb(30, 36, 49);
+}
+
+.clear-content-col{
+    /* background-color: rgb(126, 213, 242); */
+    /* color: rgb(30, 36, 49); */
+}
+
+.score-table-clear-button{
+    /* background-color: #db4f5d; */
+}
+
+.score-table-content-footer{
+    width: 100%;
+    height: 10%;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+}
+
+@media only screen and (min-height: 100px) {
+    .score-table-content-header  {
+      font-size: medium;
+    }
+}
+@media only screen and (min-height: 400px) {
+    .score-table-content-header  {
+      font-size: large;
+    }
+}
+@media only screen and (min-height: 600px) {
+    .score-table-content-header  {
+      font-size: x-large;
+    }
+}
+@media only screen and (min-height: 800px) {
+    .score-table-content-header {
+        font-size: xx-large;
+    }
+}

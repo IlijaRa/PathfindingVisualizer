@@ -2,9 +2,10 @@
 
 <head>
     <!-- CSS -->
-    <link rel="stylesheet" href="styles/style.css" />
-    <link rel="stylesheet" href="styles/node_style.css" />
     <link rel="stylesheet" href="styles/nav_bar.css" />
+    <link rel="stylesheet" href="styles/node_style.css" />
+    <link rel="stylesheet" href="styles/score_table.css" />
+    <link rel="stylesheet" href="styles/style.css" />
     <link rel="stylesheet" href="styles/toast_notification.css" />
     <link rel="stylesheet" href="styles/tutorial.css" />
     <link rel="icon" href="./images/favicon.png">
@@ -41,6 +42,38 @@
                 <button id="right-arrow-button">Next</button>
             </div>
         </div>
+    </div>
+    <div id="score-table" class="not-selectable">
+        <div class="popup-content-close">
+            <button id="button-close-scores" class="button-close">X</button>
+        </div>
+        <div class="score-table-content-body">
+            <div id="title" class="score-table-content-header">
+                Score Table
+            </div>
+            
+            <div id="score-populating-part" class="score-table-content-scores">
+                <div id="row1" class="score-table-row">
+                    <div class="scores-col main-col">Algorithm name</div>
+                    <div class="scores-col main-col">Path length</div>
+                    <div class="scores-col main-col">Searched nodes</div>
+                    <div class="scores-col main-col">Execution time</div>
+                    <div class="scores-col main-col">Canvas width</div>
+                    <div class="scores-col main-col">Execution speed</div>
+                    <div class="scores-col main-col">Heuristic</div>
+                    <div class="scores-col main-col">Details level</div>
+                    <div class="scores-col main-col">Operations</div>
+                </div>
+                <div class="">
+
+                </div>
+                <!-- contains rows filled with scores -->
+            </div>
+            <div class="score-table-content-footer">
+                <button id="score-table-clear-all-button" class="score-table-clear-button">Clear all</button>
+            </div>
+        </div>
+        
     </div>
     <div id="content_container">
         <nav id="nav-bar-container" class="gradient not-selectable">
@@ -81,7 +114,7 @@
                 <li><a id="settings" href="#">Settings</a>
                     <ul>
                         <li class="gradient"><a>Canvas width : <input id="canvas-size-input" type="number" min="5" max="60" value="50"></a></li>
-                        <li class="gradient"><a>Speed : <input id="speed-slider" class="slider"  type="range" min="0" max="500" value="250"></a></li>
+                        <li class="gradient"><a>Speed : <input id="speed-slider" class="slider"  type="range" min="0" max="500" value="500"></a></li>
                         <li class="gradient"><a>Node weight : <input id="weight-input" type="number" min="2" max="20" value="2"></a></li>
                         <li class="gradient">
                             <a>Heuristic : 
@@ -106,6 +139,7 @@
                         </li>
                     </ul>
                 </li>
+                <li><a id="a-score-table">Score table</a></li>
                 <li><a id="a-tutorial">Tutorial</a></li>
             </ul>
         </nav>
@@ -163,6 +197,7 @@
     <script src="./scripts/grid_construction.js"></script>
     <script src="./scripts/nav_bar.js"></script>
     <script src="./scripts/reconstructPath.js"></script>
+    <script src="./scripts/score-table.js"></script>
     <script src="./scripts/solve_real_time.js"></script>
     <script src="./scripts/toast_notification.js"></script>
     <script src="./scripts/tutorial.js"></script>

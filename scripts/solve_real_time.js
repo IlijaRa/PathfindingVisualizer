@@ -9,9 +9,9 @@ function solveAlgorithmRealTime(algorithmName){
             solveBfsRealTime(); break;
         case "DFS":
             solveDfsRealTime(); break;
-        case "Bidirectional BFS":
+        case "Bidirect. BFS":
             solveBidirectionalBfsRealTime(); break;
-        case "Bidirectional DFS":
+        case "Bidirect. DFS":
             break;
         case "Dijkstra":
             solveDijkstraRealTime(); break;

@@ -16,6 +16,7 @@ var hiddenWeightedNodes = [];
 
 WALL_VALUE = -1;
 SLEEP_VALUE = 0;
+INITIAL_SPEED_VALUE = 500;
 WEIGHT_VALUE = 2;
 CHOSEN_HEURISTIC = "euclidean";
 LEVEL_OF_DETAILS = "hide-details";

@@ -6,7 +6,7 @@ document.querySelector('a#buttonDFS').addEventListener('click', function(e){
         return;
     }
     if(document.querySelectorAll('.weighted-node').length != 0)
-        showWarningToast('DFS does not observe weighted nodes!');
+        showWarningToast('DFS does not observe weighted nodes! Click "Clear Search&Path" in order to show them again.');
     
     ClearSearchPathRealTime();
     isAlgorithmFinished = 0;
@@ -79,7 +79,7 @@ function solveDfsRealTime(){
         return;
     }
     if(document.querySelectorAll('.weighted-node').length != 0)
-        showWarningToast('DFS does not observe weighted nodes!');
+        showWarningToast('DFS does not observe weighted nodes! Click "Clear Search&Path" in order to show them again.');
     
     ClearSearchPathRealTime();
     let startNodeNumber = Node.GetNodeNumber(nodes[0].id);
