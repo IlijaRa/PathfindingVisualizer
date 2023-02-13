@@ -1,17 +1,17 @@
 /* ---------------Bidirectional BFS algorithm------------------*/
-document.querySelector('a#buttonBD_DFS').addEventListener('click', function(e){
-    var nodes = findStartAndGoalNode(); 
-    if(nodes[0] == null || nodes[1] == null){
+document.querySelector('a#buttonBD_DFS').addEventListener('click', function (e) {
+    var nodes = findStartAndGoalNode();
+    if (nodes[0] == null || nodes[1] == null) {
         showWarningToast('You need to provide start and goal nodes!');
         return;
     }
-    if(document.querySelectorAll('.weighted-node').length != 0)
+    if (document.querySelectorAll('.weighted-node').length != 0)
         showWarningToast('Bidirectional DFS does not observe weighted nodes! Click "Clear Search&Path" in order to show them again.');
-    
+
     ClearSearchPath();
     ACTIVE_ALGORITHM = "Bidirect. DFS";
     var weightedNodes = document.querySelectorAll('.weighted-node');
-    weightedNodes.forEach(function(node){
+    weightedNodes.forEach(function (node) {
         hiddenWeightedNodes.push([Node.GetNodeNumber(node.id), parseInt(node.children[0].innerText)]);
         drawUnvisitedNode(Node.GetNodeNumber(node.id));
     })
@@ -19,8 +19,84 @@ document.querySelector('a#buttonBD_DFS').addEventListener('click', function(e){
     let goalNodeNumber = Node.GetNodeNumber(nodes[1].id);
     disablePointerActions();
     solveBidirectionalDfs(startNodeNumber, goalNodeNumber);
+    // bidirectionalDFS(startNodeNumber, goalNodeNumber);
 })
-async function solveBidirectionalDfs(startNodeNumber, goalNodeNumber){
+async function bidirectionalDFS(startNode, endNode) {
+    const startTimer = performance.now();
+    var maze = construct2dArray();
+    var adjacentsDict = findAdjacents(maze);
+    let solved = false;
+    let startVisited = new Set();
+    let endVisited = new Set();
+    let prevA = new Array(HEIGHT * WIDTH).fill(-1);
+    let prevB = new Array(HEIGHT * WIDTH).fill(-1);
+    let intersectNodeNumber = null;
+    let startStack = [startNode];
+    let endStack = [endNode];
+
+    while (startStack.length > 0 && endStack.length > 0) {
+        await sleep(SLEEP_VALUE);
+        let currentNode = startStack.pop();
+
+        startVisited.add(currentNode);
+        drawVisitedNodeA(currentNode, startNode);
+
+        if (endVisited.has(currentNode)) {
+            intersectNodeNumber = currentNode;
+            solved = true;
+            break;
+        }
+
+        let adjacencyList = adjacentsDict[currentNode];
+        for (let adjacentNode of adjacencyList) {
+            let adjacentNodeNumber = maze[adjacentNode[0]][adjacentNode[1]];
+            if (!startVisited.has(adjacentNodeNumber)) {
+                startStack.push(adjacentNodeNumber);
+                prevA[adjacentNodeNumber - 1] = currentNode - 1;
+            }
+        }
+
+        currentNode = endStack.pop();
+
+        endVisited.add(currentNode);
+        drawVisitedNodeB(currentNode, endNode);
+
+        if (startVisited.has(currentNode)) {
+            intersectNodeNumber = currentNode;
+            solved = true;
+            break;
+        }
+
+        adjacencyList = adjacentsDict[currentNode];
+        for (let adjacentNode of adjacencyList) {
+            let adjacentNodeNumber = maze[adjacentNode[0]][adjacentNode[1]];
+            if (!endVisited.has(adjacentNodeNumber)) {
+                endStack.push(adjacentNodeNumber);
+                prevB[adjacentNodeNumber - 1] = currentNode - 1;
+            }
+        }
+        
+        if(solved){
+            break;
+        }
+    }
+
+    if (!solved) {
+        showErrorToast('Impossible to solve!');
+        enablePointerActions();
+    } else if (solved) {
+        const endTimer = performance.now();
+        let noPathNodes = await reconstructPath(intersectNodeNumber, prevA);
+        noPathNodes += await reconstructPath(intersectNodeNumber, prevB);
+        noPathNodes -= 1;
+        showSuccessToast('Algorithm is successfully executed.');
+        showInfoToast(ACTIVE_ALGORITHM, noPathNodes, endTimer - startTimer);
+    }
+}
+
+
+
+async function solveBidirectionalDfs(startNodeNumber, goalNodeNumber) {
     const startTimer = performance.now();
     var maze = construct2dArray();
     var adjacentsDict = findAdjacents(maze);
@@ -32,17 +108,17 @@ async function solveBidirectionalDfs(startNodeNumber, goalNodeNumber){
     let solved = false;
     let prevA = new Array(HEIGHT * WIDTH).fill(-1);
     let prevB = new Array(HEIGHT * WIDTH).fill(-1);
-    
+
     queueStart.push(startNodeNumber);
     queueGoal.push(goalNodeNumber);
 
     // Set up a loop to continue until one of the queues is empty
-    while(queueStart.length > 0 && queueGoal.length > 0){
+    while (queueStart.length > 0 && queueGoal.length > 0) {
         await sleep(SLEEP_VALUE);
 
         let currentA = queueStart.pop();
 
-        if(document.getElementById('node' + currentA).classList.contains('visited-nodeB')){
+        if (document.getElementById('node' + currentA).classList.contains('visited-nodeB')) {
             intersectNodeNumber = currentA;
             solved = true;
             break;
@@ -52,24 +128,24 @@ async function solveBidirectionalDfs(startNodeNumber, goalNodeNumber){
         drawVisitedNodeA(currentA, startNodeNumber);
 
         var adjA = adjacentsDict[currentA];
-        for(count = 0; count < adjA.length; count++){
+        for (count = 0; count < adjA.length; count++) {
             var n = adjA[count];
-            if(document.getElementById('node' + maze[n[0]][n[1]]).classList.contains('visited-nodeB')){
+            if (document.getElementById('node' + maze[n[0]][n[1]]).classList.contains('visited-nodeB')) {
                 intersectNodeNumber = maze[n[0]][n[1]];
                 prevA[maze[n[0]][n[1]] - 1] = currentA - 1;
                 solved = true;
                 break;
             }
-            if(!visited[maze[n[0]][n[1]]]){
+            if (!visited[maze[n[0]][n[1]]]) {
                 queueStart.push(maze[n[0]][n[1]]);
                 prevA[maze[n[0]][n[1]] - 1] = currentA - 1;
             }
-            
+
         }
 
         let currentB = queueGoal.pop();
 
-        if(document.getElementById('node' + currentB).classList.contains('visited-nodeA')){
+        if (document.getElementById('node' + currentB).classList.contains('visited-nodeA')) {
             intersectNodeNumber = currentB;
             solved = true;
             break;
@@ -84,34 +160,34 @@ async function solveBidirectionalDfs(startNodeNumber, goalNodeNumber){
         //     drawVisitedNodeA(currentB, goalNodeNumber);
 
         var adjB = adjacentsDict[currentB];
-        for(count = 0; count < adjB.length; count++){
+        for (count = 0; count < adjB.length; count++) {
             var n = adjB[count];
-            if(document.getElementById('node' + maze[n[0]][n[1]]).classList.contains('visited-nodeA')){
+            if (document.getElementById('node' + maze[n[0]][n[1]]).classList.contains('visited-nodeA')) {
                 intersectNodeNumber = maze[n[0]][n[1]];
                 prevB[maze[n[0]][n[1]] - 1] = currentB - 1;
                 solved = true;
                 break;
             }
-            if(!visited[maze[n[0]][n[1]]]){
+            if (!visited[maze[n[0]][n[1]]]) {
                 queueGoal.push(maze[n[0]][n[1]]);
                 prevB[maze[n[0]][n[1]] - 1] = currentB - 1;
             }
         }
 
-        if(solved){
+        if (solved) {
             break;
         }
     }
 
-    if(!solved){
+    if (!solved) {
         showErrorToast('Impossible to solve!');
         enablePointerActions();
-    }else if(solved){
+    } else if (solved) {
         const endTimer = performance.now();
         let noPathNodes = await reconstructPath(intersectNodeNumber, prevA);
         noPathNodes += await reconstructPath(intersectNodeNumber, prevB);
         // intersectNodeNumber is stored in both prevA and prevB, because of that noPathNodes increments two times instead of once
-        noPathNodes -= 1; 
+        noPathNodes -= 1;
         showSuccessToast('Algorithm is successfully executed.');
         showInfoToast(ACTIVE_ALGORITHM, noPathNodes, endTimer - startTimer);
     }
