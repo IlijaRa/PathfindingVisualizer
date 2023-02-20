@@ -3,12 +3,12 @@ document.onmousedown = () => {mouseDown = 1;}
 document.onmouseup = () => {mouseDown = 0;}
 
 function disablePointerActions(){
-    document.querySelector('#content_container').classList.remove('enable-div');
+    document.querySelector('#content_container').classList.remove('enabled-div');
     document.querySelector('#content_container').classList.add('disabled-div');
 }
 function enablePointerActions(){
     document.querySelector('#content_container').classList.remove('disabled-div');
-    document.querySelector('#content_container').classList.add('enable-div');
+    document.querySelector('#content_container').classList.add('enabled-div');
 }
 // Provides sleepqueue
 const sleep = (time) => {

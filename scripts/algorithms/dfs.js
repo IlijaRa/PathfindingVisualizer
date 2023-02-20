@@ -19,6 +19,7 @@ document.querySelector('a#buttonDFS').addEventListener('click', function(e){
     let startNodeNumber = Node.GetNodeNumber(nodes[0].id);
     let goalNodeNumber = Node.GetNodeNumber(nodes[1].id);
     disablePointerActions();
+    showStopVisualization();
     solveDfs(startNodeNumber, goalNodeNumber);
 })
 async function solveDfs(startNodeNumber, goalNodeNumber){
@@ -32,9 +33,13 @@ async function solveDfs(startNodeNumber, goalNodeNumber){
     stack.push(startNodeNumber);
 
     while (stack.length > 0) {
-        //Defining maze and adjacentsDict again and again enables wall changement in real time
-        var maze = construct2dArray();
-        var adjacentsDict = findAdjacents(maze);
+        if(stopSearchingProcess){
+            hideStopVisualization();
+            enablePointerActions();
+            ClearSearchPath();
+            break;
+        }
+
         var currentNode = stack.pop();
         
         if(currentNode == goalNodeNumber){
@@ -59,8 +64,9 @@ async function solveDfs(startNodeNumber, goalNodeNumber){
         }
     }
     
-    if(!solved){
+    if(!solved && !stopSearchingProcess){
         showErrorToast('Impossible to solve!');
+        hideStopVisualization();
         enablePointerActions();
     }else if(solved){
         const endTimer = performance.now();
@@ -68,7 +74,9 @@ async function solveDfs(startNodeNumber, goalNodeNumber){
         showSuccessToast('Algorithm is successfully executed.');
         showInfoToast(ACTIVE_ALGORITHM, noPathNodes, endTimer - startTimer);
         isAlgorithmFinished = 1;
+        hideStopVisualization();
     }
+    stopSearchingProcess = false;
 }
 
 //For realtime

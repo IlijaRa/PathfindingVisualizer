@@ -89,14 +89,17 @@ function addScoreToTable(noPathNodes, noSearchedNodes, executionTime){
 }
 
 document.getElementById("score-table-clear-all-button").addEventListener('click', function(e){
-    const scorePopulationPart = document.getElementById("score-populating-part");
-    const exceptions = ['row1'];
-
-    Array.from(scorePopulationPart.childNodes).forEach(node => {
-        if (!exceptions.includes(node.id)) {
-            node.remove();
-        }
-    });
+    if(confirm('Are you sure that you want to delete this record?'))
+    {
+        const scorePopulationPart = document.getElementById("score-populating-part");
+        const exceptions = ['row1'];
+    
+        Array.from(scorePopulationPart.childNodes).forEach(node => {
+            if (!exceptions.includes(node.id)) {
+                node.remove();
+            }
+        });
+    }
 });
 
                 // <div id="row2" class="score-table-row">

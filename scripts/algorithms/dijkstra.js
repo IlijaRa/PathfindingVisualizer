@@ -11,6 +11,7 @@ document.querySelector('a#buttonDijkstra').addEventListener('click', function(e)
     let startNodeNumber = Node.GetNodeNumber(nodes[0].id);
     let goalNodeNumber = Node.GetNodeNumber(nodes[1].id);
     disablePointerActions();
+    showStopVisualization();
     solveDijkstra(startNodeNumber, goalNodeNumber);
 });
 async function solveDijkstra(startNodeNumber, goalNodeNumber) {
@@ -30,6 +31,13 @@ async function solveDijkstra(startNodeNumber, goalNodeNumber) {
 
     // While there are unvisited nodes
     while (queue.length > 0) {
+        if(stopSearchingProcess){
+            hideStopVisualization();
+            enablePointerActions();
+            ClearSearchPath();
+            break;
+        }
+
         await sleep(SLEEP_VALUE);
 
         // Select the unvisited node with the smallest distance
@@ -82,8 +90,9 @@ async function solveDijkstra(startNodeNumber, goalNodeNumber) {
         }
     }
     
-    if(!solved){
+    if(!solved && !stopSearchingProcess){
         showErrorToast('Impossible to solve!');
+        hideStopVisualization();
         enablePointerActions();
     }else if(solved){
         const endTimer = performance.now();
@@ -91,7 +100,9 @@ async function solveDijkstra(startNodeNumber, goalNodeNumber) {
         showSuccessToast('Algorithm is successfully executed.');
         showInfoToast(ACTIVE_ALGORITHM, noPathNodes, endTimer - startTimer);
         isAlgorithmFinished = 1;
+        hideStopVisualization();
     }
+    stopSearchingProcess = false;
 }
 
 function solveDijkstraRealTime(){

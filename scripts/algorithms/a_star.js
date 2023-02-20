@@ -11,6 +11,7 @@ document.querySelector('a#buttonA_star').addEventListener('click', function(e){
     let startNodeNumber = Node.GetNodeNumber(nodes[0].id);
     let goalNodeNumber = Node.GetNodeNumber(nodes[1].id);
     disablePointerActions();
+    showStopVisualization();
     solveAstar(startNodeNumber, goalNodeNumber);
 });
 async function solveAstar(start, goal) {
@@ -36,6 +37,13 @@ async function solveAstar(start, goal) {
 
     // While there are unvisited nodes
     while (queue.length > 0) {
+        if(stopSearchingProcess){
+            hideStopVisualization();
+            enablePointerActions();
+            ClearSearchPath();
+            break;
+        }
+
         await sleep(SLEEP_VALUE);
 
         // Select the unvisited node with the smallest distance + heuristic distance
@@ -89,8 +97,9 @@ async function solveAstar(start, goal) {
         }
     }
 
-    if(!solved){
+    if(!solved && !stopSearchingProcess){
         showErrorToast('Impossible to solve!');
+        hideStopVisualization();
         enablePointerActions();
     }else if (solved){
         const endTimer = performance.now();
@@ -98,7 +107,9 @@ async function solveAstar(start, goal) {
         showSuccessToast('Algorithm is successfully executed.');
         showInfoToast(ACTIVE_ALGORITHM, noPathNodes, endTimer - startTimer);
         isAlgorithmFinished = 1;
+        hideStopVisualization();
     }
+    stopSearchingProcess = false;
 }
 
 function solveAstarRealTime(){

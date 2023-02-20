@@ -19,6 +19,7 @@ document.querySelector('a#buttonBFS').addEventListener('click', function(e){
     let startNodeNumber = Node.GetNodeNumber(nodes[0].id);
     let goalNodeNumber = Node.GetNodeNumber(nodes[1].id);
     disablePointerActions();
+    showStopVisualization();
     solveBfs(startNodeNumber, goalNodeNumber);
 })
 async function solveBfs(startNodeNumber, goalNodeNumber){
@@ -32,6 +33,13 @@ async function solveBfs(startNodeNumber, goalNodeNumber){
     queue.push(startNodeNumber);
 
     while(queue.length > 0){
+        if(stopSearchingProcess){
+            hideStopVisualization();
+            enablePointerActions();
+            ClearSearchPath();
+            break;
+        }
+
         var currentNode = queue.shift();
         
         if(currentNode == goalNodeNumber){
@@ -56,8 +64,9 @@ async function solveBfs(startNodeNumber, goalNodeNumber){
         }
     }
     
-    if(!solved){
+    if(!solved && !stopSearchingProcess){
         showErrorToast('Impossible to solve!');
+        hideStopVisualization();
         enablePointerActions();
     }else if(solved){
         const endTimer = performance.now();
@@ -65,7 +74,9 @@ async function solveBfs(startNodeNumber, goalNodeNumber){
         showSuccessToast('Algorithm is successfully executed.');
         showInfoToast(ACTIVE_ALGORITHM, noPathNodes, endTimer - startTimer);
         isAlgorithmFinished = 1;
+        hideStopVisualization();
     }
+    stopSearchingProcess = false;
 }
 
 // For realtime 

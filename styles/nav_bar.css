@@ -293,3 +293,13 @@ li > a:only-child:after { content: ''; }
 #select-level-detail{
 	width: 100%;
 }
+
+.stop-visualization{
+	background-color: rgb(240, 128, 128);
+    animation-name: visited-nodeB-effect;
+    animation-duration: 1s;
+}
+@keyframes visited-nodeB-effect {
+    from {background-color: rgb(248, 213, 85);}
+    to {background-color: rgb(240, 128, 128);}
+}

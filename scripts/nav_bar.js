@@ -164,3 +164,24 @@ document.getElementById("select-level-detail").addEventListener('change', functi
         });
     }
 })
+
+document.getElementById("a-stop-visualization").addEventListener('click', function(e){
+    stopSearchingProcess = true;
+})
+
+function showStopVisualization(){
+    var stopVisualizationButton = document.getElementById("a-stop-visualization");
+
+    stopVisualizationButton.classList.remove('disabled-div');
+    stopVisualizationButton.classList.remove('hide');
+    stopVisualizationButton.classList.add('enabled-div', 'show', 'stop-visualization');
+}
+
+function hideStopVisualization(){
+    var stopVisualizationButton = document.getElementById("a-stop-visualization");
+
+    stopVisualizationButton.classList.remove('enabled-div');
+    stopVisualizationButton.classList.remove('show');
+    stopVisualizationButton.classList.remove('stop-visualization');
+    stopVisualizationButton.classList.add('hide');
+}

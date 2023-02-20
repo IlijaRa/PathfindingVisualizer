@@ -11,17 +11,13 @@ document.addEventListener("contextmenu", function(event) {
         input.max = 20;
         input.value = parseInt(currentWeightElement.children[0].innerText);
     
-        input.addEventListener("keydown", function(e) {
-            if (e.key === "Enter") {
-                if(parseInt(input.value) < 2 || parseInt(input.value) > 20){
-                    showWarningToast('Weight value need to be between 2 and 20!');
-                    input.value = 2;
-                    return;
-                }
-                drawWeightedNode(Node.GetNodeNumber(event.target.id), input.value);
-                enablePointerActions();
-                weightEntranceMenu.remove();
+        input.addEventListener("change", function(e) {
+            if(parseInt(input.value) < 2 || parseInt(input.value) > 20){
+                showWarningToast('Weight value need to be between 2 and 20!');
+                input.value = 2;
+                return;
             }
+            drawWeightedNode(Node.GetNodeNumber(event.target.id), input.value);
         });
     
         let closeButton = document.createElement("button");
@@ -37,6 +33,10 @@ document.addEventListener("contextmenu", function(event) {
             weightEntranceMenu.remove();
         });
     
+        let weightLabel = document.createElement("label");
+        weightLabel.textContent = "Weight:";
+        weightLabel.style.color = "#fff";
+
         let weightEntranceMenu = document.createElement("div");
         weightEntranceMenu.classList.add('add-weight-menu');
         weightEntranceMenu.style.position = "fixed";
@@ -51,22 +51,15 @@ document.addEventListener("contextmenu", function(event) {
         weightEntranceMenu.style.top = event.clientY + "px";
         weightEntranceMenu.style.left = event.clientX + "px";
         weightEntranceMenu.style.position = "absolute";
+        weightEntranceMenu.style.fontFamily = "'Open Sans', sans-serif";
 
+        weightEntranceMenu.appendChild(weightLabel);
         weightEntranceMenu.appendChild(input);
         weightEntranceMenu.appendChild(closeButton);
         document.body.appendChild(weightEntranceMenu);
-    
-        
 
         return;
     }
-
-    // if(isNodeWall(Node.GetNodeNumber(event.target.id))){
-    //     drawUnvisitedNode(Node.GetNodeNumber(event.target.id));
-    //     let element = document.getElementById(event.target.id);
-    //     element.innerHTML = "";
-    //     return;
-    // }
 
     CloseClearMenu();
 

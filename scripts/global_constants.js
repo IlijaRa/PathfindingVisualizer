@@ -10,6 +10,7 @@ let mouseDown = 0;
 let dragStart = 0;
 let dragGoal = 0;
 let isAlgorithmFinished = 0;
+let stopSearchingProcess = false;
 var startNodeExists = false;
 var goalNodeExists = false;
 var hiddenWeightedNodes = [];
