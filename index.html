@@ -52,8 +52,9 @@
                 Score Table
             </div>
             
-            <div id="score-populating-part" class="score-table-content-scores">
-                <div id="row1" class="score-table-row">
+
+             <div id="score-populating-part" class="score-table-content-scores">
+             <!--   <div id="row1" class="score-table-row">
                     <div class="scores-col main-col">Algorithm name</div>
                     <div class="scores-col main-col">Path length</div>
                     <div class="scores-col main-col">Searched nodes</div>
@@ -66,11 +67,24 @@
                 </div>
                 <div class="">
 
-                </div>
+                </div> -->
                 <!-- contains rows filled with scores -->
+                <table id="score-populating-table">
+                    <tr id="main-row">
+                      <th>Alg. name</th>
+                      <th>Path length</th>
+                      <th>Visited nodes</th>
+                      <th>Time</th>
+                      <th>Canvas</th>
+                      <th>Speed</th>
+                      <th>Heuristic</th>
+                      <th>Details</th>
+                      <th>Operations</th>
+                    </tr>
+                </table>
             </div>
             <div class="score-table-content-footer">
-                <button id="score-table-clear-all-button" class="score-table-clear-button">Clear all</button>
+                <button id="score-table-clear-all-button" class="score-table-clear-all-button">Clear all</button>
             </div>
         </div>
         
@@ -82,7 +96,7 @@
             <label for="drop" class="toggle">Menu</label>
             <input type="checkbox" id="drop" />
             <ul class="menu">
-                <li><a href="#">Maze generators</a>
+                <li><a id="a-maze-generators" href="#">Maze generators</a>
                     <ul>
                         <li class="gradient"><a href="#">Static shapes</a>
                             <ul>
@@ -99,7 +113,7 @@
                         <li class="gradient"><a id="buttonRecursiveBacktracker">Recursive Backtracker</a></li>
                     </ul>
                 </li>
-                <li><a href="#">Algorithms</a>
+                <li><a id="a-algorithms" href="#">Algorithms</a>
                     <ul>
                         <li class="gradient"><a id="buttonBFS">BFS</a></li>
                         <li class="gradient"><a id="buttonDFS">DFS</a></li>
@@ -111,9 +125,9 @@
                         <!-- <li class="gradient"><a id="buttonRecursiveBFS">Recursive BFS</a></li> -->
                     </ul>
                 </li>
-                <li><a id="settings" href="#">Settings</a>
+                <li><a id="a-settings" href="#">Settings</a>
                     <ul>
-                        <li class="gradient"><a>Canvas width : <input id="canvas-size-input" type="number" min="5" max="60" value="50"></a></li>
+                        <li class="gradient"><a>Canvas width : <input id="canvas-size-input" type="number" min="5" max="60" value="35"></a></li>
                         <li class="gradient"><a>Speed : <input id="speed-slider" class="slider"  type="range" min="0" max="500" value="500"></a></li>
                         <li class="gradient"><a>Node weight : <input id="weight-input" type="number" min="2" max="20" value="2"></a></li>
                         <li class="gradient">

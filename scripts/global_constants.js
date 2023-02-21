@@ -1,7 +1,7 @@
 // #region CONSTANTS
 /*WINDOW SETTINGS*/
-WIDTH = 50;
-HEIGHT = 30;
+WIDTH = 35;
+HEIGHT = Math.round(WIDTH / 1.67);
 
 /*GLOBAL VARIABLES*/
 var dim1x1 = 0;
