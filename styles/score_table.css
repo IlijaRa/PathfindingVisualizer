@@ -108,9 +108,7 @@
 }
 
 .score-table-clear-button{
-    width: 100%;
-    height: 100%;
-    /* background-color: #db4f5d; */
+
 }
 
 .score-table-clear-all-button{
@@ -157,7 +155,6 @@ table {
   td, th, tr {
     border: 1px solid #1E2431;
     text-align: center;
-    padding: 8px;
   }
 
   tr:nth-child(odd) {
