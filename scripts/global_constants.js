@@ -14,6 +14,7 @@ let stopSearchingProcess = false;
 var startNodeExists = false;
 var goalNodeExists = false;
 var hiddenWeightedNodes = [];
+var blobArray = [];
 
 WALL_VALUE = -1;
 SLEEP_VALUE = 0;

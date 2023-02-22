@@ -1,224 +1,230 @@
 <html>
+    <head>
+        <!-- CSS -->
+        <link rel="stylesheet" href="styles/nav_bar.css" />
+        <link rel="stylesheet" href="styles/node_style.css" />
+        <link rel="stylesheet" href="styles/score_table.css" />
+        <link rel="stylesheet" href="styles/style.css" />
+        <link rel="stylesheet" href="styles/toast_notification.css" />
+        <link rel="stylesheet" href="styles/tutorial.css" />
+        <link rel="icon" href="./images/favicon.png">
 
-<head>
-    <!-- CSS -->
-    <link rel="stylesheet" href="styles/nav_bar.css" />
-    <link rel="stylesheet" href="styles/node_style.css" />
-    <link rel="stylesheet" href="styles/score_table.css" />
-    <link rel="stylesheet" href="styles/style.css" />
-    <link rel="stylesheet" href="styles/toast_notification.css" />
-    <link rel="stylesheet" href="styles/tutorial.css" />
-    <link rel="icon" href="./images/favicon.png">
+        <!-- Load an icon library to show a hamburger menu (bars) on small screens -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    </head>
 
-    <!-- Load an icon library to show a hamburger menu (bars) on small screens -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <script src="https://kit.fontawesome.com/e606902a06.js" crossorigin="anonymous"></script>
-</head>
-
-<body onload="constructGrid()">
-    <div id="popup">
-        <div class="popup-content-close">
-            <button id="button-close" class="button-close">X</button>
-        </div>
-        <div id="popup-content-body" class="popup-content-body">
-            <div class="popup-content-left-arrow-div">
-                <button id="left-arrow-button">Prev</button>
+    <body onload="constructGrid()">
+        <div id="popup">
+            <div class="popup-content-close">
+                <button id="button-close" class="button-close">X</button>
             </div>
-            <div id="popup-content-center" class="popup-content-center">
-                <div class="popup-content-header">
-                    What is a pathfinding algorithm?
+            <div id="popup-content-body" class="popup-content-body">
+                <div class="popup-content-left-arrow-div">
+                    <button id="left-arrow-button">Prev</button>
                 </div>
-                <div id="popup-content-text">
-                    <p> At its core, a pathfinding method searches a graph by starting at one vertex and exploring adjacent nodes until the 
-                        destination node is reached, generally with the intent of finding the cheapest route. Although graph searching methods 
-                        such as a breadth-first search would find a route if given enough time, other methods, which "explore" the graph, would 
-                        tend to reach the destination sooner. An analogy would be a person walking across a room; rather than examining every 
-                        possible route in advance, the person would generally walk in the direction of the destination and only deviate from the 
-                        path to avoid an obstruction, and make deviations as minor as possible.</p>
-                        <img src="./images/tutorial/location2.png"/>
+                <div id="popup-content-center" class="popup-content-center">
+                    <div class="popup-content-header">
+                        What is a pathfinding algorithm?
+                    </div>
+                    <div id="popup-content-text">
+                        <p> At its core, a pathfinding method searches a graph by starting at one vertex and exploring adjacent nodes until the 
+                            destination node is reached, generally with the intent of finding the cheapest route. Although graph searching methods 
+                            such as a breadth-first search would find a route if given enough time, other methods, which "explore" the graph, would 
+                            tend to reach the destination sooner. An analogy would be a person walking across a room; rather than examining every 
+                            possible route in advance, the person would generally walk in the direction of the destination and only deviate from the 
+                            path to avoid an obstruction, and make deviations as minor as possible.</p>
+                            <img src="./images/tutorial/location2.png"/>
+                    </div>
+                </div>
+                <div class="popup-content-right-arrow-div">
+                    <button id="right-arrow-button">Next</button>
                 </div>
             </div>
-            <div class="popup-content-right-arrow-div">
-                <button id="right-arrow-button">Next</button>
+        </div>
+        <div id="score-table" class="not-selectable">
+            <div class="popup-content-close">
+                <button id="button-close-scores" class="button-close">X</button>
+            </div>
+            <div class="score-table-content-body">
+                <div id="title" class="score-table-content-header">
+                    Score Table
+                </div>
+                <div id="score-populating-part" class="score-table-content-scores">
+                    <table id="score-populating-table">
+                        <tr id="main-row">
+                        <th>Alg. name</th>
+                        <th>Path length</th>
+                        <th>Visited nodes</th>
+                        <th>Time</th>
+                        <th>Canvas</th>
+                        <th>Speed</th>
+                        <th>Heuristic</th>
+                        <th>Details</th>
+                        <th>Operations</th>
+                        </tr>
+                    </table>
+                </div>
+                <div class="score-table-content-footer">
+                    <button id="score-table-download-csv-button" onclick="exportTableToCSV()">Download CSV</button>
+                    <button id="score-table-clear-all-button" class="score-table-clear-all-button">Clear all</button>
+                </div>
             </div>
         </div>
-    </div>
-    <div id="score-table" class="not-selectable">
-        <div class="popup-content-close">
-            <button id="button-close-scores" class="button-close">X</button>
-        </div>
-        <div class="score-table-content-body">
-            <div id="title" class="score-table-content-header">
-                Score Table
-            </div>
-            <div id="score-populating-part" class="score-table-content-scores">
-                <table id="score-populating-table">
-                    <tr id="main-row">
-                      <th>Alg. name</th>
-                      <th>Path length</th>
-                      <th>Visited nodes</th>
-                      <th>Time</th>
-                      <th>Canvas</th>
-                      <th>Speed</th>
-                      <th>Heuristic</th>
-                      <th>Details</th>
-                      <th>Operations</th>
-                    </tr>
-                </table>
-            </div>
-            <div class="score-table-content-footer">
-                <button id="score-table-download-csv-button" onclick="exportTableToCSV()">Download CSV</button>
-                <button id="score-table-clear-all-button" class="score-table-clear-all-button">Clear all</button>
-            </div>
-        </div>
-    </div>
-    <div id="content_container">
-        <nav id="nav-bar-container" class="gradient not-selectable">
-            <div id="logo"><b>P</b>ath<b>F</b>inding <b>V</b>isualizer</div>
+        <div id="content_container">
+            <nav id="nav-bar-container" class="gradient not-selectable">
+                <div id="logo"><b>P</b>ath<b>F</b>inding <b>V</b>isualizer</div>
 
-            <label for="drop" class="toggle">Menu</label>
-            <input type="checkbox" id="drop" />
-            <ul class="menu">
-                <li><a id="a-maze-generators" href="#">Maze generators</a>
-                    <ul>
-                        <li class="gradient"><a href="#">Static shapes</a>
-                            <ul>
-                                <li class="gradient"><a id="buttonStairs">Stairs</a></li>
-                                <li class="gradient"><a id="buttonCentricBaesMaze">Centric baes</a></li>
-                                <li class="gradient"><a id="buttonHorizontalBaesMaze">Horizontal baes</a></li>
-                                <li class="gradient"><a id="buttonVerticalBaesMaze">Vertical baes</a></li>
-                                <li class="gradient"><a id="buttonNormalBaesMaze">Normal baes</a></li>
-                            </ul>
-                        </li>
-                        <li class="gradient"><a id="buttonRandomSeed">Random seed</a></li>
-                        <li class="gradient"><a id="buttonRandomizedPrim">Random Prim</a></li>
-                        <!-- <li class="gradient"><a id="buttonRandomizedKruskal">Random Kruskal</a></li> -->
-                        <li class="gradient"><a id="buttonRecursiveBacktracker">Recursive Backtracker</a></li>
-                    </ul>
-                </li>
-                <li><a id="a-algorithms" href="#">Algorithms</a>
-                    <ul>
-                        <li class="gradient"><a id="buttonBFS">BFS</a></li>
-                        <li class="gradient"><a id="buttonDFS">DFS</a></li>
-                        <li class="gradient"><a id="buttonBD_BFS">Bidirect. BFS</a></li>
-                        <li class="gradient"><a id="buttonBD_DFS">Bidirect. DFS</a></li>
-                        <li class="gradient"><a id="buttonDijkstra">Dijkstra</a></li>
-                        <li class="gradient"><a id="buttonGreedy_BFS">Greedy BFS</a></li>
-                        <li class="gradient"><a id="buttonA_star">A star</a></li>
-                        <!-- <li class="gradient"><a id="buttonRecursiveBFS">Recursive BFS</a></li> -->
-                    </ul>
-                </li>
-                <li><a id="a-settings" href="#">Settings</a>
-                    <ul>
-                        <li class="gradient"><a>Canvas width : <input id="canvas-size-input" type="number" min="5" max="60" value="35"></a></li>
-                        <li class="gradient"><a>Speed : <input id="speed-slider" class="slider"  type="range" min="0" max="500" value="500"></a></li>
-                        <li class="gradient"><a>Node weight : <input id="weight-input" type="number" min="2" max="20" value="2"></a></li>
-                        <li class="gradient">
-                            <a>Heuristic : 
-                                <select id="select-heuristic">
-                                    <option value="euclidean">Euclidean</option>
-                                    <option value="manhattan">Manhattan</option>
-                                    <option value="hamming">Hamming</option>
-                                    <option value="minkowski5">Minkowski (p = 5)</option>
-                                    <option value="cosine">Cosine</option>
-                                    <option value="chebyshev">Chebyshev</option>
-                                    <option value="haversine">Haversine</option>
-                                </select>
-                            </a>
-                        </li>
-                        <li class="gradient">
-                            <a>Level of details: 
-                                <select id="select-level-detail">
-                                    <option value="hide-details">Low</option>
-                                    <option value="show-details">High</option>
-                                </select>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <li><a id="a-score-table">Score table</a></li>
-                <li><a id="a-tutorial">Tutorial</a></li>
-                <li><a id="a-stop-visualization" class="hide">Stop visualization</a></li>
-            </ul>
-        </nav>
-        <div id="description_container" class="description_container not-selectable">
-            <div class="description-node tooltip">
-                <img src="./images/nodes/start_node.png" alt="start_node"> <br>
-                Start Node
-                <span class="tooltiptext">Left click on it and then left click somewhere else.</span>
+                <label for="drop" class="toggle">Menu</label>
+                <input type="checkbox" id="drop" />
+                <ul class="menu">
+                    <li><a id="a-maze-generators" href="#">Maze generators</a>
+                        <ul>
+                            <li class="gradient"><a href="#">Static shapes</a>
+                                <ul>
+                                    <li class="gradient"><a id="buttonStairs">Stairs</a></li>
+                                    <li class="gradient"><a id="buttonCentricBaesMaze">Centric baes</a></li>
+                                    <li class="gradient"><a id="buttonHorizontalBaesMaze">Horizontal baes</a></li>
+                                    <li class="gradient"><a id="buttonVerticalBaesMaze">Vertical baes</a></li>
+                                    <li class="gradient"><a id="buttonNormalBaesMaze">Normal baes</a></li>
+                                </ul>
+                            </li>
+                            <li class="gradient"><a id="buttonRandomSeed">Random seed</a></li>
+                            <li class="gradient"><a id="buttonRandomizedPrim">Random Prim</a></li>
+                            <!-- <li class="gradient"><a id="buttonRandomizedKruskal">Random Kruskal</a></li> -->
+                            <li class="gradient"><a id="buttonRecursiveBacktracker">Recursive Backtracker</a></li>
+                        </ul>
+                    </li>
+                    <li><a id="a-algorithms" href="#">Algorithms</a>
+                        <ul>
+                            <li class="gradient"><a id="buttonBFS">BFS</a></li>
+                            <li class="gradient"><a id="buttonDFS">DFS</a></li>
+                            <li class="gradient"><a id="buttonBD_BFS">Bidirect. BFS</a></li>
+                            <li class="gradient"><a id="buttonBD_DFS">Bidirect. DFS</a></li>
+                            <li class="gradient"><a id="buttonDijkstra">Dijkstra</a></li>
+                            <li class="gradient"><a id="buttonGreedy_BFS">Greedy BFS</a></li>
+                            <li class="gradient"><a id="buttonA_star">A star</a></li>
+                            <!-- <li class="gradient"><a id="buttonRecursiveBFS">Recursive BFS</a></li> -->
+                        </ul>
+                    </li>
+                    <li><a id="a-settings" href="#">Settings</a>
+                        <ul>
+                            <li class="gradient"><a>Canvas width : <input id="canvas-size-input" type="number" min="5" max="60" value="35"></a></li>
+                            <li class="gradient"><a>Speed : <input id="speed-slider" class="slider"  type="range" min="0" max="500" value="500"></a></li>
+                            <li class="gradient"><a>Node weight : <input id="weight-input" type="number" min="2" max="20" value="2"></a></li>
+                            <li class="gradient">
+                                <a>Heuristic : 
+                                    <select id="select-heuristic">
+                                        <option value="euclidean">Euclidean</option>
+                                        <option value="manhattan">Manhattan</option>
+                                        <option value="hamming">Hamming</option>
+                                        <option value="minkowski5">Minkowski (p = 5)</option>
+                                        <option value="cosine">Cosine</option>
+                                        <option value="chebyshev">Chebyshev</option>
+                                        <option value="haversine">Haversine</option>
+                                    </select>
+                                </a>
+                            </li>
+                            <li class="gradient">
+                                <a>Level of details: 
+                                    <select id="select-level-detail">
+                                        <option value="hide-details">Low</option>
+                                        <option value="show-details">High</option>
+                                    </select>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li><a id="a-score-table">Score table</a></li>
+                    <li><a id="a-tutorial">Tutorial</a></li>
+                    <li><a id="a-stop-visualization" class="hide">Stop visualization</a></li>
+                </ul>
+            </nav>
+            <div id="description_container" class="description_container not-selectable">
+                <div class="description-node tooltip">
+                    <img src="./images/nodes/start_node.png" alt="start_node"> <br>
+                    Start Node
+                    <span class="tooltiptext">Left click on it and then left click somewhere else.</span>
+                </div>
+                <div class="description-node tooltip">
+                    <img src="./images/nodes/goal_node.png" alt="goal_node"> <br>
+                    Goal Node
+                    <span class="tooltiptext">Left click on it and then left click somewhere else.</span>
+                </div>
+                <div class="description-node tooltip">
+                    <img src="./images/nodes/wall_node.png" alt="wall_node"> <br>
+                    Wall Node
+                    <span class="tooltiptext">Shift + Left mouse click</span>
+                </div>
+                <div class="description-node tooltip">
+                    <img src="./images/nodes/weighted_node.png" alt="weighted_node"> <br>
+                    Weighted Node
+                    <span class="tooltiptext">Alt + Left mouse click</span>
+                </div>
+                <div class="description-node">
+                    <img src="./images/nodes/unvisited_node.png" alt="unvisited_node"> <br>
+                    Unvisited Node
+                </div>
+                <div class="description-node">
+                    <img src="./images/nodes/visited_node.png" alt="visited_node"> <br>
+                    Visited Node
+                </div>
+                <div class="description-node">
+                    <img src="./images/nodes/path_node.png" alt="path_node"> <br>
+                    Path Node
+                </div>
             </div>
-            <div class="description-node tooltip">
-                <img src="./images/nodes/goal_node.png" alt="goal_node"> <br>
-                Goal Node
-                <span class="tooltiptext">Left click on it and then left click somewhere else.</span>
-            </div>
-            <div class="description-node tooltip">
-                <img src="./images/nodes/wall_node.png" alt="wall_node"> <br>
-                Wall Node
-                <span class="tooltiptext">Shift + Left mouse click</span>
-            </div>
-            <div class="description-node tooltip">
-                <img src="./images/nodes/weighted_node.png" alt="weighted_node"> <br>
-                Weighted Node
-                <span class="tooltiptext">Alt + Left mouse click</span>
-            </div>
-            <div class="description-node">
-                <img src="./images/nodes/unvisited_node.png" alt="unvisited_node"> <br>
-                Unvisited Node
-            </div>
-            <div class="description-node">
-                <img src="./images/nodes/visited_node.png" alt="visited_node"> <br>
-                Visited Node
-            </div>
-            <div class="description-node">
-                <img src="./images/nodes/path_node.png" alt="path_node"> <br>
-                Path Node
-            </div>
+            <div id="toastBox"></div>
+            <div id="maze_container" class="maze_container"></div>
+            <footer>
+                <div class="footer-container">
+                    <a href="https://github.com/IlijaRa" target="_blank"><i class="fa fa-github"></i></a>
+                    <a href="https://www.linkedin.com/in/rakocevicilija" target="_blank"><i class="fa fa-linkedin"></i></a>
+                    <a href="https://ilijara.github.io/" target="_blank"><i class="fa fa-briefcase"></i></a>
+                </div>
+            </footer>
         </div>
-        <div id="toastBox"></div>
-        <div id="maze_container" class="maze_container"></div>
-        <footer>
-            <div class="footer-container">
-                <a href="https://github.com/IlijaRa" target="_blank"><i class="fa fa-github"></i></a>
-                <a href="https://www.linkedin.com/in/rakocevicilija" target="_blank"><i class="fa fa-linkedin"></i></a>
-                <a href="https://ilijara.github.io/" target="_blank"><i class="fa fa-briefcase"></i></a>
-            </div>
-        </footer>
-    </div>
-    <!-- JS -->
-    <!-- General stuff -->
-    <script src="./scripts/clear_buttons.js"></script>
-    <script src="./scripts/context_menu.js"></script>
-    <script src="./scripts/draw_nodes.js"></script>
-    <script src="./scripts/general_purpose_methods.js"></script>
-    <script src="./scripts/global_constants.js"></script>
-    <script src="./scripts/grid_construction.js"></script>
-    <script src="./scripts/nav_bar.js"></script>
-    <script src="./scripts/reconstructPath.js"></script>
-    <script src="./scripts/score-table.js"></script>
-    <script src="./scripts/solve_real_time.js"></script>
-    <script src="./scripts/toast_notification.js"></script>
-    <script src="./scripts/tutorial.js"></script>
-    <!-- Algorithms -->
-    <script src="./scripts/algorithms/a_star.js"></script>
-    <script src="./scripts/algorithms/bfs.js"></script>
-    <script src="./scripts/algorithms/bidirectional_bfs.js"></script>
-    <script src="./scripts/algorithms/bidirectional_dfs.js"></script>
-    <script src="./scripts/algorithms/dfs.js"></script>
-    <script src="./scripts/algorithms/dijkstra.js"></script>
-    <script src="./scripts/algorithms/greedy_bfs.js"></script>
-    <script src="./scripts/algorithms/recursive_bfs.js"></script>
-    <!-- Maze generators -->
-    <script src="./scripts/maze_generators/random_seed.js"></script>
-    <script src="./scripts/maze_generators/randomized_prim.js"></script>
-    <script src="./scripts/maze_generators/randomized_kruskal.js"></script>
-    <script src="./scripts/maze_generators/recursive_backtracker.js"></script>
-    <!-- Static wall spahes -->
-    <script src="./scripts/static_wall_shapes/stairs.js"></script>
-    <script src="./scripts/static_wall_shapes/centric_baes.js"></script>
-    <script src="./scripts/static_wall_shapes/horizontal_baes.js"></script>
-    <script src="./scripts/static_wall_shapes/normal_baes.js"></script>
-    <script src="./scripts/static_wall_shapes/vertical_baes.js"></script>
-</body>
+        <!-- JS -->
+        <!-- CDNJS -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/dom-to-image/2.6.0/dom-to-image.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.0/FileSaver.min.js"></script>
+        <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/dom-to-image/2.6.0/dom-to-image.min.js" integrity="sha512-01CJ9/g7e8cUmY0DFTMcUw/ikS799FHiOA0eyHsUWfOetgbx/t6oV4otQ5zXKQyIrQGTHSmRVPIgrgLcZi/WMA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
 
+        <!-- Load an icon library to show a hamburger menu (bars) on small screens -->
+        <script src="https://kit.fontawesome.com/e606902a06.js" crossorigin="anonymous"></script>
+        <!-- html2canvas pachage for taking screenshots -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.0/html2canvas.min.js"></script>
+        <!-- General stuff -->
+        <script src="./scripts/clear_buttons.js"></script>
+        <script src="./scripts/context_menu.js"></script>
+        <script src="./scripts/draw_nodes.js"></script>
+        <script src="./scripts/general_purpose_methods.js"></script>
+        <script src="./scripts/global_constants.js"></script>
+        <script src="./scripts/grid_construction.js"></script>
+        <script src="./scripts/nav_bar.js"></script>
+        <script src="./scripts/reconstructPath.js"></script>
+        <script src="./scripts/score-table.js"></script>
+        <script src="./scripts/solve_real_time.js"></script>
+        <script src="./scripts/toast_notification.js"></script>
+        <script src="./scripts/tutorial.js"></script>
+        <!-- Algorithms -->
+        <script src="./scripts/algorithms/a_star.js"></script>
+        <script src="./scripts/algorithms/bfs.js"></script>
+        <script src="./scripts/algorithms/bidirectional_bfs.js"></script>
+        <script src="./scripts/algorithms/bidirectional_dfs.js"></script>
+        <script src="./scripts/algorithms/dfs.js"></script>
+        <script src="./scripts/algorithms/dijkstra.js"></script>
+        <script src="./scripts/algorithms/greedy_bfs.js"></script>
+        <script src="./scripts/algorithms/recursive_bfs.js"></script>
+        <!-- Maze generators -->
+        <script src="./scripts/maze_generators/random_seed.js"></script>
+        <script src="./scripts/maze_generators/randomized_prim.js"></script>
+        <script src="./scripts/maze_generators/randomized_kruskal.js"></script>
+        <script src="./scripts/maze_generators/recursive_backtracker.js"></script>
+        <!-- Static wall spahes -->
+        <script src="./scripts/static_wall_shapes/stairs.js"></script>
+        <script src="./scripts/static_wall_shapes/centric_baes.js"></script>
+        <script src="./scripts/static_wall_shapes/horizontal_baes.js"></script>
+        <script src="./scripts/static_wall_shapes/normal_baes.js"></script>
+        <script src="./scripts/static_wall_shapes/vertical_baes.js"></script>
+    </body>
 </html>

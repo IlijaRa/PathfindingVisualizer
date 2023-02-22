@@ -1,6 +1,4 @@
-let scoreTableButton = document.getElementById("a-score-table");
-
-scoreTableButton.addEventListener('click', function(e){
+document.getElementById("a-score-table").addEventListener('click', function(e){
     disablePointerActions();
     var scoreTable = document.getElementById('score-table');
     scoreTable.style.display = 'block';
@@ -12,6 +10,18 @@ scoreTableButton.addEventListener('click', function(e){
         enablePointerActions();
       });
 })
+
+document.getElementById("score-table-clear-all-button").addEventListener('click', function(e){
+    if(confirm('Are you sure that you want to delete all records?'))
+    {
+        const scorePopulationPart = document.getElementById("score-populating-table");
+        scorePopulationPart.querySelectorAll("tr").forEach(node => {
+            if (node.id != "main-row") {
+                node.remove();
+            }
+        });
+    }
+});
 
 function addScoreToTable(noPathNodes, noSearchedNodes, executionTime){
     let table = document.getElementById("score-populating-table");
@@ -57,6 +67,8 @@ function addScoreToTable(noPathNodes, noSearchedNodes, executionTime){
         detailLevelCell.innerHTML = "Low";
     tableRow.appendChild(detailLevelCell);
 
+    let operationsCell = document.createElement('td');
+
     let clearButton = document.createElement('button');
     clearButton.classList.add('score-table-clear-button');
     clearButton.setAttribute('type', 'button');
@@ -65,23 +77,22 @@ function addScoreToTable(noPathNodes, noSearchedNodes, executionTime){
         if(confirm('Are you sure that you want to delete this record?'))
             tableRow.remove();
     })
-    tableRow.appendChild(clearButton);
 
+    operationsCell.appendChild(clearButton);
+
+    let downloaSsButton = document.createElement('button');
+    downloaSsButton.setAttribute('id', 'download-link-button');
+    downloaSsButton.innerHTML = "Download ss";
+    downloaSsButton.addEventListener('click', function(e){
+        window.saveAs(e.target.dataset.blob, 'my-node.png');
+    })
+    operationsCell.appendChild(downloaSsButton);
+
+    tableRow.appendChild(operationsCell);
     table.appendChild(tableRow);
-}
 
-document.getElementById("score-table-clear-all-button").addEventListener('click', function(e){
-    if(confirm('Are you sure that you want to delete this record?'))
-    {
-        const scorePopulationPart = document.getElementById("score-populating-table");
-    
-        scorePopulationPart.querySelectorAll("tr").forEach(node => {
-            if (node.id != "main-row") {
-                node.remove();
-            }
-        });
-    }
-});
+    takeScreenShot(downloaSsButton);
+}
 
 function exportTableToCSV() {
     var csv = [];
@@ -103,4 +114,14 @@ function exportTableToCSV() {
     downloadLink.style.display = "none";
     document.body.appendChild(downloadLink);
     downloadLink.click();
-  }
+}
+
+function takeScreenShot(downloaSsButton){
+    setTimeout(function() {
+    var content = document.getElementById('maze_container');
+
+    domtoimage.toBlob(content).then(function(blob) {
+        downloaSsButton.dataset.blob = URL.createObjectURL(blob);
+    });
+  }, 1000);
+}
