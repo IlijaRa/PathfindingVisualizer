@@ -123,7 +123,7 @@
     animation-duration: 1s;
 }
 @keyframes visited-nodeA-effect {
-    from {background-color: rgb(7, 248, 228);}
+    from {background-color: rgb(63, 128, 122);}
     to {background-color: rgb(126, 213, 242);}
 }
 
