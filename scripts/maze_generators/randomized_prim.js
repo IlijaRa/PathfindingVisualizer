@@ -2,6 +2,7 @@ document.querySelector('a#buttonRandomizedPrim').addEventListener('click', funct
     ClearAll();
     let maze = construct2dArray();
     disablePointerActions();
+    showStopVisualization();
     generateRandomizedPrim(maze);
     // startNodeExists = false;
     // goalNodeExists = false;
@@ -25,6 +26,13 @@ async function generateRandomizedPrim(grid){
     let frontierList = [];
     computeFrontierCells(grid,cell,frontierList,choices);
     while(frontierList.length){
+        if(stopSearchingProcess){
+            hideStopVisualization();
+            enablePointerActions();
+            ClearAllExceptStartGoal();
+            break;
+        }
+
         await sleep(SLEEP_VALUE);
         // choosing a random value from frontierList
         let rnd = Math.floor(Math.random() * frontierList.length);
@@ -38,9 +46,13 @@ async function generateRandomizedPrim(grid){
             computeFrontierCells(grid,frontier,frontierList,choices);
         }
     }
+    
+    hideStopVisualization();
     generateStartAndGoalNode();
     enablePointerActions();
+    stopSearchingProcess = false;
 }
+
 function computeFrontierCells(grid, cell, frontierList, choices){
     // coordinates contains coordinates of the current cell
     let coordinates = getNodeCoordinates(cell);

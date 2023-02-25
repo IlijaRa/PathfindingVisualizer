@@ -2,6 +2,7 @@ document.querySelector('a#buttonRecursiveBacktracker').addEventListener('click',
     ClearAll();
     let maze = construct2dArray();
     disablePointerActions();
+    showStopVisualization();
     generateRecursiveBacktracker(maze);
     // startNodeExists = false;
     // goalNodeExists = false;
@@ -25,6 +26,13 @@ async function generateRecursiveBacktracker(grid){
     let rnd = Math.floor(Math.random () * neighbours.length);
     s.push(neighbours[rnd]);
     while(s.length){
+        if(stopSearchingProcess){
+            hideStopVisualization();
+            enablePointerActions();
+            ClearAllExceptStartGoal();
+            break;
+        }
+
         await sleep(SLEEP_VALUE);
         let batch = s[s.length - 1];
         let frontier = batch[1];
@@ -39,9 +47,13 @@ async function generateRecursiveBacktracker(grid){
             s.pop();
         }
     }
+
+    hideStopVisualization();
     generateStartAndGoalNode();
     enablePointerActions();
+    stopSearchingProcess = false;
 }
+
 function computeFrontierCellsRBT(grid, cell, choices){
     // list of current cell neighbours
     let neighbours = [];
