@@ -54,7 +54,7 @@ function addScoreToTable(noPathNodes, noSearchedNodes, executionTime){
     tableRow.appendChild(executioSpeedCell);
 
     let heuristicCell = document.createElement('td');
-    if(ACTIVE_ALGORITHM == "Dijkstra" || ACTIVE_ALGORITHM == "Greedy BFS" || ACTIVE_ALGORITHM == "A* - Astar")
+    if(ACTIVE_ALGORITHM == "Greedy BFS" || ACTIVE_ALGORITHM == "A* - Astar")
         heuristicCell.innerHTML = CHOSEN_HEURISTIC;    
     else
         heuristicCell.innerHTML = "/";
